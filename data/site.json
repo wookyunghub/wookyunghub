@@ -1,4 +1,4 @@
-﻿{
+{
   "system_name": "CenterHub",
   "site_title": "우경경로당 홈페이지",
   "organization_name": "우경경로당",
@@ -20,5 +20,7 @@
   "product_name": "통합 운영·기록관리",
   "architecture": "api-first-repository",
   "parent_organization": "(사)대한노인회 진천군지회",
-  "branch_name": "문백.영동분회"
+  "branch_name": "문백.영동분회",
+  "logo_image": "assets/img/logo.png",
+  "building_image": "assets/img/building.jpg"
 }

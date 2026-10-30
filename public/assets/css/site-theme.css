@@ -202,3 +202,121 @@ body main .simple-list.home-news-list>.home-news-item{border-top:0!important}
  body .topbar .menu-toggle{min-width:44px;min-height:44px;border:1px solid #9fb18f;border-radius:10px;background:#f1f6eb;color:#405b38;box-shadow:none}
  body .topbar .menu-toggle.open{background:#e3ecd9;border-color:#809d70;color:#405b38}
 }
+
+/* Homepage Hero: Building Photo Background & Logo Card */
+body .home-main-hero{
+  position:relative;
+  background-color:#f5f3ec;
+  background-image:linear-gradient(105deg, rgba(248, 245, 238, 0.95) 0%, rgba(248, 245, 238, 0.90) 48%, rgba(248, 245, 238, 0.74) 75%, rgba(240, 236, 226, 0.58) 100%), var(--hero-bg, url('../img/building.jpg'));
+  background-size:cover;
+  background-position:center 36%;
+  background-repeat:no-repeat;
+  border-bottom:1.5px solid var(--theme-border, #b59e84);
+}
+body .hero-photo-card{
+  justify-self:end;
+  width:260px;
+  min-height:220px;
+  border-radius:24px;
+  background:rgba(255, 254, 250, 0.93);
+  border:1.5px solid #c8b69f;
+  color:#3c3730;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px 16px;
+  box-shadow:0 12px 30px rgba(70, 50, 30, 0.12);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  text-align:center;
+  box-sizing:border-box;
+}
+body .hero-photo-symbol{
+  width:105px;
+  height:105px;
+  border-radius:50%;
+  background:#fff;
+  border:2px solid #dfd4c4;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:12px;
+  box-shadow:0 4px 12px rgba(90, 70, 50, 0.08);
+  overflow:hidden;
+  padding:6px;
+  box-sizing:border-box;
+}
+body .hero-logo-img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+body .hero-photo-text{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+}
+body .hero-photo-title{
+  font-size:17px;
+  font-weight:800;
+  color:#654b39;
+  letter-spacing:-0.02em;
+}
+body .hero-photo-slogan{
+  font-size:13px;
+  font-weight:600;
+  color:#465f3e;
+  background:#edf2e7;
+  border:1px solid #b8c5aa;
+  padding:3px 10px;
+  border-radius:12px;
+}
+
+@media(max-width:900px){
+  body .home-main-hero{
+    background-image:linear-gradient(180deg, rgba(248, 245, 238, 0.93) 0%, rgba(248, 245, 238, 0.88) 55%, rgba(244, 240, 232, 0.75) 100%), var(--hero-bg, url('../img/building.jpg'));
+    background-position:center 25%;
+  }
+  body .home-main-hero-inner{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:22px;
+    padding-top:28px;
+    padding-bottom:28px;
+  }
+  body .hero-photo-card{
+    display:flex!important;
+    justify-self:center;
+    align-self:center;
+    width:100%;
+    max-width:320px;
+    min-height:auto;
+    flex-direction:row;
+    gap:14px;
+    padding:10px 16px;
+    border-radius:16px;
+    margin-top:6px;
+  }
+  body .hero-photo-symbol{
+    width:62px;
+    height:62px;
+    margin-bottom:0;
+    flex-shrink:0;
+    padding:4px;
+  }
+  body .hero-photo-text{
+    align-items:flex-start;
+    text-align:left;
+  }
+  body .hero-photo-title{
+    font-size:16px;
+  }
+  body .hero-photo-slogan{
+    font-size:12px;
+    padding:2px 8px;
+  }
+}

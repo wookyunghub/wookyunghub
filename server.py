@@ -535,9 +535,9 @@ class Handler(SimpleHTTPRequestHandler):
             d=self.body_json();name=d.get('name');obj=d.get('data',{})
             if name=='site':
                 if not isinstance(obj,dict):return self.json({'error':'기본설정 형식이 올바르지 않습니다.'},400)
-                for key,limit in (('organization_name',100),('parent_organization',200),('branch_name',100)):
+                for key,limit in (('organization_name',100),('parent_organization',200),('branch_name',100),('logo_image',500),('building_image',500)):
                     value=obj.get(key,'')
-                    if not isinstance(value,str) or len(value.strip())>limit:return self.json({'error':'조직명/소속 입력을 확인해 주세요.'},400)
+                    if not isinstance(value,str) or len(value.strip())>limit:return self.json({'error':'조직명/소속/이미지 입력을 확인해 주세요.'},400)
                     obj[key]=value.strip()
                 if not obj['organization_name']:return self.json({'error':'조직명을 입력해 주세요.'},400)
                 REPO.write('site',obj);sync_public_organization(REPO.organization_data());return self.json({'ok':True})
