@@ -13,19 +13,25 @@
       } catch(e){}
       return { authenticated: false };
     }
+    let resData = null;
     try {
       const r = await fetch(path, {credentials:'same-origin', cache:'no-store'});
-      if (r.ok && (r.headers.get('content-type')||'').toLowerCase().includes('application/json')) return await r.json();
+      if (r.ok && (r.headers.get('content-type')||'').toLowerCase().includes('application/json')) {
+        resData = await r.json();
+      }
     } catch(e){}
 
     if (clean.includes('records')) {
+      if (resData && (Array.isArray(resData) ? resData.length : (resData.records||[]).length)) return resData;
       const fr = await fetch((location.pathname.includes('/admin/')?'../':'')+'data/records.json', {cache:'no-store'});
       if (fr.ok) return await fr.json();
     }
     if (clean.includes('resources') || clean.includes('files')) {
+      if (resData && (resData.photos?.length || resData.documents?.length)) return resData;
       const fr = await fetch((location.pathname.includes('/admin/')?'../':'')+'data/resources.json', {cache:'no-store'});
       if (fr.ok) return await fr.json();
     }
+    if (resData) return resData;
     throw Error('상세정보를 불러오지 못했습니다.');
   }
   try{

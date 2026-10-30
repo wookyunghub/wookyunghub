@@ -136,12 +136,19 @@ $('record-files-add').onclick=()=>{for(const o of att.options)o.selected=materia
 
 async function loadFiles(){
  try{
-  let r = await fetch('../api/admin/files',{credentials:'same-origin',cache:'no-store'});
-  if(!r.ok || !(r.headers.get('content-type')||'').toLowerCase().includes('application/json')){
-    r = await fetch('../data/resources.json',{cache:'no-store'});
+  let d = null;
+  try {
+    const r = await fetch('../api/admin/files',{credentials:'same-origin',cache:'no-store'});
+    if(r.ok && (r.headers.get('content-type')||'').toLowerCase().includes('application/json')){
+      d = await r.json();
+    }
+  } catch(e){}
+  if(!d || (!d.documents?.length && !d.photos?.length)){
+    const r2 = await fetch('../data/resources.json',{cache:'no-store'});
+    if(r2.ok) d = await r2.json();
   }
-  if(!r.ok)throw Error('HTTP '+r.status);
-  const d=await r.json();fileIndex=new Map();const opts=[];
+  if(!d) throw Error('자료 목록을 불러오지 못했습니다.');
+  fileIndex=new Map();const opts=[];
   for(const k of ['documents','photos','receipts'])for(const x of d[k]||[]){
    if(!x.id||!x.url)continue;
    const key=k+':'+x.id;fileIndex.set(key,x);
