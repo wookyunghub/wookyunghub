@@ -4,14 +4,41 @@
   const DEFAULT_SITE={organization_name:'우경경로당',site_title:'경로당 홈페이지',latest_period:'2025-2026',link_mode:'preview',preview_url:'',content_protection:true,watermark_text:'열람용 · 무단복제금지'};
   const u=p=>new URL(p,root).href;const noCache=url=>{const x=new URL(url);x.searchParams.set('_',Date.now());return x.href};
   async function loadJson(path,fallback=null){try{const r=await fetch(noCache(u(path)),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return await r.json()}catch(e){console.warn('[CenterHub]',path,e);return fallback}}
+  const API_STATIC_FALLBACKS = {
+    'api/public/site': 'data/site.json',
+    'api/public/organization': 'data/organization.json',
+    'api/public/news': 'data/news.json',
+    'api/public/resources': 'data/resources.json',
+    'api/public/about': 'data/about.json',
+    'api/public/ledgers': 'data/ledgers.json',
+    'api/public/documents': 'data/documents.json',
+    'api/public/members': 'data/members.json',
+    'api/public/publications': 'data/ledgers.json',
+    'api/public/history': 'data/about.json'
+  };
+
   async function requestJson(path,options={}){
-    let r;try{r=await fetch(noCache(u(path)),{cache:'no-store',credentials:'same-origin',...options})}
-    catch(e){throw new Error('서버에 연결하지 못했습니다. 실행 상태를 확인해 주세요. ('+path+')')}
-    const contentType=r.headers.get('content-type')||'';
-    if(!contentType.toLowerCase().includes('application/json'))throw new Error('API 대신 HTML 등 다른 응답을 받았습니다. 실행 중인 server.py와 접속 포트를 확인해 주세요. (HTTP '+r.status+' · '+path+')');
-    let d;try{d=await r.json()}catch(e){throw new Error('서버 JSON 응답이 올바르지 않습니다. ('+path+')')}
-    if(!r.ok)throw new Error(d?.error||'서버 요청 실패 (HTTP '+r.status+' · '+path+')');
-    return d;
+    const clean = String(path).replace(/^\/+/,'').split('?')[0];
+    if (clean === 'api/admin/status') {
+      try {
+        let r = await fetch(noCache(u(path)),{cache:'no-store',credentials:'same-origin',...options});
+        if(r.ok && (r.headers.get('content-type')||'').toLowerCase().includes('application/json')) return await r.json();
+      } catch(e){}
+      return {authenticated:false,features:{}};
+    }
+    try {
+      let r = await fetch(noCache(u(path)),{cache:'no-store',credentials:'same-origin',...options});
+      const contentType = r.headers.get('content-type')||'';
+      if(r.ok && contentType.toLowerCase().includes('application/json')) {
+        return await r.json();
+      }
+    } catch(e){}
+
+    if (API_STATIC_FALLBACKS[clean]) {
+      const fb = await loadJson(API_STATIC_FALLBACKS[clean], null);
+      if (fb !== null) return fb;
+    }
+    throw new Error('데이터를 불러오지 못했습니다. ('+path+')');
   }
   async function api(path,fallback=null){try{return await requestJson(path)}catch(e){console.warn('[CenterHub API]',path,e);return fallback}}
 

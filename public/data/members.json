@@ -1,0 +1,311 @@
+{
+  "members": [
+    {
+      "name": "서*일",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 89
+    },
+    {
+      "name": "임*업",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 87
+    },
+    {
+      "name": "조*기",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 86
+    },
+    {
+      "name": "김*수",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 81
+    },
+    {
+      "name": "조*호",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 76
+    },
+    {
+      "name": "김*덕",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 74
+    },
+    {
+      "name": "김*환",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 73
+    },
+    {
+      "name": "정*희",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 72
+    },
+    {
+      "name": "장*성",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 72
+    },
+    {
+      "name": "김*환",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 70
+    },
+    {
+      "name": "김*규",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 69
+    },
+    {
+      "name": "권*달",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 69
+    },
+    {
+      "name": "이*수",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 69
+    },
+    {
+      "name": "김*봉",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 68
+    },
+    {
+      "name": "권*수",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 67
+    },
+    {
+      "name": "황*모",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 66
+    },
+    {
+      "name": "문*학",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 66
+    },
+    {
+      "name": "이*배",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 66
+    },
+    {
+      "name": "안*덕",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 93
+    },
+    {
+      "name": "최*남",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 88
+    },
+    {
+      "name": "연*년",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 88
+    },
+    {
+      "name": "이*례",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 87
+    },
+    {
+      "name": "박*선",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 86
+    },
+    {
+      "name": "임*운",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 82
+    },
+    {
+      "name": "최*례",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 81
+    },
+    {
+      "name": "조*숙",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 79
+    },
+    {
+      "name": "이*자",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 79
+    },
+    {
+      "name": "황*해",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 79
+    },
+    {
+      "name": "고*숙",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 77
+    },
+    {
+      "name": "안*순",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 76
+    },
+    {
+      "name": "박*석",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 75
+    },
+    {
+      "name": "신*숙",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 73
+    },
+    {
+      "name": "조*례",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 73
+    },
+    {
+      "name": "임*순",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 71
+    },
+    {
+      "name": "한*순",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 69
+    },
+    {
+      "name": "이*희",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 69
+    },
+    {
+      "name": "서*자",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 69
+    },
+    {
+      "name": "양*규",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 67
+    },
+    {
+      "name": "김*술",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 67
+    },
+    {
+      "name": "박*숙",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 67
+    },
+    {
+      "name": "조*임",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 66
+    },
+    {
+      "name": "김*자",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 66
+    },
+    {
+      "name": "모*란",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 66
+    },
+    {
+      "name": "박*애",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 66
+    },
+    {
+      "name": "김*복",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 65
+    },
+    {
+      "name": "이*수",
+      "member_type": "특별회원",
+      "gender": "남",
+      "age": 62
+    },
+    {
+      "name": "왕*모",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 66
+    },
+    {
+      "name": "김*미",
+      "member_type": "정회원",
+      "gender": "여",
+      "age": 66
+    },
+    {
+      "name": "최*봉",
+      "member_type": "정회원",
+      "gender": "남",
+      "age": 68
+    },
+    {
+      "name": "유*홍",
+      "member_type": "특별회원",
+      "gender": "남",
+      "age": 62
+    },
+    {
+      "name": "서*경",
+      "member_type": "특별회원",
+      "gender": "여",
+      "age": 63
+    }
+  ],
+  "updated": "2026-10-30"
+}
