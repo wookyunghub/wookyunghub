@@ -113,7 +113,8 @@
     }
     if(currentTab==='document'){
       const filteredDocs=currentDocSub==='document_all'?allDocs:allDocs.filter(x=>fileType(x)===currentDocSub);
-      const subLabel=currentDocSub==='document_all'?'전체':(roles[currentDocSub]||'문서');
+      const subLabels={document_all:'전체', document:'일반', minutes:'회의록', attendance:'명단', report:'보고'};
+      const subLabel=subLabels[currentDocSub]||roles[currentDocSub]||'문서';
       list.innerHTML=groupHtml('문서 ('+subLabel+')', '📄', filteredDocs)||(filteredDocs.length?'':`<div class="empty-state compact-empty">해당 분류(${subLabel})의 문서 자료가 없습니다.</div>`);
       return;
     }
