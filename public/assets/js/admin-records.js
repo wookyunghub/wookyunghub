@@ -110,7 +110,23 @@ let materialDraft=null;
 function updateAttachmentPreview(){
  const box=$('record-connected-files');box.replaceChildren();
  for(const o of att.selectedOptions){const x=fileIndex.get(o.value);if(!x)continue;
- const link=document.createElement('a');link.href=x.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=o.text;box.append(link);}
+ const row=document.createElement('div');row.className='record-connected-item';
+ row.style.cssText='display:flex;align-items:center;gap:10px;padding:6px 8px;background:#fff;border:1px solid #ebd8c8;border-radius:6px;margin:4px 0;';
+ const isPhoto=o.value.startsWith('photos:')||/\.(jpe?g|png|gif|webp|bmp)$/i.test(x.url||'');
+ if(isPhoto&&x.url){
+  const img=document.createElement('img');img.src=x.url;img.alt=x.title||x.name||'';
+  img.style.cssText='width:42px;height:42px;object-fit:cover;border-radius:4px;border:1px solid #dfc6b0;flex-shrink:0;';
+  img.onerror=function(){if(!this.dataset.fb&&!location.hostname.includes('pythonanywhere')){this.dataset.fb='1';this.src='https://wookyunghub.pythonanywhere.com'+(x.url.startsWith('/')?x.url:'/'+x.url);}};
+  row.append(img);
+ }else{
+  const icon=document.createElement('span');icon.textContent=/\.pdf$/i.test(x.url||'')?'📄 PDF':'📁 문서';
+  icon.style.cssText='font-size:12px;font-weight:700;color:#7a5a40;padding:4px 8px;background:#f5ede6;border-radius:4px;flex-shrink:0;';
+  row.append(icon);
+ }
+ const link=document.createElement('a');link.href=x.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=o.text;
+ link.style.cssText='font-size:14px;color:#2c4b70;font-weight:600;overflow-wrap:anywhere;';
+ row.append(link);box.append(row);
+ }
  $('record-materials-summary').textContent=`관련자료 · ${att.selectedOptions.length}개`;
  if(!box.children.length)box.textContent='등록된 관련자료가 없습니다.';
  $('record-attachment-links').textContent='';
@@ -123,7 +139,15 @@ function renderFileCandidates(){
  const label=document.createElement('label');label.className='record-material-option';
  const check=document.createElement('input');check.type='checkbox';check.value=o.value;check.checked=materialDraft.has(o.value);
  check.onchange=()=>{if(check.checked)materialDraft.add(o.value);else materialDraft.delete(o.value);updateMaterialCount();};
- const text=document.createElement('span');text.textContent=o.text;label.append(check,text);box.append(label);}
+ const x=fileIndex.get(o.value);
+ const isPhoto=o.value.startsWith('photos:')||/\.(jpe?g|png|gif|webp|bmp)$/i.test(x?.url||'');
+ if(isPhoto&&x?.url){
+  const thumbImg=document.createElement('img');thumbImg.src=x.url;thumbImg.alt='';
+  thumbImg.style.cssText='width:32px;height:32px;object-fit:cover;border-radius:3px;border:1px solid #dfc6b0;flex-shrink:0;';
+  thumbImg.onerror=function(){if(!this.dataset.fb&&!location.hostname.includes('pythonanywhere')){this.dataset.fb='1';this.src='https://wookyunghub.pythonanywhere.com'+(x.url.startsWith('/')?x.url:'/'+x.url);}};
+  label.append(check,thumbImg);
+ }else{label.append(check);}
+ const text=document.createElement('span');text.textContent=o.text;label.append(text);box.append(label);}
  if(!box.children.length)box.textContent='검색 결과가 없습니다.';updateMaterialCount();
 }
 function updateMaterialCount(){$('record-files-count').textContent=`선택 ${materialDraft?.size||0}개`;}
@@ -144,8 +168,16 @@ async function loadFiles(){
     }
   } catch(e){}
   if(!d || (!d.documents?.length && !d.photos?.length)){
-    const r2 = await fetch('../data/resources.json',{cache:'no-store'});
-    if(r2.ok) d = await r2.json();
+    try {
+      const r2 = await fetch('../data/resources.json',{cache:'no-store'});
+      if(r2.ok) d = await r2.json();
+    } catch(e){}
+  }
+  if(!d || (!d.documents?.length && !d.photos?.length)){
+    try {
+      const r3 = await fetch('https://wookyunghub.pythonanywhere.com/api/public/resources',{cache:'no-store'});
+      if(r3.ok) d = await r3.json();
+    } catch(e){}
   }
   if(!d) throw Error('자료 목록을 불러오지 못했습니다.');
   fileIndex=new Map();const opts=[];
@@ -160,15 +192,46 @@ async function loadFiles(){
 att.addEventListener('change',updateAttachmentPreview);
 window.addEventListener('focus',()=>{if(!$('record-editor').hidden&&!recordSaving)loadFiles();});
 async function load(){
- const r=await fetch('../api/admin/records',{credentials:'same-origin',cache:'no-store'});
- if(!r.ok){msg.textContent='기록 조회 실패 ('+r.status+')';return}
- const d=await r.json(),all=d.records||[];
+ let d=null;
+ try{
+  const r=await fetch('../api/admin/records',{credentials:'same-origin',cache:'no-store'});
+  if(r.ok&&(r.headers.get('content-type')||'').toLowerCase().includes('application/json')){
+    d=await r.json();
+  }
+ }catch(e){}
+ if(!d){
+  try{
+    const r2=await fetch('../data/records.json',{cache:'no-store'});
+    if(r2.ok)d=await r2.json();
+  }catch(e){}
+ }
+ if(!d){
+  try{
+    const r3=await fetch('https://wookyunghub.pythonanywhere.com/api/public/records',{cache:'no-store'});
+    if(r3.ok)d=await r3.json();
+  }catch(e){}
+ }
+ if(!d){msg.textContent='기록 목록을 불러오지 못했습니다.';return;}
+ const all=Array.isArray(d)?d:(d.records||[]);
  if(filter.value==='__news__'){
-  const pr=await fetch('../api/public/news',{credentials:'same-origin',cache:'no-store'});
-  if(!pr.ok){msg.textContent='공개 기록 목록을 불러오지 못했습니다.';return}
-  const publicData=await pr.json();const feed=window.CenterHubFeed.all(publicData);
-  const byId=new Map(all.map(x=>[String(x.id),x]));
-  rows=feed.map(x=>byId.get(String(x.id))).filter(x=>x&&inScope(x));
+  let publicData=null;
+  try{
+   const pr=await fetch('../api/public/news',{credentials:'same-origin',cache:'no-store'});
+   if(pr.ok)publicData=await pr.json();
+  }catch(e){}
+  if(!publicData){
+   try{
+    const pr2=await fetch('../data/news.json',{cache:'no-store'});
+    if(pr2.ok)publicData=await pr2.json();
+   }catch(e){}
+  }
+  if(publicData){
+   const feed=window.CenterHubFeed.all(publicData);
+   const byId=new Map(all.map(x=>[String(x.id),x]));
+   rows=feed.map(x=>byId.get(String(x.id))).filter(x=>x&&inScope(x));
+  }else{
+   rows=all.filter(inScope).sort((a,b)=>dateKey(b.date)-dateKey(a.date));
+  }
  }else{
   rows=all.filter(inScope).filter(x=>filter.value==='__all__'||recordType(x.module)===filter.value)
    .sort((a,b)=>dateKey(b.date)-dateKey(a.date)||String(b.updated_at||'').localeCompare(String(a.updated_at||'')));
@@ -219,7 +282,24 @@ window.addEventListener('pageshow',e=>{if(e.persisted){reset();}});
 await Promise.all([loadFiles(),loadMembers(),getAdminTitle()]);reset();$('record-editor').inert=false;await load();
 const viewParams=new URLSearchParams(location.search);if(viewParams.get('new')==='1'){reset();showRecordView(true);}
 const requested=viewParams.get('edit');
-if(requested){const r=await fetch('../api/admin/records',{credentials:'same-origin',cache:'no-store'});if(r.ok){const d=await r.json();const item=(d.records||[]).find(x=>String(x.id)===requested);if(item&&inScope(item))editRecord(item);else if(item){location.replace((item.module==='notice'?'announcements.html':'records.html')+'?edit='+encodeURIComponent(item.id));}else msg.textContent='수정할 기록을 찾을 수 없습니다.';}}
+if(requested){
+  let item=rows.find(x=>String(x.id)===requested);
+  if(!item){
+    try{
+      const r=await fetch('../api/admin/records',{credentials:'same-origin',cache:'no-store'});
+      if(r.ok){const d=await r.json();item=(d.records||[]).find(x=>String(x.id)===requested);}
+    }catch(e){}
+  }
+  if(!item){
+    try{
+      const r2=await fetch('../data/records.json',{cache:'no-store'});
+      if(r2.ok){const d2=await r2.json();const all=Array.isArray(d2)?d2:(d2.records||[]);item=all.find(x=>String(x.id)===requested);}
+    }catch(e){}
+  }
+  if(item&&inScope(item))editRecord(item);
+  else if(item){location.replace((item.module==='notice'?'announcements.html':'records.html')+'?edit='+encodeURIComponent(item.id));}
+  else msg.textContent='수정할 기록을 찾을 수 없습니다.';
+}
 
 })().catch(error=>{
  console.error('관리자 기록 화면 초기화 실패',error);

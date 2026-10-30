@@ -11,28 +11,110 @@
   const labels={documents:'일반문서',photos:'사진',receipts:'영수증·증빙'};
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const kindOf=x=>(x.url||'').split('?')[0].split('.').pop().toLowerCase();
-  const safeUrl=x=>{try{const u=new URL(x.url,location.origin);return u.origin===location.origin&&u.pathname.startsWith('/media/')?u.href:''}catch{return ''}};
+  const safeUrl=x=>{
+    if(!x||!x.url)return '';
+    try{
+      const u=new URL(x.url,location.origin);
+      if(u.pathname.startsWith('/media/'))return u.href;
+      if(x.url.startsWith('http://')||x.url.startsWith('https://'))return x.url;
+    }catch{return '';}
+    return '';
+  };
   const form=$('file-form-body'),toggle=$('file-form-toggle');
   toggle.onclick=()=>{form.hidden=!form.hidden;toggle.textContent=form.hidden?'등록 양식 펼치기':'등록 양식 접기';toggle.setAttribute('aria-expanded',String(!form.hidden));};
   $('file-detail-close').onclick=()=>dialog.close();
   let data={documents:[],photos:[],receipts:[]};
-  async function load(){const r=await fetch('../api/admin/files',{credentials:'same-origin',cache:'no-store'});if(!r.ok)throw new Error('자료 목록 조회 실패 ('+r.status+')');data=await r.json();render();}
-  function items(){return ['documents','photos','receipts'].flatMap(k=>(data[k]||[]).map(x=>({...x,_kind:k}))).filter(x=>filter.value==='all'||fileType(x)===filter.value).sort(window.CenterHubResourceOrder.newestFirst);}
-  function thumb(x){const url=safeUrl(x),ext=kindOf(x);
+  async function load(){
+    try{
+      const r=await fetch('../api/admin/files',{credentials:'same-origin',cache:'no-store'});
+      if(r.ok&&(r.headers.get('content-type')||'').toLowerCase().includes('application/json')){
+        data=await r.json();
+        render();
+        return;
+      }
+    }catch(e){}
+    try{
+      const r2=await fetch('../data/resources.json',{cache:'no-store'});
+      if(r2.ok){
+        data=await r2.json();
+        render();
+        return;
+      }
+    }catch(e){}
+    try{
+      const r3=await fetch('https://wookyunghub.pythonanywhere.com/api/public/resources',{cache:'no-store'});
+      if(r3.ok){
+        data=await r3.json();
+        render();
+        return;
+      }
+    }catch(e){}
+    throw new Error('자료 목록을 불러오지 못했습니다.');
+  }
+
+  function thumb(x){
+    const url=safeUrl(x),ext=kindOf(x);
     if(!url)return '<span class="file-type-icon">파일</span>';
-    if(['jpg','jpeg','png','gif','webp','bmp'].includes(ext))return `<img loading="lazy" src="${esc(url)}" alt="${esc(x.title||x.name||'')} 미리보기">`;
+    if(['jpg','jpeg','png','gif','webp','bmp'].includes(ext)){
+      return `<img loading="lazy" src="${esc(url)}" alt="${esc(x.title||x.name||'')} 미리보기" onerror="if(!this.dataset.fb&&!location.hostname.includes('pythonanywhere')){this.dataset.fb='1';this.src='https://wookyunghub.pythonanywhere.com'+(this.getAttribute('src').startsWith('/')?this.getAttribute('src'):'/'+this.getAttribute('src'));}">`;
+    }
     if(ext==='pdf')return `<span class="file-type-icon pdf">PDF</span>`;
     return `<span class="file-type-icon">${esc(ext.toUpperCase().slice(0,6)||'파일')}</span>`;
   }
-  function render(){const arr=items();list.innerHTML=arr.length?arr.map(x=>`<article class="file-item"><button type="button" class="file-preview" data-view="${esc(x.id)}" data-kind="${x._kind}" aria-label="상세보기: ${esc(x.title||x.name)}">${thumb(x)}</button><div class="file-item-body"><button type="button" class="file-item-title" data-view="${esc(x.id)}" data-kind="${x._kind}">${esc(x.title||x.name)}</button><small>${esc(roles[x.attachment_role]||labels[x._kind])} · ${esc(x.date||'날짜 미입력')} · ${x.public?'공개':'비공개'}</small><p>${esc(x.description||'')}</p><small>연결 기록: ${esc(linksText(x)||'없음 · 독립 자료')}</small></div><div class="file-item-actions"><button class="btn" data-view="${esc(x.id)}" data-kind="${x._kind}">상세</button><button class="btn" data-edit="${esc(x.id)}" data-kind="${x._kind}">수정</button><button class="btn danger" data-del="${esc(x.id)}" data-kind="${x._kind}">삭제</button></div></article>`).join(''):'<div class="empty-state compact-empty">등록된 자료가 없습니다.</div>';}
-  filter.onchange=render;
-  function show(x){const url=safeUrl(x),ext=kindOf(x);$('file-detail-title').textContent=x.title||x.name||'자료 상세';let media='<p>미리보기를 제공하지 않는 파일입니다.</p>';
-    const preview=x.pdf?.url||url;const previewExt=x.pdf?'pdf':ext;
-    if(preview){if(['jpg','jpeg','png','gif','webp','bmp'].includes(previewExt))media=`<img class="file-full-image" src="${esc(url)}" alt="${esc(x.title||x.name)}">`;
-      else if(previewExt==='pdf')media=`<iframe class="file-pdf-view" src="${esc(preview)}#toolbar=1" title="PDF 미리보기"></iframe>`;
-      else media='<p>파일 미리보기를 지원하지 않습니다. 원본을 다운로드하여 확인해 주세요.</p>';
+
+  function card(x){
+    return `<article class="file-item"><button type="button" class="file-preview" data-view="${esc(x.id)}" data-kind="${x._kind}" aria-label="상세보기: ${esc(x.title||x.name)}">${thumb(x)}</button><div class="file-item-body"><button type="button" class="file-item-title" data-view="${esc(x.id)}" data-kind="${x._kind}">${esc(x.title||x.name)}</button><small>${esc(roles[x.attachment_role]||labels[x._kind])} · <strong>${esc(x.date||'날짜 미입력')}</strong> · ${x.public?'공개':'비공개'}</small><p>${esc(x.description||'')}</p><small>연결 기록: ${esc(linksText(x)||'없음 · 독립 자료')}</small></div><div class="file-item-actions"><button class="btn" data-view="${esc(x.id)}" data-kind="${x._kind}">상세</button><button class="btn" data-edit="${esc(x.id)}" data-kind="${x._kind}">수정</button><button class="btn danger" data-del="${esc(x.id)}" data-kind="${x._kind}">삭제</button></div></article>`;
+  }
+
+  function groupHtml(title, icon, items){
+    if(!items.length) return '';
+    return `<div class="file-group-heading"><span class="file-group-title">${icon} ${title}</span><span class="file-group-count">${items.length}건 · 날짜순(최신순) 정렬</span></div><div class="file-cards">${items.map(card).join('')}</div>`;
+  }
+
+  function render(){
+    const sortFn=window.CenterHubResourceOrder.newestFirst;
+    const allPhotos=(data.photos||[]).map(x=>({...x,_kind:'photos'})).sort(sortFn);
+    const allDocs=(data.documents||[]).map(x=>({...x,_kind:'documents'})).sort(sortFn);
+    const allReceipts=(data.receipts||[]).map(x=>({...x,_kind:'receipts'})).sort(sortFn);
+
+    if(filter.value==='all'){
+      const html=groupHtml('사진 자료', '📷', allPhotos) +
+                 groupHtml('문서 자료 (일반문서·회의록·참석명단·보고서)', '📄', allDocs) +
+                 groupHtml('영수증·증빙', '🧾', allReceipts);
+      list.innerHTML=html||'<div class="empty-state compact-empty">등록된 자료가 없습니다.</div>';
+      return;
     }
-    detail.innerHTML=`<div class="file-detail-meta"><span>구분: ${labels[x._kind]}</span><span>날짜: ${esc(x.date||'-')}</span><span>${x.public?'공개':'비공개'}</span></div><p class="file-detail-desc">${esc(x.description||'설명 없음')}</p><p>유형: ${esc(roles[x.attachment_role]||'일반 자료')} · 연결 기록: ${esc(linksText(x)||'없음 · 독립 자료')}</p><div class="file-detail-media">${media}</div>${url?`<a class="btn primary" target="_blank" rel="noopener" data-file-download href="${esc(url)}?download=1">원본 다운로드</a>`:''}`;
+    if(filter.value==='photo'){
+      list.innerHTML=groupHtml('사진 자료', '📷', allPhotos)||'<div class="empty-state compact-empty">등록된 사진 자료가 없습니다.</div>';
+      return;
+    }
+    if(filter.value==='document_all'){
+      list.innerHTML=groupHtml('문서 자료 전체', '📄', allDocs)||'<div class="empty-state compact-empty">등록된 문서 자료가 없습니다.</div>';
+      return;
+    }
+    if(filter.value==='receipt'){
+      list.innerHTML=groupHtml('영수증·증빙', '🧾', allReceipts)||'<div class="empty-state compact-empty">등록된 영수증·증빙 자료가 없습니다.</div>';
+      return;
+    }
+    const filteredDocs=allDocs.filter(x=>fileType(x)===filter.value);
+    const filterLabel=roles[filter.value]||'문서';
+    list.innerHTML=groupHtml('문서 자료 · '+filterLabel, '📄', filteredDocs)||`<div class="empty-state compact-empty">해당 유형(${filterLabel})의 자료가 없습니다.</div>`;
+  }
+  filter.onchange=render;
+
+  function show(x){
+    const url=safeUrl(x),ext=kindOf(x);$('file-detail-title').textContent=x.title||x.name||'자료 상세';let media='<p>미리보기를 제공하지 않는 파일입니다.</p>';
+    const preview=x.pdf?.url||url;const previewExt=x.pdf?'pdf':ext;
+    if(preview){
+      if(['jpg','jpeg','png','gif','webp','bmp'].includes(previewExt)){
+        media=`<img class="file-full-image" src="${esc(url)}" alt="${esc(x.title||x.name)}" onerror="if(!this.dataset.fb&&!location.hostname.includes('pythonanywhere')){this.dataset.fb='1';this.src='https://wookyunghub.pythonanywhere.com'+(this.getAttribute('src').startsWith('/')?this.getAttribute('src'):'/'+this.getAttribute('src'));}">`;
+      } else if(previewExt==='pdf'){
+        media=`<iframe class="file-pdf-view" src="${esc(preview)}#toolbar=1" title="PDF 미리보기"></iframe>`;
+      } else {
+        media='<p>파일 미리보기를 지원하지 않습니다. 원본을 다운로드하여 확인해 주세요.</p>';
+      }
+    }
+    detail.innerHTML=`<div class="file-detail-meta"><span>구분: ${labels[x._kind]||x._kind}</span><span>날짜: ${esc(x.date||'-')}</span><span>${x.public?'공개':'비공개'}</span></div><p class="file-detail-desc">${esc(x.description||'설명 없음')}</p><p>유형: ${esc(roles[x.attachment_role]||'일반 자료')} · 연결 기록: ${esc(linksText(x)||'없음 · 독립 자료')}</p><div class="file-detail-media">${media}</div>${url?`<a class="btn primary" target="_blank" rel="noopener" data-file-download href="${esc(url)}?download=1">원본 다운로드</a>`:''}`;
     dialog.showModal();
   }
   const uploadForm=fd=>window.CenterHubUpload.upload(fd,percent=>{msg.textContent=`업로드 중... ${percent}%`;});
@@ -64,7 +146,7 @@
     const titleInput=field('제목',document.createElement('input'));titleInput.value=x.title||x.name||'';
     const dateInput=document.createElement('input');dateInput.type='date';dateInput.required=true;dateInput.value=x.date||'';field('자료 날짜 (필수)',dateInput);
     const visibility=document.createElement('select');visibility.add(new Option('공개','true'));visibility.add(new Option('관리자만','false'));visibility.value=String(!!x.public);visibility.disabled=kind==='receipts'||x.attachment_role==='receipt';field('공개 여부',visibility);
-const descriptionInput=field('설명',document.createElement('textarea'));descriptionInput.rows=2;descriptionInput.value=x.description||'';descriptionInput.parentElement.classList.add('file-edit-description');
+    const descriptionInput=field('설명',document.createElement('textarea'));descriptionInput.rows=2;descriptionInput.value=x.description||'';descriptionInput.parentElement.classList.add('file-edit-description');
     const actions=document.createElement('div');actions.className='toolbar file-edit-actions';
     const save=document.createElement('button');save.type='submit';save.className='btn primary';save.textContent='저장';
     const cancel=document.createElement('button');cancel.type='button';cancel.className='btn';cancel.textContent='취소';cancel.onclick=()=>editDialog.close();actions.append(save,cancel);form.append(actions);
@@ -73,7 +155,6 @@ const descriptionInput=field('설명',document.createElement('textarea'));descri
       catch(error){alert(error.message);}finally{save.disabled=false;}
     };
     editDialog.append(heading,form);editDialog.addEventListener('close',()=>editDialog.remove());document.body.append(editDialog);editDialog.showModal();
-
   };
-  try{await load()}catch(e){msg.textContent=e.message;}
+  try{await load();}catch(e){msg.textContent=e.message;}
 })();

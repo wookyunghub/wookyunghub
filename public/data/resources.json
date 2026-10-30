@@ -16,6 +16,104 @@
   ],
   "photos": [
     {
+      "id": "70dda83511b4cc0b",
+      "name": "20110127 우경정상량제 (7).JPG",
+      "title": "20110127 우경정상량제 (7).JPG",
+      "description": "",
+      "date": "2011-10-27",
+      "public": true,
+      "book_include": false,
+      "url": "/media/public/photos/70dda83511b4cc0b.jpg",
+      "path": "public/photos/70dda83511b4cc0b.jpg",
+      "size": 2448726,
+      "attachment_role": "",
+      "upload_token": "301572a3-13a8-41cd-993f-35552b650c69"
+    },
+    {
+      "id": "dd49bc31d024a4d2",
+      "name": "20110127 우경정상량제 (6).JPG",
+      "title": "20110127 우경정상량제 (6).JPG",
+      "description": "",
+      "date": "2011-10-27",
+      "public": true,
+      "book_include": false,
+      "url": "/media/public/photos/dd49bc31d024a4d2.jpg",
+      "path": "public/photos/dd49bc31d024a4d2.jpg",
+      "size": 2388996,
+      "attachment_role": "",
+      "upload_token": "e6713bde-45de-4701-bebc-b59f55f56fc7"
+    },
+    {
+      "id": "522c72a763042815",
+      "name": "20110127 우경정상량제 (5).JPG",
+      "title": "20110127 우경정상량제 (5).JPG",
+      "description": "",
+      "date": "2011-10-27",
+      "public": true,
+      "book_include": false,
+      "url": "/media/public/photos/522c72a763042815.jpg",
+      "path": "public/photos/522c72a763042815.jpg",
+      "size": 2285482,
+      "attachment_role": "",
+      "upload_token": "33e59a7a-cb18-402e-8d82-757220753224"
+    },
+    {
+      "id": "a2b4d0ce1ca2bbcb",
+      "name": "20110127 우경정상량제 (4).JPG",
+      "title": "20110127 우경정상량제 (4).JPG",
+      "description": "",
+      "date": "2011-10-27",
+      "public": true,
+      "book_include": false,
+      "url": "/media/public/photos/a2b4d0ce1ca2bbcb.jpg",
+      "path": "public/photos/a2b4d0ce1ca2bbcb.jpg",
+      "size": 2438986,
+      "attachment_role": "",
+      "upload_token": "0ebfc1c6-9c3c-4755-8c2b-cb2140b391ba"
+    },
+    {
+      "id": "b36426c855e558fd",
+      "name": "20110127 우경정상량제 (3).JPG",
+      "title": "20110127 우경정상량제 (3).JPG",
+      "description": "",
+      "date": "2011-10-27",
+      "public": true,
+      "book_include": false,
+      "url": "/media/public/photos/b36426c855e558fd.jpg",
+      "path": "public/photos/b36426c855e558fd.jpg",
+      "size": 2189805,
+      "attachment_role": "",
+      "upload_token": "a434824f-820b-475b-ae27-eb6a2f47c573"
+    },
+    {
+      "id": "bbf77d355ea2c6ed",
+      "name": "20110127 우경정상량제 (1).JPG",
+      "title": "20110127 우경정상량제 (1).JPG",
+      "description": "",
+      "date": "2011-10-27",
+      "public": true,
+      "book_include": false,
+      "url": "/media/public/photos/bbf77d355ea2c6ed.jpg",
+      "path": "public/photos/bbf77d355ea2c6ed.jpg",
+      "size": 1264482,
+      "attachment_role": "",
+      "upload_token": "3ba4b260-2b79-4da0-99cc-a6d59e950961"
+    },
+    {
+      "id": "eade87755923d1ae",
+      "name": "20110127 우경정상량제 (2).JPG",
+      "title": "20110127 우경정상량제 (2).JPG",
+      "description": "",
+      "date": "2011-10-27",
+      "public": true,
+      "book_include": false,
+      "url": "/media/public/photos/eade87755923d1ae.jpg",
+      "path": "public/photos/eade87755923d1ae.jpg",
+      "size": 1214380,
+      "attachment_role": "",
+      "upload_token": "cc918687-c8b1-44c9-bbfb-265b1db6cfd7"
+    },
+    {
       "id": "b302fd6dd15c67f2",
       "name": "4경로당개관제3향민.JPG",
       "title": "20090901 경로당 개관제05",
@@ -202,6 +300,5 @@
       "size": 3912852,
       "attachment_role": ""
     }
-  ],
-  "updated": "2026-10-26"
+  ]
 }

@@ -30,3 +30,9 @@
 #file-form-body .file-metadata-grid>.file-description-field{grid-column:1/-1}
 @media(max-width:560px){#file-form-body .file-metadata-grid{grid-template-columns:minmax(0,1fr) minmax(130px,36%)}}
 @media(max-width:360px){#file-form-body .file-metadata-grid{grid-template-columns:1fr}}
+
+/* v5.19: Grouped by Documents and Photos, sorted by date */
+.file-group-heading{display:flex;align-items:center;justify-content:space-between;background:#fdf8f4;border-left:5px solid #8e583c;border-top:1px solid #ebd8c8;border-right:1px solid #ebd8c8;border-bottom:1px solid #ebd8c8;padding:10px 14px;margin:22px 0 10px;border-radius:8px;font-size:15px;font-weight:700;color:#3f271a}
+.file-group-heading:first-child{margin-top:4px}
+.file-group-title{display:flex;align-items:center;gap:6px}
+.file-group-count{font-size:13px;font-weight:500;color:#8c6853}
