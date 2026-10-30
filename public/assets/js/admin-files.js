@@ -108,24 +108,24 @@
     if(docPills) docPills.hidden=(currentTab!=='document');
 
     if(currentTab==='photo'){
-      list.innerHTML=groupHtml('사진 자료', '📷', allPhotos)||(allPhotos.length?'':'<div class="empty-state compact-empty">등록된 사진 자료가 없습니다.</div>');
+      list.innerHTML=groupHtml('사진', '📷', allPhotos)||(allPhotos.length?'':'<div class="empty-state compact-empty">등록된 사진 자료가 없습니다.</div>');
       return;
     }
     if(currentTab==='document'){
       const filteredDocs=currentDocSub==='document_all'?allDocs:allDocs.filter(x=>fileType(x)===currentDocSub);
       const subLabel=currentDocSub==='document_all'?'전체':(roles[currentDocSub]||'문서');
-      list.innerHTML=groupHtml('문서 자료 ('+subLabel+')', '📄', filteredDocs)||(filteredDocs.length?'':`<div class="empty-state compact-empty">해당 분류(${subLabel})의 문서 자료가 없습니다.</div>`);
+      list.innerHTML=groupHtml('문서 ('+subLabel+')', '📄', filteredDocs)||(filteredDocs.length?'':`<div class="empty-state compact-empty">해당 분류(${subLabel})의 문서 자료가 없습니다.</div>`);
       return;
     }
     if(currentTab==='receipt'){
-      list.innerHTML=groupHtml('영수증·증빙', '🧾', allReceipts)||(allReceipts.length?'':'<div class="empty-state compact-empty">등록된 영수증·증빙 자료가 없습니다.</div>');
+      list.innerHTML=groupHtml('증빙(영수증)', '🧾', allReceipts)||(allReceipts.length?'':'<div class="empty-state compact-empty">등록된 영수증·증빙 자료가 없습니다.</div>');
       return;
     }
     // Tab: 'all' -> Separated sections with quick jump bar
-    const jumpBar=`<div class="file-quick-jump"><span>빠른 위치 이동:</span><button type="button" class="quick-jump-btn" data-jump="section-photos">📷 사진 바로가기 (${allPhotos.length})</button><button type="button" class="quick-jump-btn" data-jump="section-docs">📄 문서 바로가기 (${allDocs.length})</button>${allReceipts.length?`<button type="button" class="quick-jump-btn" data-jump="section-receipts">🧾 영수증 바로가기 (${allReceipts.length})</button>`:''}</div>`;
-    const photosSec=allPhotos.length?`<div id="section-photos">${groupHtml('사진 자료', '📷', allPhotos)}</div>`:'';
-    const docsSec=allDocs.length?`<div id="section-docs">${groupHtml('문서 자료 (일반·회의록·참석명단·보고서)', '📄', allDocs)}</div>`:'';
-    const receiptsSec=allReceipts.length?`<div id="section-receipts">${groupHtml('영수증·증빙', '🧾', allReceipts)}</div>`:'';
+    const jumpBar=`<div class="file-quick-jump"><span>위치 이동:</span><button type="button" class="quick-jump-btn" data-jump="section-photos">📷 사진 (${allPhotos.length})</button><button type="button" class="quick-jump-btn" data-jump="section-docs">📄 문서 (${allDocs.length})</button>${allReceipts.length?`<button type="button" class="quick-jump-btn" data-jump="section-receipts">🧾 증빙 (${allReceipts.length})</button>`:''}</div>`;
+    const photosSec=allPhotos.length?`<div id="section-photos">${groupHtml('사진', '📷', allPhotos)}</div>`:'';
+    const docsSec=allDocs.length?`<div id="section-docs">${groupHtml('문서', '📄', allDocs)}</div>`:'';
+    const receiptsSec=allReceipts.length?`<div id="section-receipts">${groupHtml('증빙', '🧾', allReceipts)}</div>`:'';
     list.innerHTML=(jumpBar+photosSec+docsSec+receiptsSec)||(allPhotos.length+allDocs.length+allReceipts.length?'':'<div class="empty-state compact-empty">등록된 자료가 없습니다.</div>');
   }
 
