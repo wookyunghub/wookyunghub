@@ -19,11 +19,11 @@
     } catch(e){}
 
     if (clean.includes('records')) {
-      const fr = await fetch('data/records.json', {cache:'no-store'});
+      const fr = await fetch((location.pathname.includes('/admin/')?'../':'')+'data/records.json', {cache:'no-store'});
       if (fr.ok) return await fr.json();
     }
     if (clean.includes('resources') || clean.includes('files')) {
-      const fr = await fetch('data/resources.json', {cache:'no-store'});
+      const fr = await fetch((location.pathname.includes('/admin/')?'../':'')+'data/resources.json', {cache:'no-store'});
       if (fr.ok) return await fr.json();
     }
     throw Error('상세정보를 불러오지 못했습니다.');

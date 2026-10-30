@@ -135,14 +135,19 @@ $('record-files-search').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();re
 $('record-files-add').onclick=()=>{for(const o of att.options)o.selected=materialDraft.has(o.value);$('record-file-picker').close();materialDraft=null;updateAttachmentPreview();};
 
 async function loadFiles(){
- try{const r=await fetch('../api/admin/files',{credentials:'same-origin',cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);
- const d=await r.json();fileIndex=new Map();const opts=[];
- for(const k of ['documents','photos','receipts'])for(const x of d[k]||[]){
-  if(!x.id||!x.url)continue;
-  const key=k+':'+x.id;fileIndex.set(key,x);
-  opts.push(attachmentOption(k,x));
- }
- const selected=new Set([...att.selectedOptions].map(o=>o.value));att.replaceChildren(...opts);filesLoaded=true;[...att.options].forEach(o=>o.selected=selected.has(o.value));updateAttachmentPreview();
+ try{
+  let r = await fetch('../api/admin/files',{credentials:'same-origin',cache:'no-store'});
+  if(!r.ok || !(r.headers.get('content-type')||'').toLowerCase().includes('application/json')){
+    r = await fetch('../data/resources.json',{cache:'no-store'});
+  }
+  if(!r.ok)throw Error('HTTP '+r.status);
+  const d=await r.json();fileIndex=new Map();const opts=[];
+  for(const k of ['documents','photos','receipts'])for(const x of d[k]||[]){
+   if(!x.id||!x.url)continue;
+   const key=k+':'+x.id;fileIndex.set(key,x);
+   opts.push(attachmentOption(k,x));
+  }
+  const selected=new Set([...att.selectedOptions].map(o=>o.value));att.replaceChildren(...opts);filesLoaded=true;[...att.options].forEach(o=>o.selected=selected.has(o.value));updateAttachmentPreview();
  }catch(e){filesLoaded=false;$('record-attachment-links').textContent='파일 목록을 불러오지 못했습니다.';console.warn(e)}
 }
 att.addEventListener('change',updateAttachmentPreview);
