@@ -36,3 +36,21 @@
 .file-group-heading:first-child{margin-top:4px}
 .file-group-title{display:flex;align-items:center;gap:6px}
 .file-group-count{font-size:13px;font-weight:500;color:#8c6853}
+
+/* v5.20: Tab Switcher & Quick Navigation */
+.file-category-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0;border-bottom:2px solid #dfd2c4;padding-bottom:1px}
+.file-tab{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px 8px 0 0;border:1px solid #d9cbbe;border-bottom:none;background:#f8f2eb;color:#5a4233;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s,color .15s}
+.file-tab:hover{background:#f0e4d7;color:#392418}
+.file-tab.active{background:#8e583c;color:#fff;border-color:#8e583c}
+.file-tab-badge{display:inline-block;padding:2px 7px;font-size:11px;border-radius:10px;background:#e5d8cc;color:#5a4233;font-weight:700}
+.file-tab.active .file-tab-badge{background:#fff;color:#8e583c}
+.file-sub-pills{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 12px;padding:8px 10px;background:#fdf9f5;border:1px solid #ebd8c8;border-radius:8px}
+.sub-pill{padding:5px 11px;border-radius:14px;border:1px solid #d9c7b8;background:#fff;color:#5f4838;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.sub-pill:hover{background:#f6ede5}
+.sub-pill.active{background:#3b5677;color:#fff;border-color:#3b5677}
+.file-quick-jump{display:flex;gap:8px;align-items:center;background:#f7f0e8;padding:8px 12px;border-radius:6px;margin:8px 0 14px;font-size:13px;font-weight:600;color:#5a4233;flex-wrap:wrap}
+.quick-jump-btn{background:#fff;border:1px solid #cfb8a6;border-radius:4px;padding:4px 10px;font-size:12px;cursor:pointer;color:#3b281c;font-weight:600}
+.quick-jump-btn:hover{background:#8e583c;color:#fff;border-color:#8e583c}
+.file-scroll-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:#8e583c;color:#fff;border:none;box-shadow:0 4px 14px rgba(0,0,0,.25);font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:100}
+.file-scroll-top.visible{opacity:.95;pointer-events:auto}
+.file-scroll-top:hover{opacity:1;transform:translateY(-3px);background:#73442c}

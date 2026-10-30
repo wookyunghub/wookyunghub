@@ -2,6 +2,7 @@
   const $=id=>document.getElementById(id);
   const list=$('file-list'),filter=$('file-filter'),msg=$('file-msg'),uploadBtn=$('file-upload');
   const dialog=$('file-detail'),detail=$('file-detail-body');
+  const docPills=$('file-doc-pills'),scrollTopBtn=$('file-scroll-top');
   const roles={minutes:'회의록 원본',attendance:'참석명단',report:'보고자료',receipt:'영수증·증빙',other:'일반문서'};
   const types={document:{kind:'documents',role:''},photo:{kind:'photos',role:''},minutes:{kind:'documents',role:'minutes'},attendance:{kind:'documents',role:'attendance'},report:{kind:'documents',role:'report'},receipt:{kind:'receipts',role:'receipt'}};
   function fileType(x){if(x._kind==='receipts')return 'receipt';if(x._kind==='photos')return 'photo';return ['minutes','attendance','report'].includes(x.attachment_role)?x.attachment_role:'document';}
@@ -23,7 +24,11 @@
   const form=$('file-form-body'),toggle=$('file-form-toggle');
   toggle.onclick=()=>{form.hidden=!form.hidden;toggle.textContent=form.hidden?'등록 양식 펼치기':'등록 양식 접기';toggle.setAttribute('aria-expanded',String(!form.hidden));};
   $('file-detail-close').onclick=()=>dialog.close();
+  
   let data={documents:[],photos:[],receipts:[]};
+  let currentTab=['photo','document','receipt','all'].includes(location.hash.replace('#',''))?location.hash.replace('#',''):'photo';
+  let currentDocSub='document_all';
+
   async function load(){
     try{
       const r=await fetch('../api/admin/files',{credentials:'same-origin',cache:'no-store'});
@@ -79,36 +84,86 @@
     return `<div class="file-group-heading"><span class="file-group-title">${icon} ${title}</span><span class="file-group-count">${items.length}건 · 날짜순(최신순) 정렬</span></div><div class="file-cards">${items.map(card).join('')}</div>`;
   }
 
+  function updateBadges(allPhotos, allDocs, allReceipts){
+    const bPhoto=$('badge-photo'), bDoc=$('badge-document'), bRec=$('badge-receipt'), bAll=$('badge-all');
+    if(bPhoto) bPhoto.textContent=allPhotos.length;
+    if(bDoc) bDoc.textContent=allDocs.length;
+    if(bRec) bRec.textContent=allReceipts.length;
+    if(bAll) bAll.textContent=allPhotos.length+allDocs.length+allReceipts.length;
+  }
+
   function render(){
     const sortFn=window.CenterHubResourceOrder.newestFirst;
     const allPhotos=(data.photos||[]).map(x=>({...x,_kind:'photos'})).sort(sortFn);
     const allDocs=(data.documents||[]).map(x=>({...x,_kind:'documents'})).sort(sortFn);
     const allReceipts=(data.receipts||[]).map(x=>({...x,_kind:'receipts'})).sort(sortFn);
 
-    if(filter.value==='all'){
-      const html=groupHtml('사진 자료', '📷', allPhotos) +
-                 groupHtml('문서 자료 (일반문서·회의록·참석명단·보고서)', '📄', allDocs) +
-                 groupHtml('영수증·증빙', '🧾', allReceipts);
-      list.innerHTML=html||'<div class="empty-state compact-empty">등록된 자료가 없습니다.</div>';
+    updateBadges(allPhotos, allDocs, allReceipts);
+
+    document.querySelectorAll('.file-tab').forEach(t=>{
+      const active=t.dataset.tab===currentTab;
+      t.classList.toggle('active',active);
+      t.setAttribute('aria-selected',String(active));
+    });
+    if(docPills) docPills.hidden=(currentTab!=='document');
+
+    if(currentTab==='photo'){
+      list.innerHTML=groupHtml('사진 자료', '📷', allPhotos)||(allPhotos.length?'':'<div class="empty-state compact-empty">등록된 사진 자료가 없습니다.</div>');
       return;
     }
-    if(filter.value==='photo'){
-      list.innerHTML=groupHtml('사진 자료', '📷', allPhotos)||'<div class="empty-state compact-empty">등록된 사진 자료가 없습니다.</div>';
+    if(currentTab==='document'){
+      const filteredDocs=currentDocSub==='document_all'?allDocs:allDocs.filter(x=>fileType(x)===currentDocSub);
+      const subLabel=currentDocSub==='document_all'?'전체':(roles[currentDocSub]||'문서');
+      list.innerHTML=groupHtml('문서 자료 ('+subLabel+')', '📄', filteredDocs)||(filteredDocs.length?'':`<div class="empty-state compact-empty">해당 분류(${subLabel})의 문서 자료가 없습니다.</div>`);
       return;
     }
-    if(filter.value==='document_all'){
-      list.innerHTML=groupHtml('문서 자료 전체', '📄', allDocs)||'<div class="empty-state compact-empty">등록된 문서 자료가 없습니다.</div>';
+    if(currentTab==='receipt'){
+      list.innerHTML=groupHtml('영수증·증빙', '🧾', allReceipts)||(allReceipts.length?'':'<div class="empty-state compact-empty">등록된 영수증·증빙 자료가 없습니다.</div>');
       return;
     }
-    if(filter.value==='receipt'){
-      list.innerHTML=groupHtml('영수증·증빙', '🧾', allReceipts)||'<div class="empty-state compact-empty">등록된 영수증·증빙 자료가 없습니다.</div>';
-      return;
-    }
-    const filteredDocs=allDocs.filter(x=>fileType(x)===filter.value);
-    const filterLabel=roles[filter.value]||'문서';
-    list.innerHTML=groupHtml('문서 자료 · '+filterLabel, '📄', filteredDocs)||`<div class="empty-state compact-empty">해당 유형(${filterLabel})의 자료가 없습니다.</div>`;
+    // Tab: 'all' -> Separated sections with quick jump bar
+    const jumpBar=`<div class="file-quick-jump"><span>빠른 위치 이동:</span><button type="button" class="quick-jump-btn" data-jump="section-photos">📷 사진 바로가기 (${allPhotos.length})</button><button type="button" class="quick-jump-btn" data-jump="section-docs">📄 문서 바로가기 (${allDocs.length})</button>${allReceipts.length?`<button type="button" class="quick-jump-btn" data-jump="section-receipts">🧾 영수증 바로가기 (${allReceipts.length})</button>`:''}</div>`;
+    const photosSec=allPhotos.length?`<div id="section-photos">${groupHtml('사진 자료', '📷', allPhotos)}</div>`:'';
+    const docsSec=allDocs.length?`<div id="section-docs">${groupHtml('문서 자료 (일반·회의록·참석명단·보고서)', '📄', allDocs)}</div>`:'';
+    const receiptsSec=allReceipts.length?`<div id="section-receipts">${groupHtml('영수증·증빙', '🧾', allReceipts)}</div>`:'';
+    list.innerHTML=(jumpBar+photosSec+docsSec+receiptsSec)||(allPhotos.length+allDocs.length+allReceipts.length?'':'<div class="empty-state compact-empty">등록된 자료가 없습니다.</div>');
   }
-  filter.onchange=render;
+
+  // Tab click event
+  document.querySelectorAll('.file-tab').forEach(tabBtn=>{
+    tabBtn.onclick=()=>{
+      currentTab=tabBtn.dataset.tab;
+      try{history.replaceState(null,'','#'+currentTab);}catch(e){}
+      render();
+    };
+  });
+
+  // Document sub-pills click event
+  document.querySelectorAll('.sub-pill').forEach(pill=>{
+    pill.onclick=()=>{
+      document.querySelectorAll('.sub-pill').forEach(p=>p.classList.remove('active'));
+      pill.classList.add('active');
+      currentDocSub=pill.dataset.sub;
+      render();
+    };
+  });
+
+  // Quick jump button click event
+  list.addEventListener('click',e=>{
+    const jumpBtn=e.target.closest('[data-jump]');
+    if(jumpBtn){
+      const target=$(jumpBtn.dataset.jump);
+      if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  });
+
+  // Floating scroll-to-top button
+  if(scrollTopBtn){
+    window.addEventListener('scroll',()=>{
+      scrollTopBtn.classList.toggle('visible',window.scrollY>280);
+    });
+    scrollTopBtn.onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+  }
 
   function show(x){
     const url=safeUrl(x),ext=kindOf(x);$('file-detail-title').textContent=x.title||x.name||'자료 상세';let media='<p>미리보기를 제공하지 않는 파일입니다.</p>';
@@ -135,7 +190,12 @@
     const values={kind:type.kind,attachment_role:type.role,public:$('file-public').value,date:$('file-date').value,description:$('file-desc').value,book_include:'false'};
     const customTitle=$('file-title').value.trim();let completed=0;uploadBtn.disabled=true;
     try{for(const file of files){const fd=new FormData();for(const [key,value] of Object.entries(values))fd.append(key,value);fd.append('title',customTitle?(files.length===1?customTitle:customTitle+' · '+file.name):file.name);fd.append('file',file,file.name);if(pdf)fd.append('pdf_file',pdf,pdf.name);await uploadForm(fd);completed++;}
-      $('file-input').value='';$('file-pdf').value='';$('file-title').value='';$('file-desc').value='';$('file-date').value='';msg.textContent=completed+'개 자료를 등록했습니다.';await load();
+      $('file-input').value='';$('file-pdf').value='';$('file-title').value='';$('file-desc').value='';$('file-date').value='';msg.textContent=completed+'개 자료를 등록했습니다.';
+      // Switch to the tab of the uploaded file kind
+      if(type.kind==='photos') currentTab='photo';
+      else if(type.kind==='documents') currentTab='document';
+      else if(type.kind==='receipts') currentTab='receipt';
+      await load();
     }catch(e){$('file-input').value='';msg.textContent=completed+'개 등록 후 중단: '+e.message+'. 목록 확인 후 실패한 파일만 다시 선택해 주세요.';try{await load()}catch{}}
     finally{uploadBtn.disabled=false;}
   };
