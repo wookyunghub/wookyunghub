@@ -1,0 +1,33 @@
+.panel-title{display:flex;align-items:center;justify-content:space-between;gap:12px}.news-more{font-size:15px;color:#295b91;font-weight:700}.news-record-link{display:grid;grid-template-columns:120px minmax(0,1fr) 18px;gap:16px;align-items:start;padding:18px 0;border-bottom:1px solid #e8edf2}.news-record-link:hover h3{text-decoration:underline;color:#295b91}.news-record-link h3{margin:0 0 5px}.news-record-link p{margin:0;color:#64748b;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}.news-record-link time{font-size:15px;color:#526b8c}.news-arrow{color:#295b91;font-size:24px}.news-pages{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:24px 0}.news-pages a{min-width:38px;text-align:center;padding:7px 11px;border:1px solid #cad6e3;border-radius:8px;font-size:15px}.news-pages a.active{background:#295b91;color:#fff}.detail-type{display:inline-block;border-radius:6px;background:#e8f0f8;padding:5px 10px;color:#295b91;font-size:14px;font-weight:bold}.detail-date{color:#667085}.detail-fields{border-top:1px solid #dce4eb;margin-top:24px}.detail-row{display:grid;grid-template-columns:130px 1fr;gap:15px;padding:13px;border-bottom:1px solid #edf1f5;white-space:pre-wrap}.detail-body{margin:24px 0}.detail-body p{white-space:pre-wrap;line-height:1.85}.detail-source{border-top:1px solid #dde5eb;padding:18px 0;color:#52606d;font-size:15px}.detail-source .btn{margin-left:12px}@media(max-width:600px){.news-record-link{grid-template-columns:1fr 18px;gap:4px}.news-record-link time{grid-column:1/-1}.detail-row{grid-template-columns:1fr;gap:3px}}
+/* v3.9: 소식·활동 목록은 날짜 / 제목·내용 / 우측 기록자로 표시 */
+.news-record-link{grid-template-columns:120px minmax(0,1fr);gap:16px;align-items:start}
+.news-record-main{min-width:0}
+.news-record-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:5px}
+.news-record-heading h3{margin:0;min-width:0;flex:1}
+.news-record-title{color:inherit;text-decoration:none}
+.news-record-title:hover,.news-record-title:focus-visible{text-decoration:underline;color:#8f6655}
+.news-recorder{flex:0 0 auto;margin-left:auto;text-align:right;color:#886b59;font-size:13px;white-space:nowrap}
+.news-record-link:hover h3{text-decoration:none;color:inherit}
+.news-record-link:hover .news-record-title{text-decoration:underline;color:#8f6655}
+@media(max-width:680px){.news-record-link{grid-template-columns:1fr;gap:5px}.news-record-link time{grid-column:auto}.news-record-heading{gap:8px}.news-recorder{font-size:12px}}
+
+/* v4.4: compact row, recorder aligned on the same line as the title */
+.news-record-link{grid-template-columns:108px minmax(0,1fr);gap:12px;padding:12px 0}
+.news-record-heading{display:flex;align-items:baseline;gap:8px;margin-bottom:2px;flex-wrap:nowrap}
+.news-record-heading h3{margin:0;flex:1;min-width:0;font-size:17px;line-height:1.45}
+.news-record-main p{margin:1px 0 0;line-height:1.5;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.news-recorder{margin-left:auto;text-align:right;flex-shrink:0;white-space:nowrap;font-size:12px;line-height:1.45;color:#92725e}
+@media(max-width:680px){.news-record-link{grid-template-columns:1fr;gap:2px;padding:10px 0}.news-record-heading{gap:8px}.news-record-heading h3{font-size:15px}.news-recorder{font-size:11px}}
+
+/* v5.27: full-width containers and compact notice detail */
+.notice-detail-panel{padding:20px 24px}
+.notice-detail-panel .detail-type{font-size:14px;padding:3px 8px}
+.notice-detail-panel .detail-title-line{gap:10px;flex-wrap:wrap;margin:6px 0}
+.notice-detail-panel .detail-title-line h1{font-size:24px;line-height:1.4;margin:0;overflow-wrap:anywhere}
+.notice-detail-panel .detail-inline-recorder{font-size:13px}
+.notice-detail-panel .detail-date{font-size:14px;margin:4px 0 12px}
+.notice-detail-panel .detail-body{margin:12px 0 16px}
+.notice-detail-panel .detail-body p{margin:0;line-height:1.65;overflow-wrap:anywhere}
+.notice-detail-panel .detail-source{font-size:13px;padding:8px 0;margin:0}
+.notice-detail-panel>.toolbar{margin:12px 0 0;gap:8px}
+@media(max-width:600px){.notice-detail-panel{padding:16px}.notice-detail-panel .detail-title-line h1{font-size:22px;flex-basis:100%}}

@@ -1,0 +1,120 @@
+{
+  "basic": {
+    "name": "우경경로당",
+    "address": "충북 진천군 문백면 사양길 2-12",
+    "phone": "043-532-5593",
+    "members_total": 50,
+    "members_male": 21,
+    "members_female": 29,
+    "building_area": "105.73㎡",
+    "rooms": 3,
+    "restrooms": 2,
+    "kitchen": 1,
+    "parent_organization": "(사)대한노인회 진천군지회",
+    "branch_name": "문백.영동분회"
+  },
+  "officers_note": "홈페이지에는 직위와 성명만 표시합니다. 상세정보는 관리자와 운영대장 발간에만 사용합니다.",
+  "facilities": [
+    "방 3개",
+    "화장실 2개",
+    "주방 1개"
+  ],
+  "access": {
+    "address": "충북 진천군 문백면 사양길 2-12",
+    "map_note": "지도 연결은 관리자 기본설정에서 공개 URL을 등록해 확장할 수 있습니다."
+  },
+  "history_source": {
+    "label": "운영대장 본책 1 · 연혁 원본 13~17쪽",
+    "href": "ebook.html?ledger=2025-2026&doc=book1&page=13"
+  },
+  "updated": "2026-10-17",
+  "organization_chart": {
+    "source": {
+      "label": "운영대장 본책 1 · 임원명부 원본 21쪽",
+      "volume": "book1",
+      "page": 21
+    },
+    "officers": [
+      {
+        "id": "officer-chair",
+        "position": "회장",
+        "name": "조영기",
+        "public": true
+      },
+      {
+        "id": "officer-vp-m",
+        "position": "부회장(남)",
+        "name": "",
+        "public": true
+      },
+      {
+        "id": "officer-vp-f",
+        "position": "부회장(여)",
+        "name": "연순녀",
+        "public": true
+      },
+      {
+        "id": "officer-secretary",
+        "position": "사무장",
+        "name": "고현숙",
+        "public": true
+      },
+      {
+        "id": "officer-auditor",
+        "position": "감사",
+        "name": "임희순",
+        "public": true
+      }
+    ],
+    "board": [
+      {
+        "id": "board-chair",
+        "position": "회장",
+        "name": "조영기",
+        "public": true
+      },
+      {
+        "id": "board-vp",
+        "position": "부회장",
+        "name": "연순녀",
+        "public": true
+      },
+      {
+        "id": "board-1",
+        "position": "이사",
+        "name": "고현숙",
+        "public": true
+      },
+      {
+        "id": "board-2",
+        "position": "이사",
+        "name": "황정해",
+        "public": true
+      },
+      {
+        "id": "board-3",
+        "position": "이사",
+        "name": "권혁수",
+        "public": true
+      },
+      {
+        "id": "board-4",
+        "position": "이사",
+        "name": "김기덕",
+        "public": true
+      },
+      {
+        "id": "board-5",
+        "position": "이사",
+        "name": "장재성",
+        "public": true
+      },
+      {
+        "id": "board-6",
+        "position": "이사",
+        "name": "이동수",
+        "public": true
+      }
+    ]
+  }
+}

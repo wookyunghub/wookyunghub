@@ -1,0 +1,65 @@
+{
+  "current": {
+    "id": "2025-2026",
+    "period": "2025-2026",
+    "title": "운영관리대장",
+    "status": "current",
+    "locked": false,
+    "summary": "현재 운영대장입니다. 업무 구분별 원본 위치와 이북 열람을 제공합니다.",
+    "volumes": [
+      {
+        "id": "summary",
+        "label": "총편",
+        "title": "운영지침·노인강령·경로헌장",
+        "viewer": "docs/summary.html",
+        "ebook": "ebook.html?ledger=2025-2026&doc=summary"
+      },
+      {
+        "id": "book1",
+        "label": "본책 1",
+        "title": "기본사항·재산/금융·행정/행사/회의",
+        "viewer": "docs/book1.html",
+        "ebook": "ebook.html?ledger=2025-2026&doc=book1"
+      },
+      {
+        "id": "book2",
+        "label": "본책 2",
+        "title": "회의·행사·시설/비품·규정/참고자료",
+        "viewer": "docs/book2.html",
+        "ebook": "ebook.html?ledger=2025-2026&doc=book2"
+      }
+    ],
+    "categories": [
+      {
+        "title": "기본사항",
+        "desc": "현황카드·연혁·확인증·임원·회원명부",
+        "href": "docs/book1.html?page=1#p1"
+      },
+      {
+        "title": "재산 / 금융",
+        "desc": "부동산·등기·시설재산·결산·금전출납",
+        "href": "docs/book1.html?page=25#p25"
+      },
+      {
+        "title": "행정 / 행사 / 회의",
+        "desc": "회의록·행사기록·경비집행·사진자료",
+        "href": "docs/book1.html?page=45#p45"
+      },
+      {
+        "title": "시설 / 비품관리",
+        "desc": "시설·비품 관리대장과 관리현황",
+        "href": "docs/book2.html?page=23#p23"
+      },
+      {
+        "title": "규정 / 참고자료",
+        "desc": "운영규정·시행규칙·여비규정·참고자료",
+        "href": "docs/book2.html?page=55#p55"
+      }
+    ]
+  },
+  "archives": [],
+  "ebook_settings": {
+    "enabled": true,
+    "mode": "two-page-spread"
+  }
+}

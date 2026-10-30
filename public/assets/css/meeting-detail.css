@@ -1,0 +1,39 @@
+/* v3.4: public meeting record only. Preserve all other detail layouts. */
+.meeting-sheet{max-width:1040px;margin:0 auto;color:#493529}
+.meeting-sheet-head{position:relative;text-align:center;padding:12px 10px 25px;border-bottom:2px solid #b99678}
+.meeting-sheet-kicker{font-size:13px;color:#916f57;letter-spacing:.06em}
+.meeting-sheet-head h1{font-size:clamp(26px,3vw,35px);margin:12px 0;color:#573c2c;letter-spacing:.02em}
+.meeting-sheet-status{display:inline-block;border:1px solid #dfc5ad;background:#fbf3ea;border-radius:20px;padding:3px 12px;color:#82583f;font-size:13px}
+.meeting-info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid #e4d3c3;border-left:1px solid #e4d3c3;margin:22px 0 16px}
+.meeting-info-item{display:grid;grid-template-columns:minmax(94px,32%) minmax(0,1fr);border-right:1px solid #e4d3c3;border-bottom:1px solid #e4d3c3;min-height:52px;align-items:stretch}
+.meeting-info-item strong{background:#f8efe5;color:#694a37;display:flex;align-items:center;padding:10px 14px;font-size:15px}
+.meeting-info-item span,.meeting-info-item button{align-self:center;margin:0 10px;font-size:16px;line-height:1.5}
+.meeting-attendee-button{width:calc(100% - 20px);border:1px solid #cfac8f;border-radius:7px;padding:7px 10px;background:#fff9f2;color:#825033;text-align:left;cursor:pointer;font-weight:600}
+.meeting-attendee-button:hover,.meeting-attendee-button:focus-visible{background:#f1e0d0}
+.meeting-attendee-panel{border:1px solid #ddbea2;border-radius:10px;background:#fffaf5;padding:16px 20px;margin:12px 0 22px}
+.meeting-attendee-panel[hidden]{display:none}
+.meeting-attendee-panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.meeting-attendee-panel h2{font-size:18px;margin:0}
+.meeting-attendee-note{font-size:14px;color:#866956;margin:10px 0}
+.meeting-attendee-list{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}
+.meeting-attendee-list li{background:#fff;border:1px solid #eee0d1;border-radius:6px;padding:7px 9px;text-align:center}
+.meeting-sheet-section{margin:24px 0;border-bottom:1px solid #e9dbcb;padding:0 0 20px}
+.meeting-sheet-section h2{font-size:19px;color:#68452e;border-left:4px solid #b28b6b;padding:3px 0 3px 12px;margin:0 0 14px}
+.meeting-sheet-section p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9}
+.meeting-sheet .detail-source{font-size:14px}
+@media(max-width:700px){.meeting-info-grid{grid-template-columns:1fr}.meeting-info-item{grid-template-columns:105px minmax(0,1fr)}.meeting-sheet-head{padding-bottom:18px}.meeting-attendee-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media print{.topbar,.footer,#news-back,.meeting-attendee-button{display:none!important}.meeting-sheet{max-width:none}.meeting-info-grid{break-inside:avoid}}
+
+/* v4.4: recorder on title row, compact meeting metadata */
+.meeting-title-line,.detail-title-line{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.meeting-title-line h1,.detail-title-line h1{flex:1;min-width:0;margin:8px 0 4px}
+.meeting-title-recorder,.detail-inline-recorder{flex:0 0 auto;color:#876a56;font-size:13px;white-space:nowrap;text-align:right}
+.meeting-sheet-head{padding:8px 8px 12px}
+.meeting-info-grid{margin:12px 0}
+.meeting-info-item{min-height:42px}
+.meeting-sheet-section{margin:15px 0;padding-bottom:12px}
+.meeting-sheet-section h2{margin-bottom:8px}
+@media(max-width:600px){.meeting-title-line,.detail-title-line{align-items:flex-start;gap:3px;flex-direction:column}.meeting-title-recorder,.detail-inline-recorder{align-self:flex-end}}
+
+/* Hidden actions must remain invisible even when .btn sets display. */
+#record-detail-edit[hidden]{display:none!important}

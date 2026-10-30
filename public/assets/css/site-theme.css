@@ -1,0 +1,204 @@
+/* One shared visual theme. Page layouts and data presentation remain page-owned. */
+:root{--brand:#70513c;--card:#fffefa;--line:#c8b69f;--muted:#665e55;--theme-green:#526c49;--theme-border:#b59e84;--theme-soft:#edf2e7;--theme-shadow:0 4px 12px rgba(88,66,42,.07)}
+body{background-color:#f8f5ee;color:#3c3730}
+body .page-title h1,body .compact-heading h1{color:#654b39}
+body .page-title p,body .section-help,body .home-section-desc{color:#665e55;line-height:1.65}
+body .content-panel,body .settings-panel,body .home-section,body .home-quick-grid>a,body .home-quick-grid>div,body .hero-photo-card,body .resource-card,body .file-item,body .member-group,body .guide-section,body .organization-block,body .compact-panel,body .viewer-source,body .side{
+ background-color:#fffefa;border:1.5px solid var(--theme-border);border-radius:14px;box-shadow:var(--theme-shadow)}
+body .content-panel,body .settings-panel,body .home-section,body .member-group,body .guide-section{border-top:4px solid #819a7b}
+body .content-panel>h2,body .settings-panel>h2,body .panel-title,body .section-heading-row,body .file-form-head,body .guide-section-head,body .history-heading{
+ color:#40553a;border-bottom:1px solid #c5d0b8;padding-bottom:10px;margin-bottom:12px}
+body .panel-title h2,body .section-heading-row h2,body .file-form-head h2,body .guide-section-head h2,body .history-heading h2{color:#40553a}
+body .badge,body .admin-badge,body .home-news-kind{
+ display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;word-break:keep-all;
+ background:#edf2e7;border:1px solid #b8c5aa;color:#465f3e;border-radius:7px;font-size:14px;line-height:1.5;padding:3px 9px;box-sizing:border-box}
+body .btn,body button.btn,body .home-more-btn{border:1px solid #9eae92;border-radius:8px;background:#f1f5ed;color:#435b40;font-size:14px;line-height:1.5;box-shadow:none}
+body .btn:hover:not(:disabled),body .home-more-btn:hover{background:#e5eddc;border-color:#7f9672}
+body .btn.primary,body button.btn.primary{background:#526c49;border-color:#526c49;color:#fff}
+body .btn.primary:hover:not(:disabled){background:#435c3b;border-color:#435c3b}
+body .btn.danger{background:#fff4ef;border-color:#bd8b79;color:#8a3f30}
+body .btn.danger:hover:not(:disabled){background:#f8e5dc;border-color:#a96c57}
+body .btn:disabled,body button:disabled{opacity:.6;cursor:default}
+body input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=range]):not([type=color]):not([type=file]),body select,body textarea{
+ box-sizing:border-box;border:1px solid #a99a83;border-radius:8px;background-color:#fffefb;color:#403c34;font-size:15px;line-height:1.5;padding:7px 10px}
+body input[type=file]{font-size:14px;max-width:100%}
+body input:focus-visible,body select:focus-visible,body textarea:focus-visible,body .btn:focus-visible,body a:focus-visible{outline:3px solid #799785;outline-offset:2px}
+body input[readonly],body textarea[readonly],body select:disabled{background-color:#f1eee6}
+body input[type=checkbox],body input[type=radio]{accent-color:#526c49}
+body .home-news-item,body .admin-record,body .simple-list>li,body .timeline>li{border-color:#ded4c4}
+body .home-news-item:hover,body .admin-record:hover{background-color:#f1f5e9}
+body .members-table th,body .admin-edit-table th,body .admin-table th{background:#eaf0e3;color:#40553a;border-color:#c5d0b8}
+body .members-table td,body .admin-edit-table td,body .admin-table td{border-color:#ded4c4}
+body dialog{background:#fffefa;color:#3c3730;border:1.5px solid #b59e84;border-radius:14px;box-shadow:0 12px 40px rgba(50,42,28,.18)}
+body dialog::backdrop{background:rgba(44,47,35,.38)}
+body .file-dialog-head,body .record-material-heading{border-bottom:1px solid #c5d0b8;color:#40553a}
+body .main-nav .nav-submenu{border-color:#b59e84;background-color:#fffefa}
+body .main-nav .nav-sub-link:hover{background-color:#edf2e7;color:#40553a}
+body .topbar{border-bottom-color:#b59e84}
+body .footer{border-top-color:#b59e84}
+@media print{body{background:#fff}body .content-panel,body .settings-panel,body .home-section,body .history-year-card{box-shadow:none}}
+
+/* Keep the group card and individual person cards, without a third frame. */
+body #officers .org-chart{border:0;border-radius:0;box-shadow:none;background:transparent}
+body #officers>.section-heading-row{margin-top:0;align-items:center}
+
+/* Shared section-title typography, regardless of the heading wrapper. */
+body .content-panel>h2,
+body .content-panel>.section-heading-row h2,
+body .content-panel>.history-heading h2,
+body .content-panel>.facility-header h2,
+body .settings-panel>h2,
+body .panel-title h2,
+body .section-heading-row h2,
+body .file-form-head h2,
+body .guide-section-head h2{
+ font-size:20px;font-weight:700;line-height:1.4;letter-spacing:normal;
+ color:#40553a;margin-top:0;margin-bottom:0;
+}
+body .content-panel>h2,body .settings-panel>h2{margin-bottom:12px}
+
+/* Homepage introduction: consistent date/title typography in the recent history list. */
+body #about-history .history-item{
+ display:grid;grid-template-columns:108px minmax(0,1fr);column-gap:20px;
+ align-items:baseline;padding:11px 0;margin:0;border:0;border-bottom:1px solid #ded4c4;
+}
+body #about-history .history-item time{
+ display:block;margin:0;padding:0;font-size:15px;font-weight:400;line-height:1.6;
+ color:#705b48;letter-spacing:normal;font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+body #about-history .history-copy{min-width:0;margin:0;padding:0}
+body #about-history .history-copy strong{
+ display:block;margin:0;padding:0;font-size:15px;font-weight:500;line-height:1.6;
+ color:#3c3730;letter-spacing:normal;overflow-wrap:anywhere;
+}
+@media(max-width:600px){body #about-history .history-item{grid-template-columns:98px minmax(0,1fr);column-gap:12px}}
+
+/* Predictable label/control spacing in both inline controls and form grids. */
+body label:has(>input),body label:has(>select),body label:has(>textarea){
+ display:inline-flex;align-items:center;gap:8px;vertical-align:middle;max-width:100%;box-sizing:border-box;
+}
+body .admin-form-grid>label,body .file-metadata-grid>label,body .file-input-field,body .record-body-field{
+ display:flex;flex-direction:column;align-items:stretch;gap:6px;
+}
+body .admin-form-grid>label:has(>input[type=checkbox]),body .admin-form-grid>label:has(>input[type=radio]){
+ flex-direction:row;align-items:center;
+}
+body label[for]{margin-inline-end:8px}
+body .toolbar,body .member-controls{gap:12px}
+body .admin-login-wrap .settings-panel{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+body .admin-login-wrap .settings-panel>label{gap:10px;margin:0}
+body .admin-login-wrap #admin-pin{width:210px;max-width:100%;margin:0}
+body .admin-login-wrap #admin-login-btn{margin:0}
+body .admin-login-wrap #admin-login-message{flex:0 0 100%;margin:0}
+/* Nested member groups use light dividers, rather than another outer panel. */
+body .member-gender-grid{gap:16px}
+body .member-gender-grid>.member-group{
+ border:1px solid #d9d4c8;border-top:1px solid #d9d4c8;border-radius:9px;
+ box-shadow:none;background:transparent;overflow:hidden;
+}
+body .member-gender-grid>.member-group>h2{
+ margin:0;padding:10px 12px;background:#f1f3ec;border:0;border-bottom:1px solid #d9d4c8;
+ color:#40553a;font-size:16px;line-height:1.5;
+}
+body .member-gender-grid>.member-group>h2 span{font-size:14px;color:#665e55}
+body .member-gender-grid .members-table{margin:0;width:100%}
+@media(max-width:400px){body .admin-login-wrap .settings-panel>label{flex-wrap:wrap}body .admin-login-wrap #admin-pin{width:min(210px,100%)}}
+
+/* Separate form contents from actions, as well as controls within each row. */
+:root{--form-label-gap:8px;--form-control-gap:12px;--form-action-gap:16px}
+body .toolbar,body .member-controls{display:flex;align-items:center;flex-wrap:wrap;gap:var(--form-control-gap)}
+body .admin-form-grid,body .file-metadata-grid{row-gap:12px;column-gap:12px}
+body .admin-form-grid+.btn,
+body .admin-form-grid+.toolbar,
+body .admin-form-grid+.form-actions,
+body .file-metadata-grid+.toolbar,
+body .settings-panel>textarea+.btn,
+body .settings-panel>input+.btn{margin-top:var(--form-action-gap)}
+body .settings-panel>label+.btn{margin-inline-start:var(--form-control-gap)}
+body .admin-login-wrap .settings-panel{display:flex;align-items:center;flex-wrap:wrap;gap:var(--form-control-gap)}
+body .admin-login-wrap .settings-panel>label{display:inline-flex;align-items:center;gap:10px;margin:0}
+body .admin-login-wrap #admin-login-btn{margin:0}
+
+/* Count belongs to the search toolbar, not a separate information row. */
+body .member-controls{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:12px}
+body .member-controls>label{margin:0;gap:8px}
+body .member-controls input,body .member-controls select{margin:0}
+body .member-controls>#member-count{margin:0 0 0 auto;flex:0 0 auto;white-space:nowrap;font-size:14px;line-height:1.5;color:#665e55}
+@media(max-width:480px){body .member-controls>label:first-child{flex:1 1 100%;min-width:0}body .member-controls #member-search{min-width:0;max-width:100%;flex:1 1 0}}
+
+/* List dividers consistently follow each row, including the final row. */
+body main .home-news-list,
+body main .simple-list,
+body main .news-record-list,
+body main .admin-record-list{border-top:0}
+body main .home-news-item,
+body main .record-row,
+body main .simple-list>li,
+body main .simple-list>.list-item,
+body main .admin-record-list>.admin-record,
+body main #about-history .history-item,
+body main .history-year-card li{
+ border-top:0;border-bottom:1px solid #ded4c4;
+}
+body main .home-news-item:first-child,
+body main .record-row:first-child,
+body main .simple-list>li:first-child,
+body main .admin-record-list>.admin-record:first-child,
+body main .history-year-card li:first-child{border-top:0}
+body main .home-news-item:last-child,
+body main .record-row:last-child,
+body main .simple-list>li:last-child,
+body main .simple-list>.list-item:last-child,
+body main .admin-record-list>.admin-record:last-child,
+body main #about-history .history-item:last-child,
+body main .history-year-card li:last-child{border-bottom:1px solid #ded4c4}
+body main .members-table tbody td,
+body main .admin-edit-table tbody td,
+body main .admin-table tbody td{border-top:0;border-bottom:1px solid #ded4c4}
+body main #record-file-candidates .record-material-option,
+body main #record-pending-files .record-pending-row{border-top:0;border-bottom:1px solid #ded4c4}
+
+/* Older page CSS hides the last row border: explicitly preserve it. */
+body main .simple-list.home-news-list>.home-news-item,
+body main .simple-list.home-news-list>.home-news-item:last-child,
+body main .simple-list>.record-row:last-child,
+body main .simple-list>li:last-child,
+body main .admin-record-list>.admin-record:last-child,
+body main #about-history .history-item:last-child,
+body main .history-year-card li:last-child{border-bottom:1px solid #ded4c4!important}
+body main .simple-list.home-news-list>.home-news-item{border-top:0!important}
+
+/* Mobile hamburger menu only: all desktop and content styles remain unchanged. */
+@media(max-width:820px){
+ body .topbar .main-nav.menu-open{
+  padding:12px 10px 16px;background:#f2f5ee;border:1px solid #b6c5ac;border-radius:14px;
+  box-shadow:0 8px 22px rgba(44,65,35,.12);scrollbar-width:thin;scrollbar-color:#a8b99c #f2f5ee;
+ }
+ body .topbar .main-nav.menu-open .nav-item{
+  margin:0 0 10px;padding:12px;background:#fffefa;border:1px solid #d2ddc9;
+  border-radius:11px;box-shadow:none;
+ }
+ body .topbar .main-nav.menu-open .nav-item:last-child{margin-bottom:0}
+ body .topbar .main-nav.menu-open .nav-group-heading{
+  display:flex;align-items:center;gap:8px;padding:0 2px 10px;margin:0;
+  color:#405b38;font-size:16px;font-weight:700;line-height:1.5;
+ }
+ body .topbar .main-nav.menu-open .nav-group-heading::before{
+  content:'';display:block;width:4px;height:17px;border-radius:3px;background:#78976b;flex:0 0 4px;
+ }
+ body .topbar .main-nav.menu-open .nav-submenu{
+  gap:8px;padding:0;border:0;background:transparent;box-shadow:none;
+ }
+ body .topbar .main-nav.menu-open .nav-sub-link{
+  min-height:48px;padding:10px 12px;margin:0;box-sizing:border-box;
+  background:#f8faf5;border:1px solid #c9d5be;border-radius:8px;
+  color:#333e2e;font-size:15px;font-weight:500;line-height:1.5;
+  text-decoration:none;box-shadow:none;white-space:normal;overflow-wrap:anywhere;
+ }
+ body .topbar .main-nav.menu-open .nav-sub-link:hover,
+ body .topbar .main-nav.menu-open .nav-sub-link:active,
+ body .topbar .main-nav.menu-open .nav-sub-link[aria-current=page]{background:#e3ecd9;border-color:#809d70;color:#2f4c27}
+ body .topbar .main-nav.menu-open .nav-sub-link:focus-visible{outline:2px solid #526c49;outline-offset:2px}
+ body .topbar .menu-toggle{min-width:44px;min-height:44px;border:1px solid #9fb18f;border-radius:10px;background:#f1f6eb;color:#405b38;box-shadow:none}
+ body .topbar .menu-toggle.open{background:#e3ecd9;border-color:#809d70;color:#405b38}
+}

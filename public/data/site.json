@@ -1,0 +1,22 @@
+{
+  "system_name": "CenterHub",
+  "site_title": "우경경로당 홈페이지",
+  "organization_name": "우경경로당",
+  "latest_period": "2025-2026",
+  "subtitle": "경로당 안내와 운영 기록을 한 곳에서 확인합니다.",
+  "updated": "2026-10-17",
+  "link_mode": "preview",
+  "preview_url": "",
+  "preview_link_label": "개발 미리보기",
+  "public_url": "",
+  "public_link_label": "공개 홈페이지",
+  "security_mode": "public_readonly",
+  "admin_login_path": "admin-login.html",
+  "admin_path": "admin/",
+  "content_protection": true,
+  "watermark_text": "열람용 · 무단복제금지",
+  "screenshot_notice": "공개 화면은 열람용입니다. 화면 캡처는 브라우저만으로 완전히 차단할 수 없습니다.",
+  "build_version": "1.1",
+  "product_name": "통합 운영·기록관리",
+  "architecture": "api-first-repository"
+}

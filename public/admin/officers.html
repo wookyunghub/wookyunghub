@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="../assets/css/app.css?v=1.3">
+  <title>임원·이사회 관리</title>
+</head>
+<body class="admin-page">
+<header class="topbar"><div class="wrap"><div class="brand-block"><a class="brand" data-brand href="../index.html">우경경로당</a><div class="small">관리자</div></div><nav class="top-actions"></nav></div></header>
+<main class="wrap page-wrap">
+  <section class="page-title"><span class="badge admin-badge">관리자</span><h1>임원·이사회 관리</h1><p>홈페이지 조직도와 다음 운영대장 발간에 사용할 임원명부를 함께 관리합니다.</p></section>
+  <section class="settings-panel">
+    <div class="section-heading-row"><div><h2>관리 원칙</h2><p class="section-help">일반 홈페이지에는 <b>직위·성명만</b> 공개합니다. 생년월일·연락처·주소·비고는 관리자 화면과 책자 발간 데이터에만 저장됩니다.</p></div><a class="btn" href="../ebook.html?ledger=2025-2026&doc=book1&page=21" target="_blank" rel="noopener">원본 명부 21쪽 보기</a></div>
+  </section>
+  <section class="settings-panel">
+    <div class="section-heading-row"><div><h2>경로당 임원</h2><p class="section-help">홈페이지 공개와 책자 포함 여부를 각각 선택할 수 있습니다.</p></div><button id="add-officer" class="btn">+ 행 추가</button></div>
+    <div class="admin-table-wrap admin-officer-table-wrap"><table class="admin-edit-table admin-officer-table"><thead><tr><th>직위</th><th>성명</th><th>생년월일</th><th>연락처</th><th>주소</th><th>비고</th><th>홈페이지</th><th>책자</th><th>순서</th></tr></thead><tbody id="officer-table"></tbody></table></div>
+  </section>
+  <section class="settings-panel">
+    <div class="section-heading-row"><div><h2>이사회 임원 <small>(운영위원)</small></h2><p class="section-help">같은 사람이 경로당 임원과 이사회에 중복될 수 있으며, 책자 형식에 맞춰 각각 관리합니다.</p></div><button id="add-board" class="btn">+ 행 추가</button></div>
+    <div class="admin-table-wrap admin-officer-table-wrap"><table class="admin-edit-table admin-officer-table"><thead><tr><th>직위</th><th>성명</th><th>생년월일</th><th>연락처</th><th>주소</th><th>비고</th><th>홈페이지</th><th>책자</th><th>순서</th></tr></thead><tbody id="board-table"></tbody></table></div>
+  </section>
+  <div class="admin-savebar"><span id="officers-msg" class="small"></span><a class="btn" href="../about.html#officers" target="_blank" rel="noopener">일반페이지 조직도 보기</a><button id="save-officers" class="btn primary">임원명부 저장</button></div>
+</main>
+<footer class="footer"><div class="wrap"><span data-brand>우경경로당</span> · CenterHub 관리자</div></footer>
+<script src="../assets/js/common.js?v=1.1"></script><script src="../assets/js/admin-auth.js?v=1.3"></script><script src="../assets/js/admin-officers.js?v=1.3"></script>
+</body></html>

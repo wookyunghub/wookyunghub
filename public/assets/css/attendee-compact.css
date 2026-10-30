@@ -1,0 +1,18 @@
+/* Scoped to the record editor attendance controls. */
+#meeting-attendee-panel{padding:14px;background:#faf8f4;border:1px solid #ded4c6;border-radius:10px}
+#meeting-attendee-panel summary{cursor:pointer;font-weight:600}
+#meeting-attendee-panel .attendee-help{margin:10px 0;color:#6d655c}
+#meeting-attendee-panel .attendee-toolbar{justify-content:flex-start;gap:8px;flex-wrap:wrap;margin:10px 0}
+#meeting-attendee-count{margin-left:auto;font-size:14px;font-weight:500}
+#meeting-attendee-panel .attendee-inactive-option{display:flex;flex-direction:row;align-items:center;gap:8px;margin:8px 0;font-size:14px}
+#meeting-attendee-panel .attendee-inactive-option input{width:16px;height:16px;margin:0}
+#meeting-attendee-panel .attendee-gender-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px}
+#meeting-attendee-panel .attendee-choice{display:flex;gap:6px;padding:6px 8px;min-height:34px;box-shadow:none;border:1px solid #ded4c6;border-radius:6px}
+#meeting-attendee-panel .attendee-choice small{display:none}
+#meeting-attendee-panel .attendee-choice:has(input:checked){background:#edf3e9;border-color:#849777}
+#meeting-attendee-panel .attendee-choice input{width:16px;height:16px;margin:0;flex-shrink:0}
+#meeting-attendee-panel .attendee-choice span{font-size:14px;overflow-wrap:anywhere}
+#meeting-attendee-panel .attendee-guest-names{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 0}
+#meeting-attendee-panel .attendee-guest-name{display:inline-block;padding:5px 12px;border:1px solid #ded4c6;border-radius:6px;background:#fff;font-size:14px}
+#meeting-attendee-message:empty{display:none}
+@media(max-width:650px){#meeting-attendee-count{flex-basis:100%;margin-left:0}#meeting-attendee-panel .attendee-picker{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}

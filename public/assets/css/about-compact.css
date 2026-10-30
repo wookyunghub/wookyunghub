@@ -1,0 +1,65 @@
+/* CenterHub 1.3.12: public about page compact layout */
+.page-wrap{padding-top:12px;padding-bottom:18px}
+.page-title{padding:12px 0 5px;margin-bottom:8px}
+.page-title h1{font-size:29px;margin:3px 0 5px;line-height:1.25}
+.page-title p{font-size:14px;line-height:1.4}
+.content-panel{padding:17px 20px;margin:10px 0;border-radius:13px}
+.content-panel>h2,.content-panel .facility-header h2{font-size:21px;margin:0 0 10px;line-height:1.3}
+.facts-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.facts-grid>.fact-card{min-width:0;padding:10px 13px;border-radius:10px}
+.fact-card small{font-size:12px;margin-bottom:3px}
+.fact-main{display:flex;align-items:center;flex-wrap:wrap;gap:5px 12px}
+.fact-main>strong{font-size:16px;line-height:1.35}
+.fact-badges{display:inline-flex;flex-wrap:wrap;gap:4px;align-items:center}
+.fact-badge{border:1px solid #d6e3ed;background:#eaf2f9;border-radius:999px;color:#315779;font-size:11px;font-weight:700;padding:2px 7px;white-space:nowrap}
+.history-heading{gap:12px;margin-bottom:2px;align-items:center}
+.history-heading h2{font-size:21px;margin-bottom:2px}
+.history-note,.section-help{font-size:12.5px;line-height:1.4}
+.history-timeline{margin-top:4px}
+.history-timeline .history-item{grid-template-columns:112px minmax(0,1fr);gap:12px;padding:8px 0}
+.history-copy strong{font-size:14px;margin-bottom:2px}
+.history-copy p{font-size:12.5px;line-height:1.4}
+.history-actions{display:flex;justify-content:center;margin-top:10px}
+.history-actions[hidden]{display:none}
+.history-actions .btn{font-size:13px;padding:7px 15px}
+.organization-sections{gap:10px;margin-top:10px}
+.organization-block{padding:12px;border-radius:11px}
+.organization-block h3{font-size:16px;margin-bottom:10px}
+.org-node{padding:7px 9px;min-width:108px;border-radius:9px}
+.org-node strong{font-size:14px}
+.org-connector{height:14px}
+.section-heading-row{margin-top:0}
+.facility-header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.facility-header h2{margin:0!important}
+.facility-header .btn{font-size:12.5px;padding:7px 10px}
+.tag-list{gap:6px}.tag-list span{padding:5px 9px;font-size:12px}
+.facility-plan{display:flex;gap:13px;align-items:center;border-top:1px solid #edf0f3;margin-top:12px;padding-top:12px}
+.facility-plan-thumb{width:180px;height:108px;flex:0 0 auto;background:#f8f3ee;border:1px solid #d8c4b0;border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease}.facility-plan-thumb:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(97,70,50,.12)}.facility-plan-thumb:focus-visible{outline:2px solid #8f6655;outline-offset:3px}
+.facility-plan img{width:100%;height:100%;object-fit:contain}
+.facility-plan-meta{display:flex;flex-direction:column;gap:3px;font-size:13px}
+.facility-plan-meta span,.facility-plan-meta small{color:#63758a}
+.address-line{font-size:16px;margin:6px 0}
+.page-wrap>.content-panel[id]{scroll-margin-top:14px}
+@media(max-width:900px){.facts-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.content-panel{padding:14px}.facts-grid{grid-template-columns:1fr}.history-heading{align-items:flex-start;flex-direction:column}.history-timeline .history-item{grid-template-columns:1fr;gap:2px}.facility-plan-thumb{width:120px;height:82px}.facility-plan-meta small{font-size:11px}}
+
+.photo-viewer{width:min(1120px,calc(100vw - 32px));max-width:1120px;border:none;border-radius:18px;padding:0;background:#fff9f4;box-shadow:0 24px 60px rgba(58,40,28,.28)}
+.photo-viewer::backdrop{background:rgba(55,36,24,.52)}
+.photo-viewer-head{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:18px 20px 8px;border-bottom:1px solid #ead9c8}.photo-viewer-head strong{display:block;font-size:22px;color:#513d31}.photo-viewer-head small{display:block;margin-top:4px;color:#7d6a5c}.photo-viewer-actions{display:flex;gap:8px;flex-wrap:wrap}
+.photo-viewer-toolbar{display:flex;gap:8px;flex-wrap:wrap;padding:12px 20px;border-bottom:1px solid #ead9c8;background:#fffdfb}.photo-viewer-toolbar .btn,.photo-viewer-actions .btn{border-color:#d7bda9;color:#6a4e3f;background:#fff}.photo-viewer-stage{display:flex;align-items:center;justify-content:center;min-height:58vh;max-height:72vh;overflow:auto;padding:18px 20px;background:linear-gradient(180deg,#fcf7f2,#f7efe7)}.photo-viewer-stage img{max-width:100%;height:auto;transform-origin:center center;transition:transform .18s ease;box-shadow:0 10px 24px rgba(63,46,32,.18);background:#fff}.photo-viewer-help{margin:0;padding:0 20px 18px;color:#7a6a5d;font-size:13px}.photo-viewer[open]{display:flex;flex-direction:column}
+@media(max-width:760px){.photo-viewer{width:calc(100vw - 16px)}.photo-viewer-head{flex-direction:column;align-items:flex-start}.photo-viewer-stage{min-height:42vh;max-height:58vh;padding:12px}.photo-viewer-toolbar,.photo-viewer-actions{width:100%}.photo-viewer-toolbar .btn,.photo-viewer-actions .btn{flex:1 1 calc(50% - 8px)}.facility-plan-thumb{width:120px;height:82px}}
+
+/* CenterHub 2.8 시설안내: 평면도와 시설 수량을 균형 있게 배치 */
+#facilities .facility-plan{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center;gap:26px;padding-top:18px}
+#facilities .facility-plan-thumb{width:100%;height:auto;min-height:240px;aspect-ratio:968/685;background:#fffaf6;padding:10px;border:1px solid #dfcbb8}
+#facilities .facility-plan-thumb img{width:100%;height:100%;object-fit:contain}
+#facilities .facility-plan-info{min-width:0;align-self:stretch;display:flex;align-items:center}
+#facilities .facility-plan-info-row{width:100%;display:flex;gap:18px;align-items:flex-start;justify-content:space-between}
+#facilities .facility-plan-meta{flex:1 1 48%;min-width:0;gap:8px}
+#facilities .facility-plan-meta strong{font-size:18px;color:#684a3b}
+#facilities .facility-plan-meta span{font-size:13px;color:#967660}
+#facilities .facility-plan-meta small{line-height:1.65;color:#826f60}
+#facilities .facility-summary{flex:0 1 45%;display:flex;flex-direction:column;flex-wrap:nowrap;align-items:flex-start;justify-content:flex-start;gap:8px;margin:0}
+#facilities .facility-summary>*{margin:0;white-space:nowrap;background:#f6e9da;color:#724c39;border:1px solid #ead1b8;padding:7px 10px;border-radius:999px;font-size:13px;font-weight:600}
+@media(max-width:800px){#facilities .facility-plan{grid-template-columns:1fr;gap:16px}#facilities .facility-plan-thumb{min-height:0}#facilities .facility-plan-info-row{align-items:center}#facilities .facility-summary{flex-basis:50%}}
+@media(max-width:480px){#facilities .facility-plan-info-row{flex-direction:column;gap:12px}#facilities .facility-summary{width:100%;justify-content:flex-start}}

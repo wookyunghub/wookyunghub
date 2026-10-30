@@ -1,0 +1,7 @@
+(async()=>{
+const $=id=>document.getElementById(id);let data={};
+try{const response=await fetch('../api/admin/data?name=site',{credentials:'same-origin',cache:'no-store'});if(!response.ok)throw Error('기본설정을 불러오지 못했습니다.');data=await response.json();}catch(error){$('s-msg').textContent=error.message;$('s-save').disabled=true;return;}
+const fields={'s-org':'organization_name','s-parent':'parent_organization','s-branch':'branch_name','s-period':'latest_period','s-title':'site_title','s-mode':'link_mode','s-public':'public_url'};
+for(const [id,key] of Object.entries(fields))$(id).value=data[key]||(key==='link_mode'?'preview':'');
+$('s-save').onclick=async()=>{if(!$('s-org').value.trim()){$('s-msg').textContent='조직명을 입력해 주세요.';return;}$('s-save').disabled=true;try{const updated={...data};for(const [id,key] of Object.entries(fields))updated[key]=$(id).value.trim();const response=await fetch('../api/admin/data',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({name:'site',data:updated})});const result=await response.json();if(!response.ok||result.ok!==true)throw Error(result.error||'저장 실패');data=updated;$('s-msg').textContent='';window.alert('기본설정을 저장했습니다.');window.location.assign('index.html');}catch(error){$('s-msg').textContent=error.message;}finally{$('s-save').disabled=false;}};
+})();

@@ -1,0 +1,188 @@
+{
+  "documents": {
+    "summary": {
+      "title": "총편·운영지침",
+      "description": "운영관리대장 전체 구성, 대한노인회 운영지침, 노인강령, 경로헌장",
+      "page_count": 6,
+      "image_base": "../assets/docs/summary",
+      "source_name": "0. 경로당 총편.pdf",
+      "sections": [
+        {
+          "title": "운영관리대장 전체 구성",
+          "page": 1
+        },
+        {
+          "title": "대한노인회 운영지침·노인강령",
+          "page": 3
+        },
+        {
+          "title": "경로헌장",
+          "page": 5
+        }
+      ]
+    },
+    "book1": {
+      "title": "운영관리대장 본책 1",
+      "description": "제1편 기본사항, 제2편 재산·금융, 제3편 행정·행사·회의 전반부",
+      "page_count": 94,
+      "image_base": "../assets/docs/book1",
+      "source_name": "1. 경로당대장(1).pdf",
+      "sections": [
+        {
+          "title": "제1편 기본사항",
+          "page": 1
+        },
+        {
+          "title": "2025-26년도 경로당 카드·평면도",
+          "page": 5
+        },
+        {
+          "title": "건물명칭 변경·주소 안내",
+          "page": 6
+        },
+        {
+          "title": "노인복지시설 설치신고확인증",
+          "page": 9
+        },
+        {
+          "title": "고유번호증",
+          "page": 11
+        },
+        {
+          "title": "연혁",
+          "page": 13
+        },
+        {
+          "title": "회장등록증",
+          "page": 19
+        },
+        {
+          "title": "임원·이사회 명부",
+          "page": 21
+        },
+        {
+          "title": "회원명부",
+          "page": 22
+        },
+        {
+          "title": "제2편 재산·금융",
+          "page": 25
+        },
+        {
+          "title": "부동산 목록·평면도",
+          "page": 27
+        },
+        {
+          "title": "등기·건축물 관련자료",
+          "page": 29
+        },
+        {
+          "title": "제3편 행정·행사·회의",
+          "page": 45
+        },
+        {
+          "title": "결산서·금전출납",
+          "page": 47
+        },
+        {
+          "title": "경비집행 실무 예시자료",
+          "page": 61
+        },
+        {
+          "title": "회의·참석자·사진자료",
+          "page": 70
+        }
+      ]
+    },
+    "book2": {
+      "title": "운영관리대장 본책 2",
+      "description": "회의·행사기록, 시설·비품관리대장, 정관·규정 참고자료",
+      "page_count": 76,
+      "image_base": "../assets/docs/book2",
+      "source_name": "2. 경로당대장2.pdf",
+      "sections": [
+        {
+          "title": "회의·행사기록 및 관련자료",
+          "page": 1
+        },
+        {
+          "title": "정기·임시총회 회의록",
+          "page": 2
+        },
+        {
+          "title": "2025 경로당 행사·회의 기록부",
+          "page": 15
+        },
+        {
+          "title": "행사·사진자료",
+          "page": 19
+        },
+        {
+          "title": "시설·비품 관리대장",
+          "page": 23
+        },
+        {
+          "title": "시설·비품 목록",
+          "page": 25
+        },
+        {
+          "title": "제5편 정관·규정 참고일반",
+          "page": 55
+        },
+        {
+          "title": "경로당 운영규정",
+          "page": 57
+        },
+        {
+          "title": "운영규정 시행규칙(세칙)",
+          "page": 69
+        },
+        {
+          "title": "여비규정",
+          "page": 73
+        },
+        {
+          "title": "공무원 여비규정 참고",
+          "page": 75
+        }
+      ]
+    }
+  },
+  "main_menu": [
+    {
+      "title": "기본사항",
+      "desc": "현황카드·연혁·증명서·임원·회원명부",
+      "href": "docs/book1.html?page=1#p1",
+      "badge": "현 운영대장",
+      "period": "2025-2026"
+    },
+    {
+      "title": "재산 / 금융",
+      "desc": "부동산·등기·시설재산·금전출납 자료",
+      "href": "docs/book1.html?page=25#p25",
+      "badge": "현 운영대장",
+      "period": "2025-2026"
+    },
+    {
+      "title": "행정 / 행사 / 회의",
+      "desc": "회의록·행사기록·경비집행·사진자료",
+      "href": "docs/book1.html?page=45#p45",
+      "badge": "현 운영대장",
+      "period": "2025-2026"
+    },
+    {
+      "title": "시설 / 비품관리",
+      "desc": "시설·비품 관리대장 및 사진자료",
+      "href": "docs/book2.html?page=23#p23",
+      "badge": "현 운영대장",
+      "period": "2025-2026"
+    },
+    {
+      "title": "규정 / 참고자료",
+      "desc": "운영규정·시행규칙·여비규정 등",
+      "href": "docs/book2.html?page=55#p55",
+      "badge": "현 운영대장",
+      "period": "2025-2026"
+    }
+  ]
+}

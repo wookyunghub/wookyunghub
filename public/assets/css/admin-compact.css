@@ -1,0 +1,31 @@
+/* Shared admin heading and record-editor density. Publication workflow unchanged. */
+.admin-page .page-wrap{max-width:1180px;width:calc(100% - 36px);box-sizing:border-box;padding-top:14px}
+.admin-page .admin-compact-heading{display:flex!important;align-items:center;gap:10px 18px;flex-wrap:wrap;margin:0 0 14px!important;padding:0!important;min-width:0}
+.admin-page .admin-compact-heading h1{font-size:25px!important;line-height:1.25;margin:0!important;flex:0 0 auto}
+.admin-page .admin-compact-heading .admin-heading-description{flex:1 1 180px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px!important;line-height:1.5;margin:0!important;color:#8c7462}
+.admin-heading-actions{display:flex;align-items:center;gap:7px;flex:0 0 auto;margin-left:auto;flex-wrap:wrap}
+.admin-page .admin-heading-actions .btn{padding:7px 11px;font-size:13px;white-space:nowrap}
+.admin-page .settings-panel{padding:16px;margin-bottom:12px}
+.admin-page .settings-panel h2{font-size:20px;margin:0 0 10px}
+.admin-page .file-upload-panel:has(#file-form-body[hidden]){display:none}
+#record-editor>p,#record-editor-heading{display:none}
+#record-editor .admin-form-grid{grid-template-columns:repeat(12,minmax(0,1fr));gap:9px 12px;align-items:start}
+#record-editor .admin-form-grid>label{grid-column:span 3;font-size:13px;gap:4px;min-width:0}
+#record-editor .admin-form-grid>.wide{grid-column:1/-1}
+#record-editor input:not([type=checkbox]),#record-editor select{min-width:0;width:100%;box-sizing:border-box;height:34px;padding:5px 8px;font-size:13px}
+#record-editor textarea{width:100%;box-sizing:border-box;min-width:0;padding:8px;font-size:14px;line-height:1.65;resize:vertical}
+#record-editor #record-recorder-field small,#record-editor .record-body-field>small{display:none}
+#record-editor #record-extra-fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px 12px;border:0;background:transparent}
+#record-editor #record-extra-fields label{min-width:0;display:flex;flex-direction:column;gap:4px;font-size:13px;padding:0;background:transparent;border:0}
+#record-editor #record-extra-fields label:last-child:has(textarea){grid-column:1/-1}
+#record-editor #record-extra-fields label:has([data-extra=decisions]){grid-column:1/-1}
+#record-editor #record-extra-fields small{display:none}
+#record-editor #record-extra-fields textarea{min-height:90px}
+#record-editor #record-body{min-height:320px}
+#record-editor.meeting-editor #record-body{min-height:440px;font-size:15px}
+#record-editor .record-tool{padding:9px 11px;margin:0}
+#record-list-panel>.section-heading-row,#record-list-panel>.toolbar:empty{display:none}
+#record-list-panel>#record-list-message:empty{display:none}
+@media(max-width:850px){.admin-page .admin-compact-heading .admin-heading-description{order:3;flex-basis:100%;font-size:12px!important}.admin-heading-actions{max-width:65%}#record-editor .admin-form-grid>label{grid-column:span 6}#record-editor .admin-form-grid>.wide{grid-column:1/-1}#record-editor #record-extra-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.admin-page .page-wrap{width:calc(100% - 20px)}.admin-page .admin-compact-heading h1{font-size:21px!important}.admin-heading-actions{max-width:100%;margin-left:0}.admin-page .settings-panel{padding:12px}#record-editor.meeting-editor #record-body{min-height:360px}}
+.admin-page [hidden]{display:none!important}

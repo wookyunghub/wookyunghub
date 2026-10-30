@@ -1,0 +1,10 @@
+body .file-edit-dialog{width:min(840px,calc(100vw - 32px));box-sizing:border-box;padding:20px}
+body .file-edit-dialog>h2{font-size:20px;line-height:1.4;margin:0 0 16px}
+body .file-edit-dialog .file-edit-form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;gap:12px}
+body .file-edit-dialog .file-edit-form>label{display:flex;flex-direction:column;align-items:stretch;gap:6px;min-width:0;margin:0}
+body .file-edit-dialog .file-edit-form input,body .file-edit-dialog .file-edit-form select,body .file-edit-dialog .file-edit-form textarea{width:100%;min-width:0;box-sizing:border-box;margin:0}
+body .file-edit-dialog .file-edit-description{grid-column:1/span 2}
+body .file-edit-dialog .file-edit-description textarea{min-height:76px;resize:vertical}
+body .file-edit-dialog .file-edit-actions{grid-column:3;display:flex;align-self:end;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:12px;margin:0;padding:0 0 1px}
+body .file-edit-dialog .file-edit-actions .btn{margin:0;min-height:38px}
+@media(max-width:600px){body .file-edit-dialog .file-edit-form{grid-template-columns:1fr}body .file-edit-dialog .file-edit-description,body .file-edit-dialog .file-edit-actions{grid-column:1}}

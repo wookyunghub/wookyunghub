@@ -1,0 +1,13 @@
+.admin-home-page .admin-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:16px}
+body.admin-home-page .admin-card-grid>a,body.admin-home-page .admin-card-grid>.admin-card-button{position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;min-width:0;min-height:112px;padding:18px 42px 18px 20px;box-sizing:border-box;text-align:left;background:#fffefa;border:1px solid #b8c8ac;border-left:4px solid #819a7b;border-radius:12px;box-shadow:0 3px 10px rgba(58,76,40,.06);text-decoration:none;color:#35472e;font:inherit}
+body.admin-home-page .admin-card-grid b{font-size:18px;line-height:1.4;color:#40553a}
+body.admin-home-page .admin-card-grid span{font-size:14px;line-height:1.6;color:#625e54;overflow-wrap:anywhere}
+body.admin-home-page .admin-card-grid>a::after{content:'›';position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:25px;color:#71896a}
+body.admin-home-page .admin-card-grid>a:hover{background:#eef4e7;border-color:#819a7b}
+body.admin-home-page .admin-card-grid>a:focus-visible,body.admin-home-page .admin-card-grid>.admin-card-button:focus-visible{outline:3px solid #799785;outline-offset:3px}
+body.admin-home-page .admin-card-grid>.admin-card-button{border-color:#cbb9a6;border-left-color:#a89b88;background:#f6f3ed;cursor:pointer}
+body.admin-home-page .admin-card-grid>.admin-card-button:hover{background:#ece6db}
+@media(max-width:900px){.admin-home-page .admin-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:580px){.admin-home-page .admin-card-grid{grid-template-columns:1fr;gap:12px}body.admin-home-page .admin-card-grid>a,body.admin-home-page .admin-card-grid>.admin-card-button{min-height:92px;padding:15px 38px 15px 16px}}
+
+body.admin-home-page .admin-card-grid>[data-feature][hidden]{display:none!important}

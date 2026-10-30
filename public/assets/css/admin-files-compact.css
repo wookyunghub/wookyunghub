@@ -1,0 +1,32 @@
+/* CenterHub 1.3.15: compact files admin */
+.admin-page .page-wrap{padding-top:10px}.admin-page .page-title{padding:6px 0;margin-bottom:10px}.admin-page .page-title h1{font-size:26px;margin:0 0 3px}.admin-page .page-title p{font-size:13px;margin:0}.admin-page .settings-panel{padding:14px 18px;margin:10px 0}.file-form-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.file-form-head h2{font-size:18px;margin:0}.file-upload-panel .admin-form-grid{margin-top:12px;gap:9px}.file-upload-panel textarea{min-height:55px}.file-upload-panel .toolbar{margin-top:8px}.file-cards{display:grid;gap:7px;margin-top:10px}.file-item{border:1px solid #dce4ee;background:#fff;border-radius:10px;display:grid;grid-template-columns:86px minmax(0,1fr) auto;gap:11px;padding:8px;align-items:center}.file-preview{width:86px;height:66px;padding:0;background:#f2f5f8;border:1px solid #e4e8ee;border-radius:7px;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center}.file-preview img{width:100%;height:100%;object-fit:cover}.file-type-icon{font-size:14px;color:#52667e;font-weight:800}.file-type-icon.pdf{color:#ab302f}.file-item-body{min-width:0}.file-item-title{background:transparent;border:0;padding:0;text-align:left;font-weight:700;font-size:14px;cursor:pointer;color:#1c3451}.file-item-body small{display:block;font-size:12px;color:#6c7c90;margin-top:2px}.file-item-body p{font-size:12px;color:#657587;margin:3px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.file-item-actions{display:flex;gap:5px}.file-item-actions .btn{padding:6px 9px;font-size:12px}.file-dialog{width:min(840px,94vw);max-height:90vh;overflow:auto;border:1px solid #dce4ee;border-radius:14px;padding:17px 20px;background:#fff;color:#172b45}.file-dialog::backdrop{background:rgba(8,21,38,.6)}.file-dialog-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.file-dialog-head h2{font-size:20px;margin:0}.file-detail-meta{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.file-detail-meta span{font-size:12px;border-radius:6px;background:#edf3f9;padding:4px 7px}.file-detail-desc{white-space:pre-wrap;font-size:14px}.file-detail-media{text-align:center;background:#f5f6f8;border-radius:8px;margin:12px 0;min-height:90px}.file-full-image{max-width:100%;max-height:65vh;object-fit:contain}.file-pdf-view{width:100%;height:60vh;border:0}@media(max-width:660px){.file-item{grid-template-columns:70px minmax(0,1fr)}.file-preview{width:70px;height:60px}.file-item-actions{grid-column:1/-1;justify-content:flex-end}}
+
+/* v5.16: compact registration; publication selection deferred to publishing. */
+#file-form-body .admin-form-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:8px 12px;margin-top:0;align-items:end}
+#file-form-body .admin-form-grid>label{grid-column:span 3;min-width:0;font-size:14px;gap:4px}
+#file-form-body .admin-form-grid>.file-title-field{grid-column:span 4}
+#file-form-body .admin-form-grid>.file-description-field{grid-column:span 8}
+#file-form-body .admin-form-grid>.file-input-field{grid-column:span 10}
+#file-form-body input,#file-form-body select{min-width:0;width:100%;box-sizing:border-box;height:34px;padding:5px 8px;font-size:14px}
+#file-form-body textarea{width:100%;box-sizing:border-box;min-height:58px;padding:5px 8px;font-size:14px;line-height:1.5;resize:vertical}
+#file-form-body input[type=file]{height:36px;font-size:13px}
+#file-form-body .file-upload-action{grid-column:span 2;margin:0;justify-content:flex-end}
+#file-form-body .file-upload-action .btn{white-space:nowrap;min-height:36px;padding:6px 12px;font-size:14px}
+#file-msg:empty{display:none}
+.admin-page .panel-title:has(#file-filter){display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px 14px;align-items:center}
+.admin-page .panel-title:has(#file-filter) h2{margin:0 auto 0 0}
+.admin-page .panel-title:has(#file-filter) label{display:flex;align-items:center;gap:6px;font-size:14px}
+#file-filter,#file-role-filter{font-size:14px;height:34px;padding:5px 8px;max-width:170px}
+@media(max-width:700px){#file-form-body .admin-form-grid>label{grid-column:span 6}#file-form-body .admin-form-grid>.file-title-field,#file-form-body .admin-form-grid>.file-description-field{grid-column:1/-1}#file-form-body .admin-form-grid>.file-input-field{grid-column:span 9}#file-form-body .file-upload-action{grid-column:span 3}}
+@media(max-width:420px){#file-form-body .admin-form-grid>.file-input-field{grid-column:1/-1}#file-form-body .file-upload-action{grid-column:1/-1}}
+/* v5.17: one type selector, minimal inputs, one central file manager. */
+#file-form-body>.admin-form-grid{grid-template-columns:160px 130px minmax(0,1fr) auto;align-items:end}
+#file-form-body>.admin-form-grid>label,#file-form-body>.admin-form-grid>.file-input-field,#file-form-body>.admin-form-grid>.file-upload-action{grid-column:auto}
+@media(max-width:700px){#file-form-body>.admin-form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#file-form-body>.admin-form-grid>.file-input-field{grid-column:1/-1}#file-form-body>.admin-form-grid>.file-upload-action{grid-column:1/-1}}
+
+/* v5.18: visible title/date row, description directly below. */
+#file-form-body .file-metadata-grid{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:8px 12px;margin-top:10px;align-items:end}
+#file-form-body .file-metadata-grid>label{display:flex;flex-direction:column;gap:4px;min-width:0;font-size:14px;font-weight:700}
+#file-form-body .file-metadata-grid>.file-description-field{grid-column:1/-1}
+@media(max-width:560px){#file-form-body .file-metadata-grid{grid-template-columns:minmax(0,1fr) minmax(130px,36%)}}
+@media(max-width:360px){#file-form-body .file-metadata-grid{grid-template-columns:1fr}}
