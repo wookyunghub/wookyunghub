@@ -4,7 +4,30 @@
   const q=new URLSearchParams(location.search),id=q.get('id')||'',fromAdmin=q.get('from')==='admin';
   back.href=fromAdmin?'admin/records.html':q.has('page')?`news-list.html?page=${encodeURIComponent(q.get('page'))}`:'news-list.html';
   back.textContent=fromAdmin?'← 통합 기록 관리':'← 목록으로';
-  async function get(path){const r=await fetch(path,{credentials:'same-origin',cache:'no-store'});if(!r.ok)throw Error(r.status===401?'관리자 로그인이 필요합니다.':'상세정보를 불러오지 못했습니다.');return r.json();}
+  async function get(path){
+    const clean = String(path).replace(/^\/+/,'').split('?')[0];
+    if (clean.includes('admin/status')) {
+      try {
+        const r = await fetch(path, {credentials:'same-origin', cache:'no-store'});
+        if (r.ok && (r.headers.get('content-type')||'').toLowerCase().includes('application/json')) return await r.json();
+      } catch(e){}
+      return { authenticated: false };
+    }
+    try {
+      const r = await fetch(path, {credentials:'same-origin', cache:'no-store'});
+      if (r.ok && (r.headers.get('content-type')||'').toLowerCase().includes('application/json')) return await r.json();
+    } catch(e){}
+
+    if (clean.includes('records')) {
+      const fr = await fetch('data/records.json', {cache:'no-store'});
+      if (fr.ok) return await fr.json();
+    }
+    if (clean.includes('resources') || clean.includes('files')) {
+      const fr = await fetch('data/resources.json', {cache:'no-store'});
+      if (fr.ok) return await fr.json();
+    }
+    throw Error('상세정보를 불러오지 못했습니다.');
+  }
   try{
   const C=window.CenterHubCommon;await C.siteReady;
   let authenticated=false;try{authenticated=!!(await get('api/admin/status')).authenticated;}catch(e){if(fromAdmin)throw e;}

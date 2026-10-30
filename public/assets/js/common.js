@@ -13,6 +13,7 @@
     'api/public/ledgers': 'data/ledgers.json',
     'api/public/documents': 'data/documents.json',
     'api/public/members': 'data/members.json',
+    'api/public/records': 'data/records.json',
     'api/public/publications': 'data/ledgers.json',
     'api/public/history': 'data/about.json'
   };
