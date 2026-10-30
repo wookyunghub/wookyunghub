@@ -1,7 +1,7 @@
 (function(){
   function getRoot(){const s=document.currentScript;return (!s||!s.src)?new URL('./',location.href).href:new URL('../../',s.src).href}
   const root=getRoot(), BUILD_VERSION='1.1';
-  const DEFAULT_SITE={organization_name:'우경경로당',site_title:'경로당 홈페이지',latest_period:'2025-2026',link_mode:'preview',preview_url:'',content_protection:true,watermark_text:'열람용 · 무단복제금지'};
+  const DEFAULT_SITE={organization_name:'우경경로당',site_title:'경로당 홈페이지',latest_period:'2025-2026',link_mode:'none',preview_url:'',content_protection:true,watermark_text:'열람용 · 무단복제금지'};
   const u=p=>new URL(p,root).href;const noCache=url=>{const x=new URL(url);x.searchParams.set('_',Date.now());return x.href};
   async function loadJson(path,fallback=null){try{const r=await fetch(noCache(u(path)),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return await r.json()}catch(e){console.warn('[CenterHub]',path,e);return fallback}}
   const API_STATIC_FALLBACKS = {
