@@ -34,8 +34,8 @@
       }
     }catch(e){}
     try{
-      const r2=await fetch('../data/resources.json',{cache:'no-store'});
-      if(r2.ok){
+      const r2=await fetch('../api/public/resources',{cache:'no-store'});
+      if(r2.ok&&(r2.headers.get('content-type')||'').toLowerCase().includes('application/json')){
         data=await r2.json();
         render();
         return;
@@ -43,8 +43,16 @@
     }catch(e){}
     try{
       const r3=await fetch('https://wookyunghub.pythonanywhere.com/api/public/resources',{cache:'no-store'});
-      if(r3.ok){
+      if(r3.ok&&(r3.headers.get('content-type')||'').toLowerCase().includes('application/json')){
         data=await r3.json();
+        render();
+        return;
+      }
+    }catch(e){}
+    try{
+      const r4=await fetch('../data/resources.json',{cache:'no-store'});
+      if(r4.ok){
+        data=await r4.json();
         render();
         return;
       }

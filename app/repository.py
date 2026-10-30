@@ -34,6 +34,14 @@ class JsonRepository:
     def write(self,name,obj):
         p=self.data/f'{name}.json';p.parent.mkdir(parents=True,exist_ok=True)
         tmp=p.with_suffix('.json.tmp');tmp.write_text(json.dumps(obj,ensure_ascii=False,indent=2),encoding='utf-8');os.replace(tmp,p)
+        pub_p=self.root/'public/data'/f'{name}.json'
+        if pub_p.parent.exists():
+            pub_tmp=pub_p.with_suffix('.json.tmp')
+            try:
+                pub_tmp.write_text(json.dumps(obj,ensure_ascii=False,indent=2),encoding='utf-8')
+                os.replace(pub_tmp,pub_p)
+            except Exception:
+                pass
 
     def organization_data(self,organization=None):
         org=dict(organization if organization is not None else self.read('organization',{}))

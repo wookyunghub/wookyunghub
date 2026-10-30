@@ -169,14 +169,22 @@ async function loadFiles(){
   } catch(e){}
   if(!d || (!d.documents?.length && !d.photos?.length)){
     try {
-      const r2 = await fetch('../data/resources.json',{cache:'no-store'});
-      if(r2.ok) d = await r2.json();
+      const r2 = await fetch('../api/public/resources',{cache:'no-store'});
+      if(r2.ok && (r2.headers.get('content-type')||'').toLowerCase().includes('application/json')){
+        d = await r2.json();
+      }
     } catch(e){}
   }
   if(!d || (!d.documents?.length && !d.photos?.length)){
     try {
       const r3 = await fetch('https://wookyunghub.pythonanywhere.com/api/public/resources',{cache:'no-store'});
       if(r3.ok) d = await r3.json();
+    } catch(e){}
+  }
+  if(!d || (!d.documents?.length && !d.photos?.length)){
+    try {
+      const r4 = await fetch('../data/resources.json',{cache:'no-store'});
+      if(r4.ok) d = await r4.json();
     } catch(e){}
   }
   if(!d) throw Error('자료 목록을 불러오지 못했습니다.');
@@ -272,7 +280,33 @@ $('record-save').onclick=async()=>{if(recordSaving)return;if(!filesLoaded&&editi
  finally{recordSaving=false;$('record-editor').inert=false;}
 };
 function showRecordView(editing){const heading=document.querySelector('.admin-compact-heading h1');if(heading)heading.textContent=noticeMode?(editing?(editId?'공지 수정':'공지 등록'):'공지사항 관리'):(editing?(editId?'기록 수정':'기록 등록'):'통합 기록 관리');document.querySelector('.admin-heading-actions [href$=".html?new=1"]')?.toggleAttribute('hidden',editing);document.querySelector('.admin-heading-actions [href$=".html"]')?.toggleAttribute('hidden',!editing);$('record-editor').hidden=!editing;$('record-list-panel').hidden=editing;$('meeting-import-panel').hidden=editing||noticeMode;}
-function editRecord(x){reset();if($('record-history-excluded'))$('record-history-excluded').checked=x.history_excluded===true;showRecordView(true);editingRecord=x;mod.value=noticeMode?'notice':recordType(x.module);editId=x.id;showRecorder();recorder.value=x.recorder||x.recorded_by||x.extra?.recorder||'';setRecordDate(x.date);title.value=x.title||'';body.value=x.body||'';pub.value=String(!!x.public);tags.value=(x.tags||[]).join(', ');drawExtra(x.extra||{});selectedAttendees=new Set((x.extra||{}).attendee_ids||[]);manualInput.value=((x.extra||{}).attendee_manual_names||[]).join(', ');originalParticipantText=(x.extra||{}).participants||'';attendeeTouched=false;attendeeSearch.value='';renderAttendees();[...att.options].forEach(o=>o.selected=!!o.value&&(x.attachments||[]).includes(o.value));updateAttachmentPreview();window.scrollTo({top:0,behavior:'smooth'})}
+function editRecord(x){reset();if($('record-history-excluded'))$('record-history-excluded').checked=x.history_excluded===true;showRecordView(true);editingRecord=x;mod.value=noticeMode?'notice':recordType(x.module);editId=x.id;showRecorder();recorder.value=x.recorder||x.recorded_by||x.extra?.recorder||'';setRecordDate(x.date);title.value=x.title||'';body.value=x.body||'';pub.value=String(!!x.public);tags.value=(x.tags||[]).join(', ');drawExtra(x.extra||{});selectedAttendees=new Set((x.extra||{}).attendee_ids||[]);manualInput.value=((x.extra||{}).attendee_manual_names||[]).join(', ');originalParticipantText=(x.extra||{}).participants||'';attendeeTouched=false;attendeeSearch.value='';renderAttendees();
+  const existingOptionsMap=new Map([...att.options].map(o=>[o.value,o]));
+  const attachments=Array.isArray(x.attachments)?x.attachments:[];
+  for(const attKey of attachments){
+    if(!attKey)continue;
+    if(!existingOptionsMap.has(attKey)){
+      const parts=attKey.split(':');
+      const kind=parts[0]||'documents';
+      const id=parts[1]||attKey;
+      const placeholderItem={
+        id,
+        name: id,
+        title: id,
+        url: `/media/${kind==='photos'?'public/photos':'public/documents'}/${id}`+(kind==='photos'?'.jpg':'.pdf'),
+        public: true,
+        attachment_role: ''
+      };
+      fileIndex.set(attKey,placeholderItem);
+      const opt=attachmentOption(kind,placeholderItem);
+      att.add(opt);
+      existingOptionsMap.set(attKey,opt);
+    }
+  }
+  [...att.options].forEach(o=>o.selected=!!o.value&&attachments.includes(o.value));
+  updateAttachmentPreview();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 list.onclick=async e=>{if(recordSaving){msg.textContent='저장 또는 파일 등록 완료 후 기록을 전환해 주세요.';return;}const target=e.target.closest('button[data-edit],button[data-del]');if(!target)return;const id=target.dataset.edit||target.dataset.del;const x=rows.find(v=>String(v.id)===id);if(!x)return;if(target.dataset.edit){location.assign(recordPage+'?edit='+encodeURIComponent(x.id))}else if(confirm('삭제 상태로 전환하시겠습니까? 기록은 복구 가능하도록 보존됩니다.')){const r=await fetch('../api/admin/record',{method:'DELETE',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({id})});msg.textContent=r.ok?'삭제 상태로 전환했습니다.':'삭제 실패';await load()}};
 
 // Reset after browser form restoration and before/after asynchronous initialization.

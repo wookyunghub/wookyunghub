@@ -721,10 +721,11 @@
     "attachments": [
       "photos:c754c5a72eacba70",
       "photos:d8603aee02a6a960",
-      "photos:44d0eeeab34d4c70"
+      "photos:44d0eeeab34d4c70",
+      "photos:ede5d7101c17566e"
     ],
     "created_at": "2026-10-19T21:36:42",
-    "updated_at": "2026-10-25T14:55:58",
+    "updated_at": "2026-10-30T12:56:16",
     "history_excluded": false,
     "recorder": "관리자"
   },
@@ -997,6 +998,33 @@
     "history_excluded": false
   },
   {
+    "id": "meeting-0570d023b2f5",
+    "module": "meeting",
+    "date": "2024-01-22",
+    "title": "2024 상반기 정기총회 개최",
+    "body": "안건자료 없음",
+    "public": true,
+    "book_include": false,
+    "edition_period": "",
+    "status": "active",
+    "history_excluded": false,
+    "tags": [],
+    "source": "관리자 등록",
+    "extra": {
+      "meeting_type": "정기",
+      "place": "우경경로당",
+      "chair": "조영기",
+      "participants": "",
+      "decisions": ""
+    },
+    "attachments": [
+      "photos:53a4c4696cc2b98d"
+    ],
+    "recorder": "관리자",
+    "created_at": "2026-10-30T12:55:37",
+    "updated_at": "2026-10-30T12:55:37"
+  },
+  {
     "id": "history-0029",
     "module": "document",
     "date": "2023.11.01",
@@ -1123,8 +1151,8 @@
   },
   {
     "id": "history-0022",
-    "module": "document",
-    "date": "2014.08.30",
+    "module": "facility",
+    "date": "2014-08-30",
     "title": "태양광시설 설치",
     "body": "복권기금과 진천군 지원으로 태양광시설을 설치.",
     "public": true,
@@ -1135,7 +1163,65 @@
     "source": "운영대장 본책1 13~16쪽",
     "extra": {},
     "created_at": "2026-10-17T00:00:00",
-    "updated_at": "2026-10-17T00:00:00"
+    "updated_at": "2026-10-30T12:40:48",
+    "attachments": [],
+    "history_excluded": false
+  },
+  {
+    "id": "meeting-3ee8c3ba1e52",
+    "module": "meeting",
+    "date": "2012-01-14",
+    "title": "신년노인총회",
+    "body": "총회 후 식사",
+    "public": true,
+    "book_include": false,
+    "edition_period": "",
+    "status": "active",
+    "history_excluded": false,
+    "tags": [],
+    "source": "관리자 등록",
+    "extra": {
+      "meeting_type": "정기",
+      "place": "우경경로당",
+      "chair": "",
+      "participants": "",
+      "decisions": ""
+    },
+    "attachments": [
+      "photos:79dd75c1aa4e2b98",
+      "photos:67a384186b512ca7"
+    ],
+    "recorder": "관리자",
+    "created_at": "2026-10-30T12:54:06",
+    "updated_at": "2026-10-30T12:54:06"
+  },
+  {
+    "id": "event-c6d0769b9f1a",
+    "module": "event",
+    "date": "2011-02-17",
+    "title": "2011 정월대보름 행사",
+    "body": "2011년 정원대보름 행사\n- 전통놀이 (윷놀이)",
+    "public": true,
+    "book_include": false,
+    "edition_period": "",
+    "status": "active",
+    "history_excluded": false,
+    "tags": [],
+    "source": "관리자 등록",
+    "extra": {
+      "place": "우경경로당",
+      "attendance": "",
+      "outcome": ""
+    },
+    "attachments": [
+      "photos:06d102b25cb3a36d",
+      "photos:7d1723fcbbc508fb",
+      "photos:313734f0350ec794",
+      "photos:9c14e468a4563aee"
+    ],
+    "recorder": "관리자",
+    "created_at": "2026-10-30T12:52:31",
+    "updated_at": "2026-10-30T12:52:31"
   },
   {
     "id": "history-0020",
@@ -1174,8 +1260,8 @@
   },
   {
     "id": "history-0021",
-    "module": "document",
-    "date": "2011년",
+    "module": "facility",
+    "date": "2011",
     "title": "국기게양대 개축",
     "body": "정확한 월일은 기록에 없으며 조순임 부녀회장 재임 시 국기게양대를 개축.",
     "public": true,
@@ -1186,7 +1272,9 @@
     "source": "운영대장 본책1 13~16쪽",
     "extra": {},
     "created_at": "2026-10-17T00:00:00",
-    "updated_at": "2026-10-17T00:00:00"
+    "updated_at": "2026-10-30T12:43:04",
+    "attachments": [],
+    "history_excluded": false
   },
   {
     "id": "history-0019",
@@ -1206,8 +1294,8 @@
   },
   {
     "id": "history-0018",
-    "module": "document",
-    "date": "2009.12.06",
+    "module": "event",
+    "date": "2009-12-06",
     "title": "신축개관 마을잔치",
     "body": "우경경로당 신축개관을 기념하는 마을잔치를 개최.",
     "public": true,
@@ -1216,15 +1304,28 @@
     "status": "active",
     "tags": [],
     "source": "운영대장 본책1 13~16쪽",
-    "extra": {},
+    "extra": {
+      "place": "",
+      "attendance": "",
+      "outcome": ""
+    },
     "created_at": "2026-10-17T00:00:00",
-    "updated_at": "2026-10-17T00:00:00"
+    "updated_at": "2026-10-30T12:45:35",
+    "attachments": [
+      "photos:b302fd6dd15c67f2",
+      "photos:8eb3c90b85d21441",
+      "photos:f8a3bbf7fd383abc",
+      "photos:fd7b4e02ca804c8d",
+      "photos:a2286a48b7a85306"
+    ],
+    "history_excluded": false,
+    "recorder": "관리자"
   },
   {
     "id": "event-55b459613726",
     "module": "event",
     "date": "2009-09-01",
-    "title": "경로당 현판식 및 입주축하식",
+    "title": "경로당 현판식",
     "body": "우경경로당 현판식 및 입주축하 사진 촬영\n\n  제8,9대(2005~2009)\n  회     장   (고)윤공훈\n  부 회 장   한근숙, (고)석진국\n  사 무 장   서광일\n  감     사   (고)김필환\n  리     장   이동수\n  현판찬조  조영기",
     "public": true,
     "book_include": false,
@@ -1239,12 +1340,12 @@
       "outcome": ""
     },
     "attachments": [
-      "photos:be948035699e184f",
-      "photos:b38dea2fcb522afa"
+      "photos:b38dea2fcb522afa",
+      "photos:be948035699e184f"
     ],
     "recorder": "관리자",
     "created_at": "2026-10-24T14:56:57",
-    "updated_at": "2026-10-24T15:31:58"
+    "updated_at": "2026-10-30T12:44:36"
   },
   {
     "id": "history-0017",
@@ -1303,8 +1404,8 @@
   },
   {
     "id": "history-0014",
-    "module": "document",
-    "date": "1999.06.27",
+    "module": "event",
+    "date": "1999-06-27",
     "title": "우경노인회 단합대회",
     "body": "우경노인회 단합대회를 개최.",
     "public": true,
@@ -1313,14 +1414,21 @@
     "status": "active",
     "tags": [],
     "source": "운영대장 본책1 13~16쪽",
-    "extra": {},
+    "extra": {
+      "place": "",
+      "attendance": "",
+      "outcome": ""
+    },
     "created_at": "2026-10-17T00:00:00",
-    "updated_at": "2026-10-17T00:00:00"
+    "updated_at": "2026-10-30T12:46:16",
+    "attachments": [],
+    "history_excluded": false,
+    "recorder": "관리자"
   },
   {
     "id": "history-0013",
-    "module": "document",
-    "date": "1999.06.22",
+    "module": "meeting",
+    "date": "1999-06-22",
     "title": "운영위원회 개최",
     "body": "노인회 주관 단합대회 개최를 논의하고 6월 27일 행사 실시를 결정.",
     "public": true,
@@ -1329,14 +1437,23 @@
     "status": "active",
     "tags": [],
     "source": "운영대장 본책1 13~16쪽",
-    "extra": {},
+    "extra": {
+      "meeting_type": "",
+      "place": "",
+      "chair": "",
+      "participants": "",
+      "decisions": ""
+    },
     "created_at": "2026-10-17T00:00:00",
-    "updated_at": "2026-10-17T00:00:00"
+    "updated_at": "2026-10-30T12:49:16",
+    "attachments": [],
+    "history_excluded": false,
+    "recorder": "관리자"
   },
   {
     "id": "history-0012",
-    "module": "document",
-    "date": "1999.02.28",
+    "module": "meeting",
+    "date": "1999-02-28",
     "title": "총회 및 임원개선",
     "body": "총회를 개최하고 임원진을 새로 구성.",
     "public": true,
@@ -1345,14 +1462,23 @@
     "status": "active",
     "tags": [],
     "source": "운영대장 본책1 13~16쪽",
-    "extra": {},
+    "extra": {
+      "meeting_type": "",
+      "place": "",
+      "chair": "",
+      "participants": "",
+      "decisions": ""
+    },
     "created_at": "2026-10-17T00:00:00",
-    "updated_at": "2026-10-17T00:00:00"
+    "updated_at": "2026-10-30T12:48:57",
+    "attachments": [],
+    "history_excluded": false,
+    "recorder": "관리자"
   },
   {
     "id": "history-0011",
-    "module": "document",
-    "date": "1999.02.26",
+    "module": "event",
+    "date": "1999-02-26",
     "title": "진천군노인회 행정감사",
     "body": "영동 5개리 14마을 노인정을 대상으로 한 1998년도 행정감사를 다목적회관에서 실시.",
     "public": true,
@@ -1361,14 +1487,21 @@
     "status": "active",
     "tags": [],
     "source": "운영대장 본책1 13~16쪽",
-    "extra": {},
+    "extra": {
+      "place": "",
+      "attendance": "",
+      "outcome": ""
+    },
     "created_at": "2026-10-17T00:00:00",
-    "updated_at": "2026-10-17T00:00:00"
+    "updated_at": "2026-10-30T12:49:49",
+    "attachments": [],
+    "history_excluded": false,
+    "recorder": "관리자"
   },
   {
     "id": "history-0010",
-    "module": "document",
-    "date": "1999.01.24",
+    "module": "event",
+    "date": "1999-01-24",
     "title": "신축회관 이전기념 경로잔치",
     "body": "신축회관 이전을 기념해 경로잔치와 우경마을 주민 단합대회를 개최.",
     "public": true,
@@ -1377,9 +1510,16 @@
     "status": "active",
     "tags": [],
     "source": "운영대장 본책1 13~16쪽",
-    "extra": {},
+    "extra": {
+      "place": "",
+      "attendance": "",
+      "outcome": ""
+    },
     "created_at": "2026-10-17T00:00:00",
-    "updated_at": "2026-10-17T00:00:00"
+    "updated_at": "2026-10-30T12:46:56",
+    "attachments": [],
+    "history_excluded": false,
+    "recorder": "관리자"
   },
   {
     "id": "history-0009",
@@ -1399,8 +1539,8 @@
   },
   {
     "id": "history-0008",
-    "module": "document",
-    "date": "1998.02.07",
+    "module": "meeting",
+    "date": "1998-02-07",
     "title": "총회 임원개선",
     "body": "총회를 열어 임원진을 정비.",
     "public": true,
@@ -1409,14 +1549,23 @@
     "status": "active",
     "tags": [],
     "source": "운영대장 본책1 13~16쪽",
-    "extra": {},
+    "extra": {
+      "meeting_type": "",
+      "place": "",
+      "chair": "",
+      "participants": "",
+      "decisions": ""
+    },
     "created_at": "2026-10-17T00:00:00",
-    "updated_at": "2026-10-17T00:00:00"
+    "updated_at": "2026-10-30T12:48:35",
+    "attachments": [],
+    "history_excluded": false,
+    "recorder": "관리자"
   },
   {
     "id": "history-0007",
-    "module": "document",
-    "date": "1997.01.10",
+    "module": "meeting",
+    "date": "1997-01-10",
     "title": "총회 임원개선",
     "body": "총회에서 임원을 개선하고 장호연 회장 체제로 운영.",
     "public": true,
@@ -1425,9 +1574,20 @@
     "status": "active",
     "tags": [],
     "source": "운영대장 본책1 13~16쪽",
-    "extra": {},
+    "extra": {
+      "place": "",
+      "attendance": "",
+      "outcome": "",
+      "meeting_type": "",
+      "chair": "",
+      "participants": "",
+      "decisions": ""
+    },
     "created_at": "2026-10-17T00:00:00",
-    "updated_at": "2026-10-17T00:00:00"
+    "updated_at": "2026-10-30T12:48:13",
+    "attachments": [],
+    "history_excluded": false,
+    "recorder": "관리자"
   },
   {
     "id": "history-0006",
@@ -1447,8 +1607,8 @@
   },
   {
     "id": "history-0005",
-    "module": "document",
-    "date": "1995.02.14",
+    "module": "event",
+    "date": "1995-02-14",
     "title": "진천군노인회 순회 행정감사",
     "body": "영동지역 14개 부락을 대상으로 한 1994년도 순회 행정감사에 참여.",
     "public": true,
@@ -1457,9 +1617,16 @@
     "status": "active",
     "tags": [],
     "source": "운영대장 본책1 13~16쪽",
-    "extra": {},
+    "extra": {
+      "place": "",
+      "attendance": "",
+      "outcome": ""
+    },
     "created_at": "2026-10-17T00:00:00",
-    "updated_at": "2026-10-17T00:00:00"
+    "updated_at": "2026-10-30T12:50:10",
+    "attachments": [],
+    "history_excluded": false,
+    "recorder": "관리자"
   },
   {
     "id": "history-0004",
@@ -1504,8 +1671,8 @@
   },
   {
     "id": "history-0002",
-    "module": "document",
-    "date": "1991.10.22",
+    "module": "event",
+    "date": "1991-10-22",
     "title": "경로당 신축 및 영동노인회관 겸용",
     "body": "우경마을에 단층 벽돌조 슬라브 25평 규모의 경로당을 신축하고 영동 5개리 학구단위 노인회관을 겸해 운영.",
     "public": true,
@@ -1514,14 +1681,21 @@
     "status": "active",
     "tags": [],
     "source": "운영대장 본책1 13~16쪽",
-    "extra": {},
+    "extra": {
+      "place": "",
+      "attendance": "",
+      "outcome": ""
+    },
     "created_at": "2026-10-17T00:00:00",
-    "updated_at": "2026-10-17T00:00:00"
+    "updated_at": "2026-10-30T12:47:37",
+    "attachments": [],
+    "history_excluded": false,
+    "recorder": "관리자"
   },
   {
     "id": "history-0001",
-    "module": "document",
-    "date": "1975.03.01",
+    "module": "event",
+    "date": "1975-03-01",
     "title": "사양리 경로당 신축",
     "body": "우경마을에 목조 45평 규모의 사양리 경로당을 신축. 초대 회장 정광수, 총무 김진환.",
     "public": true,
@@ -1530,8 +1704,15 @@
     "status": "active",
     "tags": [],
     "source": "운영대장 본책1 13~16쪽",
-    "extra": {},
+    "extra": {
+      "place": "",
+      "attendance": "",
+      "outcome": ""
+    },
     "created_at": "2026-10-17T00:00:00",
-    "updated_at": "2026-10-17T00:00:00"
+    "updated_at": "2026-10-30T12:47:19",
+    "attachments": [],
+    "history_excluded": false,
+    "recorder": "관리자"
   }
 ]

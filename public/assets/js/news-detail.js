@@ -23,11 +23,19 @@
 
     if (clean.includes('records')) {
       if (resData && (Array.isArray(resData) ? resData.length : (resData.records||[]).length)) return resData;
+      try {
+        const lr = await fetch('https://wookyunghub.pythonanywhere.com/api/public/records', {cache:'no-store'});
+        if (lr.ok && (lr.headers.get('content-type')||'').toLowerCase().includes('application/json')) return await lr.json();
+      } catch(e){}
       const fr = await fetch((location.pathname.includes('/admin/')?'../':'')+'data/records.json', {cache:'no-store'});
       if (fr.ok) return await fr.json();
     }
     if (clean.includes('resources') || clean.includes('files')) {
       if (resData && (resData.photos?.length || resData.documents?.length)) return resData;
+      try {
+        const lr = await fetch('https://wookyunghub.pythonanywhere.com/api/public/resources', {cache:'no-store'});
+        if (lr.ok && (lr.headers.get('content-type')||'').toLowerCase().includes('application/json')) return await lr.json();
+      } catch(e){}
       const fr = await fetch((location.pathname.includes('/admin/')?'../':'')+'data/resources.json', {cache:'no-store'});
       if (fr.ok) return await fr.json();
     }
@@ -73,7 +81,15 @@
   const url=page&&book?`ebook.html?ledger=2025-2026&doc=${book}&page=${page[1]}`:'';
   const sourceBlock=source?`<div class="detail-source"><b>자료 출처</b> ${esc(source)} ${url?`<a class="btn" href="${url}">운영대장 원본 ${esc(page[1])}쪽 보기 ↗</a>`:''}</div>`:'';
   const resources=await get(adminMode?'api/admin/files':'api/public/resources');
-  const files=new Map();for(const kind of (adminMode?['documents','photos','receipts']:['documents','photos']))for(const f of resources[kind]||[])if((f.public&&String(f.url||'').startsWith('/media/public/'))||(adminMode&&String(f.url||'').startsWith('/media/private/')))files.set(kind+':'+f.id,f);
+  const files=new Map();
+  for(const kind of (adminMode?['documents','photos','receipts']:['documents','photos'])){
+    for(const f of resources[kind]||[]){
+      if(f && f.id){
+        files.set(kind+':'+f.id, f);
+        files.set(f.id, f);
+      }
+    }
+  }
   const attachmentRoles={minutes:'회의록 원본',attendance:'참석명단',report:'보고자료',receipt:'영수증·증빙',other:'기타'};
   const attachments=(x.attachments||[]).map(id=>files.get(id)).filter(Boolean);
   const photos=attachments.filter(f=>['jpg','jpeg','png','gif','webp','bmp'].includes(String(f.url||'').split('?')[0].split('.').pop().toLowerCase()));
