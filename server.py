@@ -737,8 +737,8 @@ class Handler(SimpleHTTPRequestHandler):
         idx=resources;idx.setdefault(kind,[]).insert(0,item);idx['updated']=time.strftime('%Y-%m-%d');write_json(STORAGE/'resources.json',idx);self.sync_public_resources(idx);return self.json({'ok':True,'item':item})
     def sync_public_resources(self,idx):
         out={'documents':[x for x in idx.get('documents',[]) if x.get('public')],'photos':[x for x in idx.get('photos',[]) if x.get('public')],'updated':idx.get('updated','')};write_json(PUBLIC/'data/resources.json',out)
-        for kind in ('documents','photos'):
-            for item in out.get(kind,[]):
+        for kind in ('documents','photos','receipts'):
+            for item in idx.get(kind,[]):
                 src = STORAGE / item.get('path','')
                 if src.is_file():
                     dest = PUBLIC / 'media' / item.get('path','')
