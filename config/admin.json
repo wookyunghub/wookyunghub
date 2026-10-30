@@ -1,0 +1,13 @@
+{
+  "auth_mode": "preview_pin_plus_cloudflare_access",
+  "preview_pin_sha256": "e8a00db3ae3f9d1b167971977b10495e4e03af54bf88ec247919d7f1292b3fac",
+  "preview_pin_hint": "관리자 로그인 후 “관리자 PIN” 메뉴에서 개발 미리보기 PIN을 변경할 수 있습니다.",
+  "production_security": "Cloudflare Access",
+  "production_protected_paths": [
+    "/admin/*",
+    "/media/private/*",
+    "/api/admin/*"
+  ],
+  "protected_files_available": false,
+  "product": "CenterHub"
+}

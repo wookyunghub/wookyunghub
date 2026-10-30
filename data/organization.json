@@ -1,0 +1,183 @@
+{
+  "basic": {
+    "name": "우경경로당",
+    "address": "충북 진천군 문백면 사양길 2-12",
+    "phone": "043-532-5593",
+    "members_total": 50,
+    "members_male": 21,
+    "members_female": 29,
+    "building_area": "105.73㎡",
+    "rooms": 3,
+    "restrooms": 2,
+    "kitchen": 1
+  },
+  "officers_note": "홈페이지에는 직위와 성명만 표시합니다. 상세정보는 관리자와 운영대장 발간에만 사용합니다.",
+  "facilities": [
+    "방 3개",
+    "화장실 2개",
+    "주방 1개"
+  ],
+  "access": {
+    "address": "충북 진천군 문백면 사양길 2-12",
+    "map_note": "지도 연결은 관리자 기본설정에서 공개 URL을 등록해 확장할 수 있습니다."
+  },
+  "history_source": {
+    "label": "운영대장 본책 1 · 연혁 원본 13~17쪽",
+    "href": "ebook.html?ledger=2025-2026&doc=book1&page=13"
+  },
+  "updated": "2026-10-17",
+  "organization_chart": {
+    "source": {
+      "label": "운영대장 본책 1 · 임원명부 원본 21쪽",
+      "volume": "book1",
+      "page": 21
+    },
+    "officers": [
+      {
+        "id": "officer-chair",
+        "position": "회장",
+        "name": "조영기",
+        "birth_date": "40.06.03",
+        "phone": "010-5247-8787",
+        "address": "사양1길 14-1",
+        "note": "",
+        "public": true,
+        "book_include": true
+      },
+      {
+        "id": "officer-vp-m",
+        "position": "부회장(남)",
+        "name": "",
+        "birth_date": "",
+        "phone": "",
+        "address": "",
+        "note": "전임자 작고로 공석중(원본 비고)",
+        "public": true,
+        "book_include": true
+      },
+      {
+        "id": "officer-vp-f",
+        "position": "부회장(여)",
+        "name": "연순녀",
+        "birth_date": "38.10.25",
+        "phone": "010-2433-1950",
+        "address": "사양1길 2-5",
+        "note": "시간관리",
+        "public": true,
+        "book_include": true
+      },
+      {
+        "id": "officer-secretary",
+        "position": "사무장",
+        "name": "고현숙",
+        "birth_date": "49.01.11",
+        "phone": "010-9268-3603",
+        "address": "사양1길 13-4",
+        "note": "경로당 비품관리",
+        "public": true,
+        "book_include": true
+      },
+      {
+        "id": "officer-auditor",
+        "position": "감사",
+        "name": "임희순",
+        "birth_date": "55.07.03",
+        "phone": "010-9486-0325",
+        "address": "사양길 36-3",
+        "note": "",
+        "public": true,
+        "book_include": true
+      }
+    ],
+    "board": [
+      {
+        "id": "board-chair",
+        "position": "회장",
+        "name": "조영기",
+        "birth_date": "40.06.03",
+        "phone": "010-5247-8787",
+        "address": "사양1길 14-1",
+        "note": "",
+        "public": true,
+        "book_include": true
+      },
+      {
+        "id": "board-vp",
+        "position": "부회장",
+        "name": "연순녀",
+        "birth_date": "38.10.25",
+        "phone": "010-2433-1950",
+        "address": "사양1길 2-5",
+        "note": "",
+        "public": true,
+        "book_include": true
+      },
+      {
+        "id": "board-1",
+        "position": "이사",
+        "name": "고현숙",
+        "birth_date": "49.01.11",
+        "phone": "010-9268-3603",
+        "address": "사양1길 13-4",
+        "note": "소갈이",
+        "public": true,
+        "book_include": true
+      },
+      {
+        "id": "board-2",
+        "position": "이사",
+        "name": "황정해",
+        "birth_date": "47.10.03",
+        "phone": "010-2724-1739",
+        "address": "사양1길 13-3",
+        "note": "소갈이",
+        "public": true,
+        "book_include": true
+      },
+      {
+        "id": "board-3",
+        "position": "이사",
+        "name": "권혁수",
+        "birth_date": "59.08.20",
+        "phone": "010-5465-2229",
+        "address": "사양2길 40-5",
+        "note": "안 골",
+        "public": true,
+        "book_include": true
+      },
+      {
+        "id": "board-4",
+        "position": "이사",
+        "name": "김기덕",
+        "birth_date": "52.03.07",
+        "phone": "010-8829-3734",
+        "address": "사양2길 40-7",
+        "note": "안 골",
+        "public": true,
+        "book_include": true
+      },
+      {
+        "id": "board-5",
+        "position": "이사",
+        "name": "장재성",
+        "birth_date": "54.01.15",
+        "phone": "010-5462-6640",
+        "address": "사양2길 36-3",
+        "note": "벌바위",
+        "public": true,
+        "book_include": true
+      },
+      {
+        "id": "board-6",
+        "position": "이사",
+        "name": "이동수",
+        "birth_date": "64.02.17",
+        "phone": "010-9814-0081",
+        "address": "사양2길 11",
+        "note": "리장대-벌바위",
+        "public": true,
+        "book_include": true
+      }
+    ]
+  }
+}
