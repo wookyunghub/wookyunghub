@@ -63,7 +63,8 @@
     window.addEventListener('resize',()=>{if(!mobile())setMenu(false);});
   }
   async function installStandardNavigation(site){
-    const external=await resolveExternalLink(site),stat=await apiStatus(),admin=!!stat.authenticated;
+    const external=await resolveExternalLink(site),stat=await apiStatus();
+    const admin=!!stat.authenticated || isAdminSession();
     if(admin){sessionStorage.setItem('centerhub_admin','1');document.body.classList.add('admin-session');document.querySelectorAll('.brand[data-brand]').forEach(brand=>{if(brand.parentElement&&brand.parentElement.querySelector('.admin-mode-indicator'))return;const badge=document.createElement('a');badge.className='admin-mode-indicator';badge.href=u('admin/index.html');badge.textContent='관리자 모드';badge.title='관리자 로그인 상태';brand.insertAdjacentElement('afterend',badge)})}else document.body.classList.remove('admin-session');
     document.querySelectorAll('[data-feature="publication_management"]').forEach(el=>{el.hidden=!(admin&&stat.features?.publication_management===true)});
     const indicator=document.querySelector('[data-runtime-environment]');if(indicator)indicator.textContent=(stat.environment==='development'?'개발용':'운영용')+' · v'+(stat.app_version||'확인 필요');
