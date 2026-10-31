@@ -207,7 +207,7 @@ body main .simple-list.home-news-list>.home-news-item{border-top:0!important}
 body .home-main-hero{
   position:relative;
   background-color:#eae3d7;
-  background-image:linear-gradient(105deg, rgba(255, 253, 249, 0.78) 0%, rgba(255, 253, 249, 0.55) 45%, rgba(255, 253, 249, 0.28) 75%, rgba(245, 238, 226, 0.12) 100%), var(--hero-bg, url('../img/building.jpg'));
+  background-image:linear-gradient(105deg, rgba(255, 253, 249, 0.68) 0%, rgba(255, 253, 249, 0.45) 45%, rgba(255, 253, 249, 0.20) 75%, rgba(245, 238, 226, 0.08) 100%), var(--hero-bg, url('../img/building.jpg'));
   background-size:cover;
   background-position:center 38%;
   background-repeat:no-repeat;
@@ -329,7 +329,7 @@ body .hero-building-badge .hero-photo-slogan{
 
 @media(max-width:900px){
   body .home-main-hero{
-    background-image:linear-gradient(180deg, rgba(255, 253, 249, 0.80) 0%, rgba(255, 253, 249, 0.58) 48%, rgba(248, 244, 236, 0.28) 100%), var(--hero-bg, url('../img/building.jpg'));
+    background-image:linear-gradient(180deg, rgba(255, 253, 249, 0.72) 0%, rgba(255, 253, 249, 0.48) 48%, rgba(248, 244, 236, 0.18) 100%), var(--hero-bg, url('../img/building.jpg'));
     background-position:center 25%;
   }
   body .home-main-hero-inner{
