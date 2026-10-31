@@ -3,7 +3,7 @@
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const q=new URLSearchParams(location.search),id=q.get('id')||'',fromAdmin=q.get('from')==='admin';
   back.href=fromAdmin?'admin/records.html':q.has('page')?`news-list.html?page=${encodeURIComponent(q.get('page'))}`:'news-list.html';
-  back.textContent=fromAdmin?'← 통합 기록 관리':'← 목록으로';
+  back.textContent=fromAdmin?'← 회의·행사 기록관리':'← 목록으로';
   async function get(path){
     const clean = String(path).replace(/^\/+/,'').split('?')[0];
     if (clean.includes('admin/status')) {
