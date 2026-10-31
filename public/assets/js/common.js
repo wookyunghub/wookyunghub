@@ -176,4 +176,4 @@
 {const s=document.createElement("script");s.src=window.CenterHubCommon.root+"assets/js/file-viewer.js?v=5.50";document.head.append(s);}
 
 // All pages load the shared theme through the existing common entry point.
-{const link=document.createElement('link');link.id='centerhub-site-theme';link.rel='stylesheet';link.href=new URL('assets/css/site-theme.css?v=5.72',window.CenterHubCommon.root).href;document.head.appendChild(link);}
+{const link=document.createElement('link');link.id='centerhub-site-theme';link.rel='stylesheet';link.href=new URL('assets/css/site-theme.css?v=5.74',window.CenterHubCommon.root).href;document.head.appendChild(link);}
