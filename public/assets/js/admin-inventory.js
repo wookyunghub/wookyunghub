@@ -22,6 +22,7 @@
   const photoValInput = document.getElementById('inv-photo-val');
   const previewWrap = document.getElementById('inv-preview-wrap');
   const previewImg = document.getElementById('inv-preview-img');
+  const photoDelBtn = document.getElementById('inv-photo-del');
 
   const photoDialog = document.getElementById('inv-admin-photo-dialog');
   const dialogImg = document.getElementById('inv-admin-photo-img');
@@ -78,35 +79,38 @@
     listHeading.textContent = `등록 비품 목록 (총 ${filtered.length}건 / 전체 ${items.length}건)`;
 
     if (!filtered.length) {
-      container.innerHTML = '<div style="text-align:center;padding:40px;color:#8a796a;font-size:14px">해당 조건의 비품이 없습니다.</div>';
+      container.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#8a796a;font-size:13px">해당 조건의 비품이 없습니다.</div>';
       return;
     }
 
-    container.innerHTML = filtered.map(it => `
-      <div class="inv-item-card" data-id="${esc(it.id)}">
-        <div class="inv-thumb" data-photo="${it.photo ? (it.photo.startsWith('data:') || it.photo.startsWith('http') ? it.photo : '../' + it.photo) : ''}" data-title="${esc(it.name)} (${esc(it.id)})">
-          ${it.photo ? `<img src="${it.photo.startsWith('data:') || it.photo.startsWith('http') ? it.photo : '../' + it.photo}" alt="${esc(it.name)}" loading="lazy">` : '<span class="inv-thumb-placeholder">📷</span>'}
-        </div>
-        <div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span style="font-weight:700;color:#7a6859;font-size:13px">${esc(it.id)}</span>
-            <strong style="font-size:15px;color:#3c281b">${esc(it.name)}</strong>
-            <span class="inv-badge-status inv-status-${esc(it.status || '사용')}">${esc(it.status || '사용')}</span>
+    container.innerHTML = filtered.map(it => {
+      const photoSrc = it.photo ? (it.photo.startsWith('data:') || it.photo.startsWith('http') ? it.photo : '../' + it.photo) : '';
+      return `
+        <div class="inv-item-card" data-id="${esc(it.id)}">
+          <div class="inv-thumb" data-photo="${photoSrc}" data-title="${esc(it.name)} (${esc(it.id)})">
+            ${photoSrc ? `<img src="${photoSrc}" alt="${esc(it.name)}" loading="lazy">` : '<span class="inv-thumb-placeholder">📷</span>'}
           </div>
-          ${it.spec ? `<div style="font-size:13px;color:#5a493c;margin-top:2px">${esc(it.spec)}</div>` : ''}
-          <div class="inv-meta-line">
-            <span>수량: <b>${esc(it.qty)}${esc(it.unit || '개')}</b></span>
-            <span>· 취득: ${esc(it.acquire || '-')}</span>
-            ${it.group ? `<span>· 그룹: ${esc(it.group)}</span>` : ''}
-            ${it.note ? `<span>· 비고: ${esc(it.note)}</span>` : ''}
+          <div class="inv-card-main">
+            <div class="inv-card-title-line">
+              <span class="inv-code">${esc(it.id)}</span>
+              <strong class="inv-title">${esc(it.name)}</strong>
+              <span class="inv-badge-status inv-status-${esc(it.status || '사용')}">${esc(it.status || '사용')}</span>
+            </div>
+            ${it.spec ? `<div class="inv-card-spec">${esc(it.spec)}</div>` : ''}
+            <div class="inv-card-meta">
+              <span>수량: <b>${esc(it.qty)}${esc(it.unit || '개')}</b></span>
+              <span>· 취득: ${esc(it.acquire || '-')}</span>
+              ${it.group ? `<span>· ${esc(it.group)}</span>` : ''}
+              ${it.note ? `<span>· 비고: ${esc(it.note)}</span>` : ''}
+            </div>
+          </div>
+          <div class="inv-actions">
+            <button type="button" class="btn small inv-edit-btn" data-id="${esc(it.id)}">수정</button>
+            <button type="button" class="btn small inv-del-btn" style="color:#b2352b;border-color:#f1c2be;" data-id="${esc(it.id)}">삭제</button>
           </div>
         </div>
-        <div class="inv-actions">
-          <button type="button" class="btn small inv-edit-btn" data-id="${esc(it.id)}">수정</button>
-          <button type="button" class="btn small inv-del-btn" style="color:#b2352b;border-color:#f1c2be;" data-id="${esc(it.id)}">삭제</button>
-        </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
 
     // Attach card handlers
     container.querySelectorAll('.inv-thumb').forEach(thumb => {
@@ -164,8 +168,13 @@
       previewWrap.style.display = 'none';
     }
 
+    if (form.style.display === 'none') {
+      form.style.display = 'flex';
+      formToggle.textContent = '등록 양식 접기';
+    }
+
     form.scrollIntoView({ behavior: 'smooth' });
-    msgEl.textContent = '수정할 항목의 내용을 변경한 후 [수정 완료하기]를 눌러주세요.';
+    msgEl.textContent = `[${item.id}] ${item.name} 정보를 수정 중입니다.`;
     msgEl.style.color = '#734f31';
   }
 
@@ -175,6 +184,7 @@
     formTitle.textContent = '시설·비품 신규 등록';
     submitBtn.textContent = '비품 등록하기';
     photoValInput.value = '';
+    photoFileInput.value = '';
     previewWrap.style.display = 'none';
     msgEl.textContent = '';
   }
@@ -205,6 +215,17 @@
     reader.readAsDataURL(file);
   });
 
+  // Photo delete button
+  if (photoDelBtn) {
+    photoDelBtn.addEventListener('click', e => {
+      e.preventDefault();
+      photoValInput.value = '';
+      photoFileInput.value = '';
+      previewWrap.style.display = 'none';
+      previewImg.src = '';
+    });
+  }
+
   // Handle form submission
   form.addEventListener('submit', e => {
     e.preventDefault();
@@ -212,7 +233,7 @@
     const cat = document.getElementById('inv-cat').value;
     const id = document.getElementById('inv-id').value.trim();
     const name = document.getElementById('inv-name').value.trim();
-    const group = document.getElementById('inv-group').value.trim() || '기타 비품';
+    const group = document.getElementById('inv-group').value.trim() || '기타';
     const spec = document.getElementById('inv-spec').value.trim();
     const qty = parseInt(document.getElementById('inv-qty').value, 10) || 1;
     const unit = document.getElementById('inv-unit').value.trim() || '개';
@@ -242,10 +263,10 @@
           acquire,
           status,
           note,
-          photo: photo || items[idx].photo
+          photo: photo !== undefined ? photo : items[idx].photo
         };
       }
-      msgEl.textContent = `비품 [${id}] ${name} 수정이 완료되었습니다.`;
+      msgEl.textContent = `비품 [${id}] ${name} 수정 완료!`;
       msgEl.style.color = '#2e6924';
     } else {
       // Check duplicate ID
@@ -269,7 +290,7 @@
         photo
       };
       items.unshift(newItem);
-      msgEl.textContent = `신규 비품 [${id}] ${name} 등록이 완료되었습니다.`;
+      msgEl.textContent = `신규 비품 [${id}] ${name} 등록 완료!`;
       msgEl.style.color = '#2e6924';
     }
 
@@ -282,8 +303,8 @@
 
   // Form toggle
   formToggle.addEventListener('click', () => {
-    const isHidden = form.hidden;
-    form.hidden = !isHidden;
+    const isHidden = form.style.display === 'none';
+    form.style.display = isHidden ? 'flex' : 'none';
     formToggle.textContent = isHidden ? '등록 양식 접기' : '등록 양식 펼치기';
     formToggle.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
   });
