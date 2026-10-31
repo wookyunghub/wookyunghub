@@ -1,5 +1,13 @@
 (function() {
-  const STORAGE_KEY = 'centerhub_facility_inventory';
+  const STORAGE_KEY = 'centerhub_facility_inventory_v3';
+  const PHOTO_VERSION = '20261031_v3';
+
+  function getPhotoUrl(p) {
+    if (!p) return '';
+    if (p.startsWith('data:') || p.startsWith('http')) return p;
+    const clean = p.split('?')[0];
+    return `../${clean}?v=${PHOTO_VERSION}`;
+  }
 
   let items = [];
   let activeCat = 'all';
@@ -77,30 +85,24 @@
   }
 
   async function loadData() {
-    // Check if localStorage has valid and updated items
-    const saved = localStorage.getItem(STORAGE_KEY);
-    let loadedFromStorage = false;
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        // Only use storage if it has clean 4-digit IDs without legacy dashes
-        if (Array.isArray(parsed) && parsed.length >= 115 && parsed.every(x => /^[1-6]\d{3}$/.test(x.id))) {
-          items = parsed;
-          loadedFromStorage = true;
-        }
-      } catch (e) {}
-    }
-
-    if (!loadedFromStorage) {
-      try {
-        const res = await fetch('../data/facility-inventory.json', { cache: 'no-store' });
-        if (res.ok) {
-          const data = await res.json();
-          items = data.items || [];
-          saveData();
-        }
-      } catch (e) {
-        items = [];
+    try {
+      const res = await fetch('../data/facility-inventory.json?t=' + Date.now(), { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        items = data.items || [];
+        saveData();
+      } else {
+        throw new Error('Failed to load JSON');
+      }
+    } catch (e) {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length >= 115) {
+            items = parsed;
+          }
+        } catch (err) {}
       }
     }
 
@@ -132,7 +134,7 @@
     }
 
     container.innerHTML = filtered.map(it => {
-      const photoSrc = it.photo ? (it.photo.startsWith('data:') || it.photo.startsWith('http') ? it.photo : '../' + it.photo) : '';
+      const photoSrc = it.photo ? getPhotoUrl(it.photo) : '';
       return `
         <div class="inv-item-card" data-id="${esc(it.id)}">
           <div class="inv-thumb" data-photo="${photoSrc}" data-title="${esc(it.name)} (${esc(it.id)})">
@@ -214,7 +216,7 @@
 
     photoValInput.value = item.photo || '';
     if (item.photo) {
-      previewImg.src = item.photo.startsWith('data:') || item.photo.startsWith('http') ? item.photo : '../' + item.photo;
+      previewImg.src = getPhotoUrl(item.photo);
       previewWrap.style.display = 'block';
     } else {
       previewWrap.style.display = 'none';

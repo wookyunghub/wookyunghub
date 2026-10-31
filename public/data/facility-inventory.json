@@ -1,5 +1,5 @@
 {
-  "updated_at": "2024-10-01",
+  "updated_at": "2026-10-31 22:58:00",
   "total_count": 115,
   "categories": [
     {
@@ -1778,5 +1778,6 @@
       "pdf_page": 2,
       "photo": "assets/img/inventory/items/item_6206.webp"
     }
-  ]
+  ],
+  "version": "20261031_v3"
 }

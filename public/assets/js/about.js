@@ -100,14 +100,14 @@
   async function loadInventory() {
     if (inventoryData) return inventoryData;
     try {
-      const res = await fetch('data/facility-inventory.json', { cache: 'no-store' });
+      const res = await fetch('data/facility-inventory.json?t=' + Date.now(), { cache: 'no-store' });
       if (res.ok) {
         inventoryData = await res.json();
         return inventoryData;
       }
     } catch (e) {}
     try {
-      const res = await fetch('../data/facility-inventory.json', { cache: 'no-store' });
+      const res = await fetch('../data/facility-inventory.json?t=' + Date.now(), { cache: 'no-store' });
       if (res.ok) {
         inventoryData = await res.json();
         return inventoryData;
@@ -222,7 +222,7 @@
                   <span class="inv-status-badge inv-status-${esc(item.status || '사용')}">${esc(item.status || '사용')}</span>
                 </td>
                 <td class="inv-action-cell">
-                  ${item.photo ? `<button type="button" class="inv-photo-btn" data-img="${item.photo}" data-title="${esc(item.name)} (${esc(item.id)})">📷 사진</button>` : ''}
+                  ${item.photo ? `<button type="button" class="inv-photo-btn" data-img="${item.photo}?v=20261031_v3" data-title="${esc(item.name)} (${esc(item.id)})">📷 사진</button>` : ''}
                   ${item.pdf_url ? `<a href="${item.pdf_url}" target="_blank" rel="noopener" class="inv-pdf-link" title="원본 PDF 열람">📄 원본</a>` : ''}
                 </td>
                 <td style="font-size:12px;color:#7a6859">${esc(item.note || '-')}</td>
