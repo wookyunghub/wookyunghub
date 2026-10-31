@@ -846,7 +846,7 @@
       "note": "남/여 화장실 각 1개",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/kitchen_p2.webp"
+      "photo": "assets/img/inventory/items/item_3204-수전.webp"
     },
     {
       "id": "3104",
@@ -876,7 +876,7 @@
       "note": "남/여 화장실 각 1개",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/kitchen_p2.webp"
+      "photo": "assets/img/inventory/items/item_3206-변기.webp"
     },
     {
       "id": "3201",
