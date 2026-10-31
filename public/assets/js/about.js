@@ -67,4 +67,150 @@
     floorplanImage.addEventListener('wheel',e=>{e.preventDefault();const delta=e.deltaY<0?0.1:-0.1;scale=Math.max(0.4,Math.min(4,Number((scale+delta).toFixed(2))));applyTransform();},{passive:false});
     document.addEventListener('keydown',e=>{if(!floorplanViewer.hasAttribute('open'))return;if(e.key==='Escape'){closeViewer();}else if(e.key==='+'||e.key==='='){scale=Math.min(4,Number((scale+0.2).toFixed(2)));applyTransform();}else if(e.key==='-'){scale=Math.max(0.4,Number((scale-0.2).toFixed(2)));applyTransform();}else if(e.key==='['){rotate-=90;applyTransform();}else if(e.key===']'){rotate+=90;applyTransform();}});
   }
+
+  // --- 시설·비품 대장 조회 모달 기능 ---
+  const invDialog = document.getElementById('inventory-dialog');
+  const btnInv = document.getElementById('btn-facility-inventory');
+  const btnInvHeader = document.getElementById('btn-facility-inventory-header');
+  const invList = document.getElementById('inventory-list');
+  const invSearch = document.getElementById('inventory-search');
+  const invCountText = document.getElementById('inventory-count-text');
+  let inventoryData = null;
+  let activeCat = 'all';
+
+  async function loadInventory() {
+    if (inventoryData) return inventoryData;
+    try {
+      const res = await fetch('data/facility-inventory.json', { cache: 'no-store' });
+      if (res.ok) {
+        inventoryData = await res.json();
+        return inventoryData;
+      }
+    } catch (e) {}
+    try {
+      const res = await fetch('../data/facility-inventory.json', { cache: 'no-store' });
+      if (res.ok) {
+        inventoryData = await res.json();
+        return inventoryData;
+      }
+    } catch (e) {}
+    return { items: [] };
+  }
+
+  function renderInventory() {
+    if (!invList || !inventoryData) return;
+    const items = inventoryData.items || [];
+    const query = (invSearch?.value || '').trim().toLowerCase();
+
+    const filtered = items.filter(x => {
+      if (activeCat !== 'all' && x.cat !== activeCat) return false;
+      if (!query) return true;
+      return (x.name && x.name.toLowerCase().includes(query)) ||
+             (x.spec && x.spec.toLowerCase().includes(query)) ||
+             (x.group && x.group.toLowerCase().includes(query)) ||
+             (x.id && x.id.toLowerCase().includes(query)) ||
+             (x.note && x.note.toLowerCase().includes(query));
+    });
+
+    if (invCountText) {
+      invCountText.textContent = `조회 결과: 총 ${filtered.length}개 품목 (전체 ${items.length}개)`;
+    }
+
+    if (!filtered.length) {
+      invList.innerHTML = '<div style="text-align:center;padding:40px 10px;color:#8c7565;font-size:14px">검색 결과에 해당하는 시설·비품이 없습니다.</div>';
+      return;
+    }
+
+    const groups = {};
+    filtered.forEach(item => {
+      const g = item.group || '기타';
+      if (!groups[g]) groups[g] = [];
+      groups[g].push(item);
+    });
+
+    let html = '';
+    for (const [groupName, groupItems] of Object.entries(groups)) {
+      html += `
+        <div class="inv-group-title">
+          <span>${esc(groupName)}</span>
+          <span class="inv-group-count">${groupItems.length}종</span>
+        </div>
+        <table class="inv-table">
+          <thead>
+            <tr>
+              <th style="width:75px">관리번호</th>
+              <th>품명 및 규격·모델</th>
+              <th style="width:65px;text-align:center">수량</th>
+              <th style="width:90px;text-align:center">취득구분</th>
+              <th style="width:70px;text-align:center">상태</th>
+              <th>비고</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${groupItems.map(item => `
+              <tr>
+                <td style="color:#7a6859;font-weight:600">${esc(item.id)}</td>
+                <td>
+                  <strong style="color:#3c281b">${esc(item.name)}</strong>
+                  ${item.spec ? `<div style="font-size:12px;color:#6d5b4e;margin-top:2px">${esc(item.spec)}</div>` : ''}
+                </td>
+                <td style="text-align:center;font-weight:700;color:#2c4028">${esc(item.qty)}${esc(item.unit || '개')}</td>
+                <td style="text-align:center;font-size:12px;color:#5a493c">${esc(item.acquire || '-')}</td>
+                <td style="text-align:center">
+                  <span class="inv-status-badge inv-status-${esc(item.status || '사용')}">${esc(item.status || '사용')}</span>
+                </td>
+                <td style="font-size:12px;color:#7a6859">${esc(item.note || '-')}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+    invList.innerHTML = html;
+  }
+
+  async function openInventory() {
+    if (!invDialog) return;
+    await loadInventory();
+    renderInventory();
+    if (typeof invDialog.showModal === 'function') invDialog.showModal();
+    else invDialog.setAttribute('open', 'open');
+  }
+
+  function closeInventory() {
+    if (!invDialog) return;
+    if (typeof invDialog.close === 'function') invDialog.close();
+    else invDialog.removeAttribute('open');
+  }
+
+  if (btnInv) btnInv.addEventListener('click', openInventory);
+  if (btnInvHeader) btnInvHeader.addEventListener('click', openInventory);
+  document.getElementById('inventory-close-btn')?.addEventListener('click', closeInventory);
+  document.getElementById('inventory-foot-close-btn')?.addEventListener('click', closeInventory);
+  document.getElementById('inventory-print-btn')?.addEventListener('click', () => window.print());
+
+  if (invDialog) {
+    invDialog.addEventListener('click', e => {
+      if (e.target === invDialog) closeInventory();
+    });
+    invDialog.addEventListener('cancel', e => {
+      e.preventDefault();
+      closeInventory();
+    });
+  }
+
+  document.querySelectorAll('.inv-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.inv-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeCat = pill.dataset.cat || 'all';
+      renderInventory();
+    });
+  });
+
+  if (invSearch) {
+    invSearch.addEventListener('input', () => {
+      renderInventory();
+    });
+  }
 })();

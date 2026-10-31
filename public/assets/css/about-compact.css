@@ -63,3 +63,54 @@
 #facilities .facility-summary>*{margin:0;white-space:nowrap;background:#f6e9da;color:#724c39;border:1px solid #ead1b8;padding:7px 10px;border-radius:999px;font-size:13px;font-weight:600}
 @media(max-width:800px){#facilities .facility-plan{grid-template-columns:1fr;gap:16px}#facilities .facility-plan-thumb{min-height:0}#facilities .facility-plan-info-row{align-items:center}#facilities .facility-summary{flex-basis:50%}}
 @media(max-width:480px){#facilities .facility-plan-info-row{flex-direction:column;gap:12px}#facilities .facility-summary{width:100%;justify-content:flex-start}}
+
+/* 시설·비품 대장 조회 버튼 및 액션 */
+.facility-header-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.facility-meta-actions{margin-top:10px}
+.facility-inventory-btn{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:13.5px;padding:8px 14px;border-radius:8px;background:#526c49;color:#fff!important;border:1px solid #435b3c;cursor:pointer;box-shadow:0 2px 6px rgba(82,108,73,.2);transition:all .15s ease}
+.facility-inventory-btn:hover{background:#415739;transform:translateY(-1px);box-shadow:0 4px 10px rgba(82,108,73,.3)}
+.facility-inventory-btn .btn-icon{font-size:14px}
+
+/* 시설·비품 대장 모달 다이얼로그 */
+.inventory-dialog{width:min(960px,calc(100vw - 28px));max-width:960px;max-height:88vh;border:1px solid #d9cbbe;border-radius:16px;padding:0;background:#fdfbf9;box-shadow:0 20px 50px rgba(0,0,0,.25);color:inherit;overflow:hidden}
+.inventory-dialog::backdrop{background:rgba(0,0,0,.55);backdrop-filter:blur(2px)}
+.inventory-dialog[open]{display:flex;flex-direction:column}
+.inventory-dialog-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px 12px;border-bottom:1px solid #e7ded5;background:#fbf7f2}
+.inventory-dialog-head h3{margin:0;font-size:19px;color:#3f2c1d;font-weight:700}
+.inventory-dialog-sub{margin:4px 0 0;font-size:13px;color:#7a6a5d}
+.inventory-head-actions{display:flex;gap:8px;align-items:center}
+.inventory-dialog-toolbar{padding:10px 20px;background:#f5ede4;border-bottom:1px solid #e3d7cb;display:flex;flex-direction:column;gap:8px}
+.inventory-filter-pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+.inv-pill{padding:6px 12px;border-radius:999px;border:1px solid #d2bead;background:#fff;color:#5a4233;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s ease}
+.inv-pill:hover{background:#f0e2d3}
+.inv-pill.active{background:#526c49;color:#fff;border-color:#526c49}
+.inventory-search-wrap input{width:100%;padding:8px 12px;border:1.5px solid #d2bead;border-radius:8px;font-size:14px;background:#fff;box-sizing:border-box}
+.inventory-dialog-body{flex:1 1 auto;overflow-y:auto;padding:14px 20px;display:flex;flex-direction:column;gap:10px;min-height:220px;max-height:calc(88vh - 200px)}
+.inv-group-title{font-size:14px;font-weight:700;color:#526c49;padding:6px 10px;background:#eef3ed;border-radius:6px;margin-top:12px;border-left:4px solid #526c49;display:flex;justify-content:space-between;align-items:center}
+.inv-group-title:first-child{margin-top:0}
+.inv-group-count{font-size:12px;color:#698260;font-weight:600}
+.inv-table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e7ded5}
+.inv-table th{background:#f9f5f0;color:#5c4434;padding:8px 10px;font-weight:700;text-align:left;border-bottom:1px solid #e7ded5}
+.inv-table td{padding:9px 10px;border-bottom:1px solid #f2ede7;color:#333;vertical-align:middle}
+.inv-table tr:last-child td{border-bottom:none}
+.inv-table tr:hover td{background:#fdfbf7}
+.inv-status-badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700}
+.inv-status-사용{background:#eaf4e8;color:#2e6924;border:1px solid #c7e3c1}
+.inv-status-보관{background:#eef3f7;color:#2b5575;border:1px solid #c9dceb}
+.inv-status-고장,.inv-status-폐기대상{background:#fbeeed;color:#a42c26;border:1px solid #f3cdc9}
+.inv-status-준비중{background:#fff6e6;color:#9c6310;border:1px solid #fae2b8}
+.inventory-dialog-foot{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#fbf7f2;border-top:1px solid #e7ded5;font-size:13px;color:#7a6a5d}
+@media(max-width:640px){
+  .inventory-dialog{width:calc(100vw - 14px);max-height:94vh}
+  .inventory-dialog-head{padding:12px 14px}
+  .inventory-dialog-head h3{font-size:17px}
+  .inventory-dialog-toolbar{padding:8px 14px}
+  .inventory-dialog-body{padding:10px 14px}
+  .inv-table th:nth-child(1),.inv-table td:nth-child(1){display:none} /* 번호 열 숨김 */
+}
+@media print{
+  body *{visibility:hidden}
+  #inventory-dialog,#inventory-dialog *{visibility:visible}
+  #inventory-dialog{position:absolute;left:0;top:0;width:100%!important;max-width:100%!important;border:none;box-shadow:none}
+  .inventory-head-actions,.inventory-dialog-toolbar,.inventory-dialog-foot{display:none!important}
+}
