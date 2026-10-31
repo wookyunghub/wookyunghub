@@ -203,10 +203,14 @@ body main .simple-list.home-news-list>.home-news-item{border-top:0!important}
  body .topbar .menu-toggle.open{background:#e3ecd9;border-color:#809d70;color:#405b38}
 }
 
-/* Homepage Hero: Building Photo Card & Inline Title Logo */
+/* Homepage Hero: Building Photo Background & Front Card */
 body .home-main-hero{
   position:relative;
-  background:linear-gradient(115deg, #fbf8f2 0%, #f6f1e7 55%, #ece4d4 100%);
+  background-color:#eae3d7;
+  background-image:linear-gradient(105deg, rgba(255, 253, 249, 0.78) 0%, rgba(255, 253, 249, 0.55) 45%, rgba(255, 253, 249, 0.28) 75%, rgba(245, 238, 226, 0.12) 100%), var(--hero-bg, url('../img/building.jpg'));
+  background-size:cover;
+  background-position:center 38%;
+  background-repeat:no-repeat;
   border-bottom:1.5px solid var(--theme-border, #b59e84);
 }
 body .home-main-hero-inner{
@@ -232,8 +236,16 @@ body .hero-title-row h1{
   line-height:1.15;
   margin:0;
   letter-spacing:-.045em;
-  color:#173b60;
+  color:#153456;
+  text-shadow:0 1px 3px rgba(255, 255, 255, 0.85);
   flex-shrink:0;
+}
+body .home-main-hero p{
+  font-size:18px;
+  color:#324456;
+  max-width:680px;
+  text-shadow:0 1px 3px rgba(255, 255, 255, 0.85);
+  font-weight:500;
 }
 body .hero-title-logo-wrap{
   flex-shrink:0;
@@ -316,6 +328,10 @@ body .hero-building-badge .hero-photo-slogan{
 }
 
 @media(max-width:900px){
+  body .home-main-hero{
+    background-image:linear-gradient(180deg, rgba(255, 253, 249, 0.80) 0%, rgba(255, 253, 249, 0.58) 48%, rgba(248, 244, 236, 0.28) 100%), var(--hero-bg, url('../img/building.jpg'));
+    background-position:center 25%;
+  }
   body .home-main-hero-inner{
     display:flex;
     flex-direction:column;
