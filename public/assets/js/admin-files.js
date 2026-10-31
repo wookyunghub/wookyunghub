@@ -3,9 +3,9 @@
   const list=$('file-list'),filter=$('file-filter'),msg=$('file-msg'),uploadBtn=$('file-upload');
   const dialog=$('file-detail'),detail=$('file-detail-body');
   const docPills=$('file-doc-pills'),scrollTopBtn=$('file-scroll-top');
-  const roles={minutes:'회의록 원본',attendance:'참석명단',report:'보고자료',receipt:'영수증·증빙',other:'일반문서'};
-  const types={document:{kind:'documents',role:''},photo:{kind:'photos',role:''},minutes:{kind:'documents',role:'minutes'},attendance:{kind:'documents',role:'attendance'},report:{kind:'documents',role:'report'},receipt:{kind:'receipts',role:'receipt'}};
-  function fileType(x){if(x._kind==='receipts')return 'receipt';if(x._kind==='photos')return 'photo';return ['minutes','attendance','report'].includes(x.attachment_role)?x.attachment_role:'document';}
+  const roles={minutes:'회의록 원본',attendance:'참석명단',report:'보고자료',receipt:'영수증·증빙',form:'서식',other:'일반문서'};
+  const types={document:{kind:'documents',role:''},form:{kind:'documents',role:'form'},photo:{kind:'photos',role:''},minutes:{kind:'documents',role:'minutes'},attendance:{kind:'documents',role:'attendance'},report:{kind:'documents',role:'report'},receipt:{kind:'receipts',role:'receipt'}};
+  function fileType(x){if(x._kind==='receipts')return 'receipt';if(x._kind==='photos')return 'photo';return ['minutes','attendance','report','form'].includes(x.attachment_role)?x.attachment_role:'document';}
   function rolePolicy(){const locked=$('file-role').value==='receipt';$('file-public').disabled=locked;if(locked)$('file-public').value='false';}
   $('file-role').onchange=()=>{$('file-public').value='true';rolePolicy();};rolePolicy();
   const linksText=x=>(x.linked_records||[]).map(r=>r.title||r.id).join(' / ');
@@ -113,7 +113,7 @@
     }
     if(currentTab==='document'){
       const filteredDocs=currentDocSub==='document_all'?allDocs:allDocs.filter(x=>fileType(x)===currentDocSub);
-      const subLabels={document_all:'전체', document:'일반', minutes:'회의록', attendance:'명단', report:'보고'};
+      const subLabels={document_all:'전체', form:'서식', document:'일반', minutes:'회의록', attendance:'명단', report:'보고'};
       const subLabel=subLabels[currentDocSub]||roles[currentDocSub]||'문서';
       list.innerHTML=groupHtml('문서 ('+subLabel+')', '📄', filteredDocs)||(filteredDocs.length?'':`<div class="empty-state compact-empty">해당 분류(${subLabel})의 문서 자료가 없습니다.</div>`);
       return;

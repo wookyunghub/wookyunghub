@@ -1,1 +1,84 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="assets/css/app.css?v=1.3"><title>자료실</title></head><body><header class="topbar"><div class="wrap"><div class="brand-block"><a class="brand" data-brand href="index.html">우경경로당</a><div class="small">함께하는 경로당 홈페이지</div></div><nav class="top-actions" aria-label="주 메뉴"></nav></div></header><main class="wrap page-wrap"><section class="page-title"><span class="eyebrow">자료실</span><h1>자료실</h1><p>일반문서와 사진자료를 한 곳에서 확인합니다.</p></section><section id="documents" class="content-panel"><h2>일반문서</h2><div id="resource-docs" class="resource-grid"></div></section><section id="photos" class="content-panel"><h2>사진자료</h2><div id="resource-photos" class="activity-grid"></div></section></main><footer class="footer"><div class="wrap"><span data-brand>우경경로당</span> · 경로당 홈페이지</div></footer><script src="assets/js/common.js?v=1.1"></script><script src="assets/js/resource-order.js?v=5.66"></script><script src="assets/js/resources.js?v=5.66"></script></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="assets/css/app.css?v=2.5">
+  <link rel="stylesheet" href="assets/css/site-theme.css?v=5.72">
+  <title>자료실 · 우경경로당</title>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand-block">
+      <a class="brand" data-brand href="index.html">우경경로당</a>
+      <div class="small">함께하는 경로당 홈페이지</div>
+    </div>
+    <nav class="top-actions" aria-label="주 메뉴"></nav>
+  </div>
+</header>
+<main class="wrap page-wrap">
+  <section class="page-title">
+    <span class="eyebrow">자료실</span>
+    <h1>자료실</h1>
+    <p>경로당 서식자료, 일반문서와 활동 사진을 열람하고 다운로드할 수 있습니다.</p>
+  </section>
+
+  <!-- 자료실 탭 메뉴 -->
+  <nav class="res-nav-tabs" role="tablist" aria-label="자료실 분류 탭">
+    <button type="button" class="res-nav-tab active" data-tab="all" role="tab" aria-selected="true">
+      <span class="tab-icon">📑</span><span class="tab-label">전체</span>
+    </button>
+    <button type="button" class="res-nav-tab" data-tab="forms" role="tab" aria-selected="false">
+      <span class="tab-icon">📋</span><span class="tab-label">서식자료</span>
+    </button>
+    <button type="button" class="res-nav-tab" data-tab="docs" role="tab" aria-selected="false">
+      <span class="tab-icon">📄</span><span class="tab-label">일반문서</span>
+    </button>
+    <button type="button" class="res-nav-tab" data-tab="photos" role="tab" aria-selected="false">
+      <span class="tab-icon">📷</span><span class="tab-label">사진자료</span>
+    </button>
+  </nav>
+
+  <!-- 1. 서식자료 섹션 -->
+  <section id="section-forms" class="content-panel res-section">
+    <div class="section-heading-row">
+      <div>
+        <h2>📋 서식자료</h2>
+        <p class="section-help" style="margin:2px 0 0">경로당 운영, 회원 신청, 회의 등에 필요한 공식 서식을 열람하고 다운로드할 수 있습니다.</p>
+      </div>
+      <span id="forms-count" class="badge">0건</span>
+    </div>
+    <div id="resource-forms" class="resource-grid"></div>
+  </section>
+
+  <!-- 2. 일반문서 섹션 -->
+  <section id="section-docs" class="content-panel res-section">
+    <div class="section-heading-row">
+      <div>
+        <h2>📄 일반문서</h2>
+        <p class="section-help" style="margin:2px 0 0">회의록, 보고서 등 경로당 운영 일반 공개 문서입니다.</p>
+      </div>
+      <span id="docs-count" class="badge">0건</span>
+    </div>
+    <div id="resource-docs" class="resource-grid"></div>
+  </section>
+
+  <!-- 3. 사진자료 섹션 -->
+  <section id="section-photos" class="content-panel res-section">
+    <div class="section-heading-row">
+      <div>
+        <h2>📷 사진자료</h2>
+        <p class="section-help" style="margin:2px 0 0">경로당 행사 및 주요 활동 사진입니다.</p>
+      </div>
+      <span id="photos-count" class="badge">0건</span>
+    </div>
+    <div id="resource-photos" class="activity-grid"></div>
+  </section>
+</main>
+<footer class="footer"><div class="wrap"><span data-brand>우경경로당</span> · 경로당 홈페이지</div></footer>
+<script src="assets/js/common.js?v=1.3"></script>
+<script src="assets/js/resource-order.js?v=5.66"></script>
+<script src="assets/js/resources.js?v=5.70"></script>
+</body>
+</html>

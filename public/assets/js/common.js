@@ -73,7 +73,7 @@
       {key:'guide',label:'운영안내',href:u('guide.html'),items:[['운영지침',u('guide.html#policy')],['노인강령',u('guide.html#elder-code')],['경로헌장',u('guide.html#charter')],['운영규정',u('regulations.html')]]},
       {key:'news',label:'소식·활동',href:u('news-list.html'),items:[['공지사항',u('news-list.html?type=notice')],['회의·행사 기록',u('news-list.html?type=records')]]},
       {key:'ledger',label:'운영대장',href:u('ledger.html'),items:[['운영대장 전체',u('ledger.html')],['최신 운영대장',u('ledger.html#current')],['지난 운영대장',u('ledger.html#archives')],['이북 보기',u('ebook.html?ledger=2025-2026&doc=summary')]]},
-      {key:'resources',label:'자료실',href:u('resources.html'),items:[['일반문서',u('resources.html#documents')],['사진자료',u('resources.html#photos')]]},
+      {key:'resources',label:'자료실',href:u('resources.html'),items:[['서식자료',u('resources.html#forms')],['일반문서',u('resources.html#docs')],['사진자료',u('resources.html#photos')]]},
       {key:'admin',label:'관리자',href:admin?u('admin/index.html'):u('admin-login.html'),items:admin?[[ '관리자 홈',u('admin/index.html')],['공지사항 관리',u('admin/announcements.html')],['통합 기록 관리',u('admin/records.html')],['임원·이사회 관리',u('admin/officers.html')],['회원명부 관리',u('admin/members.html')],['자료·첨부 관리',u('admin/files.html')],...(stat.features?.publication_management===true?[['운영대장·발간',u('admin/ledgers.html')]]:[]),['기본 설정',u('admin/settings.html')],['관리자 PIN',u('admin/security.html')],['로그아웃','#logout']]:[['관리자 로그인',u('admin-login.html')]]}
     ];
     if(external.mode!=='none')groups[5].items.push([external.mode==='preview'?'개발 미리보기':'공개 홈페이지','#external']);
@@ -176,4 +176,4 @@
 {const s=document.createElement("script");s.src=window.CenterHubCommon.root+"assets/js/file-viewer.js?v=5.50";document.head.append(s);}
 
 // All pages load the shared theme through the existing common entry point.
-{const link=document.createElement('link');link.id='centerhub-site-theme';link.rel='stylesheet';link.href=new URL('assets/css/site-theme.css?v=5.71',window.CenterHubCommon.root).href;document.head.appendChild(link);}
+{const link=document.createElement('link');link.id='centerhub-site-theme';link.rel='stylesheet';link.href=new URL('assets/css/site-theme.css?v=5.72',window.CenterHubCommon.root).href;document.head.appendChild(link);}

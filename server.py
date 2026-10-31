@@ -22,7 +22,7 @@ mimetypes.add_type('image/bmp','.bmp')
 LOGIN_ATTEMPTS={}; LOGIN_WINDOW=300; LOGIN_LIMIT=8
 UPLOAD_EXTENSIONS={'.pdf','.hwp','.hwpx','.doc','.docx','.xls','.xlsx','.ppt','.pptx','.txt','.jpg','.jpeg','.png','.bmp','.webp','.gif','.mp4','.mov','.zip'}
 
-ATTACHMENT_ROLES={'minutes':'회의록 원본','attendance':'참석명단','report':'보고자료','receipt':'영수증·증빙','other':'기타'}
+ATTACHMENT_ROLES={'minutes':'회의록 원본','attendance':'참석명단','report':'보고자료','receipt':'영수증·증빙','form':'서식','other':'기타'}
 PRIVATE_ATTACHMENT_ROLES={'receipt'}
 
 def resource_policy(kind, role, public):
