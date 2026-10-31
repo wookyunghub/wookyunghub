@@ -17,6 +17,9 @@
   const listHeading = document.getElementById('inv-list-heading');
   const tabs = document.querySelectorAll('#inv-admin-tabs .inv-tab-btn');
 
+  const catSelect = document.getElementById('inv-cat');
+  const idInput = document.getElementById('inv-id');
+
   // Photo preview & dialog
   const photoFileInput = document.getElementById('inv-photo-file');
   const photoValInput = document.getElementById('inv-photo-val');
@@ -29,6 +32,15 @@
   const dialogTitle = document.getElementById('inv-admin-photo-title');
   const dialogClose = document.getElementById('inv-admin-photo-close');
 
+  const CAT_START_ID = {
+    energy: 1101,
+    comm: 2101,
+    kitchen: 3101,
+    health: 4101,
+    safety: 5101,
+    storage: 6101
+  };
+
   function esc(str) {
     if (str === null || str === undefined) return '';
     return String(str)
@@ -38,25 +50,61 @@
       .replace(/"/g, '&quot;');
   }
 
+  // Calculate next available ID for category
+  function getNextId(cat) {
+    const existing = items
+      .filter(it => it.cat === cat)
+      .map(it => {
+        const num = parseInt(String(it.id).replace(/[^0-9]/g, ''), 10);
+        return isNaN(num) ? 0 : num;
+      })
+      .filter(num => num > 0);
+
+    const base = CAT_START_ID[cat] || 1101;
+    let nextNum = existing.length > 0 ? Math.max(...existing) + 1 : base;
+
+    // Ensure uniqueness across all items
+    while (items.some(it => String(it.id) === String(nextNum))) {
+      nextNum++;
+    }
+    return String(nextNum);
+  }
+
+  function updateAutoId() {
+    if (editingId === null && idInput && catSelect) {
+      idInput.value = getNextId(catSelect.value);
+    }
+  }
+
   async function loadData() {
+    // Check if localStorage has valid and updated items
     const saved = localStorage.getItem(STORAGE_KEY);
+    let loadedFromStorage = false;
     if (saved) {
       try {
-        items = JSON.parse(saved);
-        renderList();
-        return;
+        const parsed = JSON.parse(saved);
+        // Only use storage if it has clean 4-digit IDs without legacy dashes
+        if (Array.isArray(parsed) && parsed.length >= 115 && parsed.every(x => /^[1-6]\d{3}$/.test(x.id))) {
+          items = parsed;
+          loadedFromStorage = true;
+        }
       } catch (e) {}
     }
 
-    try {
-      const res = await fetch('../data/facility-inventory.json', { cache: 'no-store' });
-      if (res.ok) {
-        const data = await res.json();
-        items = data.items || [];
+    if (!loadedFromStorage) {
+      try {
+        const res = await fetch('../data/facility-inventory.json', { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          items = data.items || [];
+          saveData();
+        }
+      } catch (e) {
+        items = [];
       }
-    } catch (e) {
-      items = [];
     }
+
+    updateAutoId();
     renderList();
   }
 
@@ -149,8 +197,12 @@
     formTitle.textContent = `시설·비품 수정 (관리번호: ${item.id})`;
     submitBtn.textContent = '수정 완료하기';
 
-    document.getElementById('inv-cat').value = item.cat || 'energy';
-    document.getElementById('inv-id').value = item.id || '';
+    // Lock Category & ID during edit
+    catSelect.value = item.cat || 'energy';
+    catSelect.disabled = true;
+    idInput.value = item.id;
+    idInput.readOnly = true;
+
     document.getElementById('inv-name').value = item.name || '';
     document.getElementById('inv-group').value = item.group || '';
     document.getElementById('inv-spec').value = item.spec || '';
@@ -174,7 +226,7 @@
     }
 
     form.scrollIntoView({ behavior: 'smooth' });
-    msgEl.textContent = `[${item.id}] ${item.name} 정보를 수정 중입니다.`;
+    msgEl.textContent = `[${item.id}] ${item.name} 수정 중입니다. (대분류/관리번호 변경 시 삭제 후 재등록)`;
     msgEl.style.color = '#734f31';
   }
 
@@ -183,6 +235,11 @@
     form.reset();
     formTitle.textContent = '시설·비품 신규 등록';
     submitBtn.textContent = '비품 등록하기';
+
+    // Unlock Category
+    catSelect.disabled = false;
+    updateAutoId();
+
     photoValInput.value = '';
     photoFileInput.value = '';
     previewWrap.style.display = 'none';
@@ -201,6 +258,13 @@
     msgEl.textContent = `비품 [${id}]이 삭제되었습니다.`;
     msgEl.style.color = '#b2352b';
   }
+
+  // Handle category change -> auto recalculate next ID in registration mode
+  catSelect.addEventListener('change', () => {
+    if (editingId === null) {
+      updateAutoId();
+    }
+  });
 
   // Handle photo file selection
   photoFileInput.addEventListener('change', e => {
@@ -230,8 +294,7 @@
   form.addEventListener('submit', e => {
     e.preventDefault();
 
-    const cat = document.getElementById('inv-cat').value;
-    const id = document.getElementById('inv-id').value.trim();
+    const cat = catSelect.value;
     const name = document.getElementById('inv-name').value.trim();
     const group = document.getElementById('inv-group').value.trim() || '기타';
     const spec = document.getElementById('inv-spec').value.trim();
@@ -242,19 +305,17 @@
     const note = document.getElementById('inv-note').value.trim();
     const photo = photoValInput.value || '';
 
-    if (!id || !name) {
-      alert('관리번호와 품명을 입력해 주세요.');
+    if (!name) {
+      alert('품명을 입력해 주세요.');
       return;
     }
 
     if (editingId !== null) {
-      // Update existing
+      // Update existing item (ID and Category remain strictly unchanged)
       const idx = items.findIndex(x => String(x.id) === String(editingId));
       if (idx !== -1) {
         items[idx] = {
           ...items[idx],
-          cat,
-          id,
           name,
           group,
           spec,
@@ -263,22 +324,24 @@
           acquire,
           status,
           note,
-          photo: photo !== undefined ? photo : items[idx].photo
+          photo: photo !== '' ? photo : items[idx].photo
         };
       }
-      msgEl.textContent = `비품 [${id}] ${name} 수정 완료!`;
+      msgEl.textContent = `비품 [${editingId}] ${name} 수정 완료!`;
       msgEl.style.color = '#2e6924';
     } else {
-      // Check duplicate ID
-      if (items.some(x => String(x.id) === String(id))) {
-        if (!confirm(`관리번호 [${id}]가 이미 존재합니다. 계속 등록하시겠습니까?`)) {
-          return;
-        }
+      // New item registration: auto assign ID
+      const assignedId = getNextId(cat);
+
+      // Strict duplicate prevention
+      if (items.some(x => String(x.id) === String(assignedId))) {
+        alert(`오류: 관리번호 [${assignedId}]가 이미 존재합니다. 다시 시도해 주세요.`);
+        return;
       }
 
       const newItem = {
         cat,
-        id,
+        id: assignedId,
         name,
         group,
         spec,
@@ -290,7 +353,7 @@
         photo
       };
       items.unshift(newItem);
-      msgEl.textContent = `신규 비품 [${id}] ${name} 등록 완료!`;
+      msgEl.textContent = `신규 비품 [${assignedId}] ${name} 등록 완료!`;
       msgEl.style.color = '#2e6924';
     }
 

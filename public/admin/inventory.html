@@ -443,8 +443,8 @@
           </div>
 
           <div class="inv-field field-id">
-            <label for="inv-id">관리번호 <span class="req">*</span></label>
-            <input type="text" id="inv-id" placeholder="예: 1101" required>
+            <label for="inv-id">관리번호 <small style="color:#734f31;font-weight:normal">(자동부여)</small></label>
+            <input type="text" id="inv-id" readonly style="background:#ede6de;color:#554133;cursor:not-allowed;font-weight:700;" title="대분류에 따라 번호가 자동 부여되며 직접 입력할 수 없습니다.">
           </div>
 
           <div class="inv-field field-name">
@@ -458,6 +458,9 @@
           </div>
         </div>
 
+        <div style="font-size:11.5px;color:#855c38;margin:-2px 0 2px 2px;line-height:1.4;">
+          ※ <strong>관리번호</strong>는 대분류에 따라 자동으로 다음 번호가 부여되며 수정이 불가합니다. (대분류 및 관리번호 변경 시 기존 자료를 삭제 후 새로 등록해 주세요.)
+        </div>
         <!-- 2행: 수량, 단위, 취득구분, 상태, 세부그룹 -->
         <div class="inv-form-row">
           <div class="inv-field field-qty">

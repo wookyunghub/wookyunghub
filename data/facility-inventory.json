@@ -66,7 +66,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/energy_p1.webp"
+      "photo": "assets/img/inventory/items/item_1101.webp"
     },
     {
       "id": "1102",
@@ -81,7 +81,7 @@
       "note": "실내 및 실외 전구역",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/energy_p1.webp"
+      "photo": "assets/img/inventory/items/item_1102.webp"
     },
     {
       "id": "1103",
@@ -96,7 +96,7 @@
       "note": "스탠드형",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/energy_p1.webp"
+      "photo": "assets/img/inventory/items/item_1103.webp"
     },
     {
       "id": "1104",
@@ -111,7 +111,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/energy_p1.webp"
+      "photo": "assets/img/inventory/items/item_1104.webp"
     },
     {
       "id": "1105",
@@ -126,7 +126,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/energy_p1.webp"
+      "photo": "assets/img/inventory/items/item_1105.webp"
     },
     {
       "id": "1106",
@@ -141,7 +141,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/energy_p2.webp"
+      "photo": "assets/img/inventory/items/item_1106.webp"
     },
     {
       "id": "1107",
@@ -156,7 +156,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/energy_p2.webp"
+      "photo": "assets/img/inventory/items/item_1107.webp"
     },
     {
       "id": "1108",
@@ -171,7 +171,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/energy_p2.webp"
+      "photo": "assets/img/inventory/items/item_1108.webp"
     },
     {
       "id": "1109",
@@ -186,7 +186,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/energy_p2.webp"
+      "photo": "assets/img/inventory/items/item_1109.webp"
     },
     {
       "id": "1110",
@@ -201,7 +201,7 @@
       "note": "2025.12.26 구입 (139,000원)",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/energy_p2.webp"
+      "photo": "assets/img/inventory/items/item_1110.webp"
     },
     {
       "id": "1111",
@@ -216,7 +216,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/energy_p2.webp"
+      "photo": "assets/img/inventory/items/item_1111.webp"
     },
     {
       "id": "1112",
@@ -231,7 +231,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/energy_p3.webp"
+      "photo": "assets/img/inventory/items/item_1112.webp"
     },
     {
       "id": "1114",
@@ -246,7 +246,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/energy_p3.webp"
+      "photo": "assets/img/inventory/items/item_1114.webp"
     },
     {
       "id": "1115",
@@ -261,7 +261,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/energy_p3.webp"
+      "photo": "assets/img/inventory/items/item_1115.webp"
     },
     {
       "id": "1116",
@@ -276,7 +276,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/energy_p3.webp"
+      "photo": "assets/img/inventory/items/item_1116.webp"
     },
     {
       "id": "1117",
@@ -291,7 +291,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/energy_p3.webp"
+      "photo": "assets/img/inventory/items/item_1117.webp"
     },
     {
       "id": "1118",
@@ -306,7 +306,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/energy_p3.webp"
+      "photo": "assets/img/inventory/items/item_1118.webp"
     },
     {
       "id": "1119",
@@ -321,7 +321,7 @@
       "note": "월 18,900원 (위니아충청 1800-8888)",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 4,
-      "photo": "assets/img/inventory/energy_p4.webp"
+      "photo": "assets/img/inventory/items/item_1119.webp"
     },
     {
       "id": "1201",
@@ -336,7 +336,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 5,
-      "photo": "assets/img/inventory/energy_p5.webp"
+      "photo": "assets/img/inventory/items/item_1201.webp"
     },
     {
       "id": "1202",
@@ -351,7 +351,7 @@
       "note": "경로당 전체 난방",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 5,
-      "photo": "assets/img/inventory/energy_p5.webp"
+      "photo": "assets/img/inventory/items/item_1202.webp"
     },
     {
       "id": "1203",
@@ -366,7 +366,7 @@
       "note": "급탕 및 온수 공급",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 5,
-      "photo": "assets/img/inventory/energy_p5.webp"
+      "photo": "assets/img/inventory/items/item_1203.webp"
     },
     {
       "id": "1301",
@@ -381,7 +381,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 6,
-      "photo": "assets/img/inventory/energy_p6.webp"
+      "photo": "assets/img/inventory/items/item_1301.webp"
     },
     {
       "id": "1302",
@@ -396,7 +396,7 @@
       "note": "경로당 옥상 설치",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 6,
-      "photo": "assets/img/inventory/energy_p6.webp"
+      "photo": "assets/img/inventory/items/item_1302.webp"
     },
     {
       "id": "1401",
@@ -411,7 +411,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 7,
-      "photo": "assets/img/inventory/energy_p7.webp"
+      "photo": "assets/img/inventory/items/item_1401.webp"
     },
     {
       "id": "1402",
@@ -426,7 +426,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 7,
-      "photo": "assets/img/inventory/energy_p7.webp"
+      "photo": "assets/img/inventory/items/item_1402.webp"
     },
     {
       "id": "1403",
@@ -441,7 +441,7 @@
       "note": "마을 농산물 건조",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 7,
-      "photo": "assets/img/inventory/energy_p7.webp"
+      "photo": "assets/img/inventory/items/item_1403.webp"
     },
     {
       "id": "1501",
@@ -456,7 +456,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 8,
-      "photo": "assets/img/inventory/energy_p8.webp"
+      "photo": "assets/img/inventory/items/item_1501.webp"
     },
     {
       "id": "1502",
@@ -471,7 +471,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 8,
-      "photo": "assets/img/inventory/energy_p8.webp"
+      "photo": "assets/img/inventory/items/item_1502.webp"
     },
     {
       "id": "1503",
@@ -486,7 +486,7 @@
       "note": "마을 행사용",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 8,
-      "photo": "assets/img/inventory/energy_p8.webp"
+      "photo": "assets/img/inventory/items/item_1503.webp"
     },
     {
       "id": "1504",
@@ -501,7 +501,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 8,
-      "photo": "assets/img/inventory/energy_p8.webp"
+      "photo": "assets/img/inventory/items/item_1504.webp"
     },
     {
       "id": "1505",
@@ -516,7 +516,7 @@
       "note": "창고 보관 중",
       "pdf_url": "assets/docs/inventory/1_energy.pdf",
       "pdf_page": 8,
-      "photo": "assets/img/inventory/energy_p8.webp"
+      "photo": "assets/img/inventory/items/item_1505.webp"
     },
     {
       "id": "2101",
@@ -531,7 +531,7 @@
       "note": "전화통신시설: KT 043-532-5593",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/comm_p1.webp"
+      "photo": "assets/img/inventory/items/item_2101.webp"
     },
     {
       "id": "2102",
@@ -546,7 +546,7 @@
       "note": "조영기 기증",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/comm_p1.webp"
+      "photo": "assets/img/inventory/items/item_2102.webp"
     },
     {
       "id": "2201",
@@ -561,7 +561,7 @@
       "note": "마을방송 앰프설비 (유선 외부스피커)",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/comm_p1.webp"
+      "photo": "assets/img/inventory/items/item_2201.webp"
     },
     {
       "id": "2202",
@@ -576,10 +576,10 @@
       "note": "각 가정 무선개별스피커 연동",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/comm_p1.webp"
+      "photo": "assets/img/inventory/items/item_2202.webp"
     },
     {
-      "id": "2302(모)",
+      "id": "2301",
       "name": "방범용 CCTV 본체 및 모니터",
       "spec": "삼성 24인치 LED 모니터 (LS24D300HL 2016.01)",
       "qty": 1,
@@ -591,10 +591,10 @@
       "note": "동양정보산업(주) 043-533-1119 (진천 중앙서로 43-10)",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/comm_p1.webp"
+      "photo": "assets/img/inventory/items/item_2301.webp"
     },
     {
-      "id": "2302(카)",
+      "id": "2302",
       "name": "방범용 CCTV 카메라",
       "spec": "옥외 방범감시 카메라 (6채널)",
       "qty": 6,
@@ -606,7 +606,7 @@
       "note": "동양정보산업(주) 유지보수 관리 (총 6대 운용)",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/comm_p1.webp"
+      "photo": "assets/img/inventory/items/item_2302.webp"
     },
     {
       "id": "2401",
@@ -621,7 +621,7 @@
       "note": "태림이엔지 기증",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/comm_p2.webp"
+      "photo": "assets/img/inventory/items/item_2401.webp"
     },
     {
       "id": "2402",
@@ -636,7 +636,7 @@
       "note": "노래방 반주 가사 출력 모니터",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/comm_p2.webp"
+      "photo": "assets/img/inventory/items/item_2402.webp"
     },
     {
       "id": "2501",
@@ -651,7 +651,7 @@
       "note": "2023.05 설치, KT 와이파이 인터넷 연결",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/comm_p2.webp"
+      "photo": "assets/img/inventory/items/item_2501.webp"
     },
     {
       "id": "2502",
@@ -666,7 +666,7 @@
       "note": "2023.05 설치",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/comm_p2.webp"
+      "photo": "assets/img/inventory/items/item_2502.webp"
     },
     {
       "id": "2503",
@@ -681,7 +681,7 @@
       "note": "2023.05 설치",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/comm_p2.webp"
+      "photo": "assets/img/inventory/items/item_2503.webp"
     },
     {
       "id": "2601",
@@ -696,7 +696,7 @@
       "note": "(주)케이티스카이라이프 1588-3002 (2021.11.30 신청 개통)",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/comm_p3.webp"
+      "photo": "assets/img/inventory/items/item_2601.webp"
     },
     {
       "id": "2602",
@@ -711,7 +711,7 @@
       "note": "박광서 기증 (남성방 설치)",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/comm_p3.webp"
+      "photo": "assets/img/inventory/items/item_2602.webp"
     },
     {
       "id": "2603",
@@ -726,7 +726,7 @@
       "note": "여성방 설치",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/comm_p3.webp"
+      "photo": "assets/img/inventory/items/item_2603.webp"
     },
     {
       "id": "2604",
@@ -741,7 +741,7 @@
       "note": "남성방 TV 연결",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/comm_p3.webp"
+      "photo": "assets/img/inventory/items/item_2604.webp"
     },
     {
       "id": "2605",
@@ -756,7 +756,7 @@
       "note": "여성방 TV 연결",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/comm_p3.webp"
+      "photo": "assets/img/inventory/items/item_2605.webp"
     },
     {
       "id": "2701",
@@ -771,7 +771,7 @@
       "note": "경로당 도서 및 사무문서 보관",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 4,
-      "photo": "assets/img/inventory/comm_p4.webp"
+      "photo": "assets/img/inventory/items/item_2701.webp"
     },
     {
       "id": "2702",
@@ -786,7 +786,7 @@
       "note": "2024.05 조영기 기증",
       "pdf_url": "assets/docs/inventory/2_telecom.pdf",
       "pdf_page": 4,
-      "photo": "assets/img/inventory/comm_p4.webp"
+      "photo": "assets/img/inventory/items/item_2702.webp"
     },
     {
       "id": "3101",
@@ -801,7 +801,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/kitchen_p1.webp"
+      "photo": "assets/img/inventory/items/item_3101.webp"
     },
     {
       "id": "3102",
@@ -816,7 +816,7 @@
       "note": "마당 외부 청소 및 용수",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/kitchen_p1.webp"
+      "photo": "assets/img/inventory/items/item_3102.webp"
     },
     {
       "id": "3103",
@@ -831,7 +831,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/kitchen_p1.webp"
+      "photo": "assets/img/inventory/items/item_3103.webp"
     },
     {
       "id": "3204-수전",
@@ -849,7 +849,7 @@
       "photo": "assets/img/inventory/kitchen_p2.webp"
     },
     {
-      "id": "3205-세면",
+      "id": "3104",
       "cat": "kitchen",
       "group": "상하수도 (3100)",
       "name": "화장실 세면대(샤워겸용)",
@@ -861,7 +861,7 @@
       "note": "남/여 화장실 각 1개",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/kitchen_p2.webp"
+      "photo": "assets/img/inventory/items/item_3104.webp"
     },
     {
       "id": "3206-변기",
@@ -891,7 +891,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/kitchen_p2.webp"
+      "photo": "assets/img/inventory/items/item_3201.webp"
     },
     {
       "id": "3202",
@@ -906,7 +906,7 @@
       "note": "주방 준비실",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/kitchen_p2.webp"
+      "photo": "assets/img/inventory/items/item_3202.webp"
     },
     {
       "id": "3203",
@@ -921,10 +921,10 @@
       "note": "주방 준비실",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/kitchen_p2.webp"
+      "photo": "assets/img/inventory/items/item_3203.webp"
     },
     {
-      "id": "3204-싱크",
+      "id": "3204",
       "cat": "kitchen",
       "group": "주방비품 (3200)",
       "name": "주방 싱크대 (신형 교체)",
@@ -936,10 +936,10 @@
       "note": "최신형 싱크대 교체 완료",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/kitchen_p2.webp"
+      "photo": "assets/img/inventory/items/item_3204.webp"
     },
     {
-      "id": "3205-식탁",
+      "id": "3205",
       "cat": "kitchen",
       "group": "주방비품 (3200)",
       "name": "식탁 (테이블)",
@@ -951,10 +951,10 @@
       "note": "식당 테이블 2조",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/kitchen_p2.webp"
+      "photo": "assets/img/inventory/items/item_3205.webp"
     },
     {
-      "id": "3206-식의",
+      "id": "3206",
       "cat": "kitchen",
       "group": "주방비품 (3200)",
       "name": "식탁 의자",
@@ -966,7 +966,7 @@
       "note": "식당 전용 의자 6개",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/kitchen_p2.webp"
+      "photo": "assets/img/inventory/items/item_3206.webp"
     },
     {
       "id": "3301",
@@ -981,7 +981,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/kitchen_p3.webp"
+      "photo": "assets/img/inventory/items/item_3301.webp"
     },
     {
       "id": "3302",
@@ -996,7 +996,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/kitchen_p3.webp"
+      "photo": "assets/img/inventory/items/item_3302.webp"
     },
     {
       "id": "3303",
@@ -1011,7 +1011,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/kitchen_p3.webp"
+      "photo": "assets/img/inventory/items/item_3303.webp"
     },
     {
       "id": "3304",
@@ -1026,7 +1026,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/kitchen_p3.webp"
+      "photo": "assets/img/inventory/items/item_3304.webp"
     },
     {
       "id": "3305",
@@ -1041,7 +1041,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/kitchen_p3.webp"
+      "photo": "assets/img/inventory/items/item_3305.webp"
     },
     {
       "id": "3306",
@@ -1056,7 +1056,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 3,
-      "photo": "assets/img/inventory/kitchen_p3.webp"
+      "photo": "assets/img/inventory/items/item_3306.webp"
     },
     {
       "id": "3307",
@@ -1071,7 +1071,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 4,
-      "photo": "assets/img/inventory/kitchen_p4.webp"
+      "photo": "assets/img/inventory/items/item_3307.webp"
     },
     {
       "id": "3308",
@@ -1086,7 +1086,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 4,
-      "photo": "assets/img/inventory/kitchen_p4.webp"
+      "photo": "assets/img/inventory/items/item_3308.webp"
     },
     {
       "id": "3309",
@@ -1101,7 +1101,7 @@
       "note": "식사 및 총회 행사용",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 4,
-      "photo": "assets/img/inventory/kitchen_p4.webp"
+      "photo": "assets/img/inventory/items/item_3309.webp"
     },
     {
       "id": "3310",
@@ -1116,7 +1116,7 @@
       "note": "식사 및 총회 행사용",
       "pdf_url": "assets/docs/inventory/3_kitchen.pdf",
       "pdf_page": 4,
-      "photo": "assets/img/inventory/kitchen_p4.webp"
+      "photo": "assets/img/inventory/items/item_3310.webp"
     },
     {
       "id": "4201",
@@ -1130,7 +1130,7 @@
       "status": "고장",
       "note": "고장 / 폐기대상",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p1.webp",
+      "photo": "assets/img/inventory/items/item_4201.webp",
       "pdf_page": 1
     },
     {
@@ -1145,7 +1145,7 @@
       "status": "사용",
       "note": "",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p1.webp",
+      "photo": "assets/img/inventory/items/item_4202.webp",
       "pdf_page": 1
     },
     {
@@ -1160,7 +1160,7 @@
       "status": "사용",
       "note": "실내 공기정화",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p1.webp",
+      "photo": "assets/img/inventory/items/item_4203.webp",
       "pdf_page": 1
     },
     {
@@ -1175,7 +1175,7 @@
       "status": "폐기대상",
       "note": "폐기대상",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p1.webp",
+      "photo": "assets/img/inventory/items/item_4204.webp",
       "pdf_page": 1
     },
     {
@@ -1190,7 +1190,7 @@
       "status": "사용",
       "note": "남·여 각 1대",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p2.webp",
+      "photo": "assets/img/inventory/items/item_4301.webp",
       "pdf_page": 2
     },
     {
@@ -1205,7 +1205,7 @@
       "status": "사용",
       "note": "",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p2.webp",
+      "photo": "assets/img/inventory/items/item_4302.webp",
       "pdf_page": 2
     },
     {
@@ -1220,7 +1220,7 @@
       "status": "사용",
       "note": "",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p2.webp",
+      "photo": "assets/img/inventory/items/item_4303.webp",
       "pdf_page": 2
     },
     {
@@ -1235,7 +1235,7 @@
       "status": "사용",
       "note": "",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p2.webp",
+      "photo": "assets/img/inventory/items/item_4304.webp",
       "pdf_page": 2
     },
     {
@@ -1250,7 +1250,7 @@
       "status": "사용",
       "note": "거실 배치",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p2.webp",
+      "photo": "assets/img/inventory/items/item_4305.webp",
       "pdf_page": 2
     },
     {
@@ -1265,7 +1265,7 @@
       "status": "사용",
       "note": "",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p3.webp",
+      "photo": "assets/img/inventory/items/item_4306.webp",
       "pdf_page": 3
     },
     {
@@ -1280,7 +1280,7 @@
       "status": "사용",
       "note": "",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p3.webp",
+      "photo": "assets/img/inventory/items/item_4307.webp",
       "pdf_page": 3
     },
     {
@@ -1295,7 +1295,7 @@
       "status": "사용",
       "note": "",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p3.webp",
+      "photo": "assets/img/inventory/items/item_4308.webp",
       "pdf_page": 3
     },
     {
@@ -1310,7 +1310,7 @@
       "status": "사용",
       "note": "",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p3.webp",
+      "photo": "assets/img/inventory/items/item_4309.webp",
       "pdf_page": 3
     },
     {
@@ -1325,7 +1325,7 @@
       "status": "사용",
       "note": "거실 배치",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p4.webp",
+      "photo": "assets/img/inventory/items/item_4401.webp",
       "pdf_page": 4
     },
     {
@@ -1340,7 +1340,7 @@
       "status": "사용",
       "note": "",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p4.webp",
+      "photo": "assets/img/inventory/items/item_4402.webp",
       "pdf_page": 4
     },
     {
@@ -1355,7 +1355,7 @@
       "status": "사용",
       "note": "",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p4.webp",
+      "photo": "assets/img/inventory/items/item_4403.webp",
       "pdf_page": 4
     },
     {
@@ -1370,7 +1370,7 @@
       "status": "사용",
       "note": "",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p4.webp",
+      "photo": "assets/img/inventory/items/item_4501.webp",
       "pdf_page": 4
     },
     {
@@ -1385,7 +1385,7 @@
       "status": "사용",
       "note": "",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p4.webp",
+      "photo": "assets/img/inventory/items/item_4502.webp",
       "pdf_page": 4
     },
     {
@@ -1400,7 +1400,7 @@
       "status": "사용",
       "note": "",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p4.webp",
+      "photo": "assets/img/inventory/items/item_4503.webp",
       "pdf_page": 4
     },
     {
@@ -1415,7 +1415,7 @@
       "status": "사용",
       "note": "야외 체육시설",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p5.webp",
+      "photo": "assets/img/inventory/items/item_4601.webp",
       "pdf_page": 5
     },
     {
@@ -1430,7 +1430,7 @@
       "status": "사용",
       "note": "야외 체육시설",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p5.webp",
+      "photo": "assets/img/inventory/items/item_4602.webp",
       "pdf_page": 5
     },
     {
@@ -1445,7 +1445,7 @@
       "status": "사용",
       "note": "야외 체육시설",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p5.webp",
+      "photo": "assets/img/inventory/items/item_4603.webp",
       "pdf_page": 5
     },
     {
@@ -1460,7 +1460,7 @@
       "status": "사용",
       "note": "야외 체육시설",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p5.webp",
+      "photo": "assets/img/inventory/items/item_4604.webp",
       "pdf_page": 5
     },
     {
@@ -1475,7 +1475,7 @@
       "status": "사용",
       "note": "야외 체육시설",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p5.webp",
+      "photo": "assets/img/inventory/items/item_4605.webp",
       "pdf_page": 5
     },
     {
@@ -1490,7 +1490,7 @@
       "status": "사용",
       "note": "야외 체육시설",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p5.webp",
+      "photo": "assets/img/inventory/items/item_4606.webp",
       "pdf_page": 5
     },
     {
@@ -1505,7 +1505,7 @@
       "status": "사용",
       "note": "야외 체육시설",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p6.webp",
+      "photo": "assets/img/inventory/items/item_4607.webp",
       "pdf_page": 6
     },
     {
@@ -1520,7 +1520,7 @@
       "status": "사용",
       "note": "야외 체육시설",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p6.webp",
+      "photo": "assets/img/inventory/items/item_4608.webp",
       "pdf_page": 6
     },
     {
@@ -1535,7 +1535,7 @@
       "status": "사용",
       "note": "야외 체육시설",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p6.webp",
+      "photo": "assets/img/inventory/items/item_4609.webp",
       "pdf_page": 6
     },
     {
@@ -1550,7 +1550,7 @@
       "status": "사용",
       "note": "야외 체육시설",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p6.webp",
+      "photo": "assets/img/inventory/items/item_4610.webp",
       "pdf_page": 6
     },
     {
@@ -1565,7 +1565,7 @@
       "status": "사용",
       "note": "야외 체육시설",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p6.webp",
+      "photo": "assets/img/inventory/items/item_4611.webp",
       "pdf_page": 6
     },
     {
@@ -1580,7 +1580,7 @@
       "status": "사용",
       "note": "야외 체육시설",
       "pdf_url": "assets/docs/inventory/4_health.pdf",
-      "photo": "assets/img/inventory/health_p6.webp",
+      "photo": "assets/img/inventory/items/item_4612.webp",
       "pdf_page": 6
     },
     {
@@ -1595,7 +1595,7 @@
       "status": "사용",
       "note": "정자 완공 상량 (건물미등기)",
       "pdf_url": "assets/docs/inventory/5_outdoor_fire.pdf",
-      "photo": "assets/img/inventory/outdoor_fire_p1.webp",
+      "photo": "assets/img/inventory/items/item_4701.webp",
       "pdf_page": 1
     },
     {
@@ -1610,7 +1610,7 @@
       "status": "사용",
       "note": "야외 천막 1동",
       "pdf_url": "assets/docs/inventory/5_outdoor_fire.pdf",
-      "photo": "assets/img/inventory/outdoor_fire_p1.webp",
+      "photo": "assets/img/inventory/items/item_4702.webp",
       "pdf_page": 1
     },
     {
@@ -1626,7 +1626,7 @@
       "note": "실내·주방 비치 / 약제 재충전 완료",
       "pdf_url": "assets/docs/inventory/5_outdoor_fire.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/outdoor_fire_p2.webp"
+      "photo": "assets/img/inventory/items/item_5101.webp"
     },
     {
       "id": "6101",
@@ -1641,7 +1641,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/6_storage.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/storage_p1.webp"
+      "photo": "assets/img/inventory/items/item_6101.webp"
     },
     {
       "id": "6102",
@@ -1656,7 +1656,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/6_storage.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/storage_p1.webp"
+      "photo": "assets/img/inventory/items/item_6102.webp"
     },
     {
       "id": "6103",
@@ -1671,7 +1671,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/6_storage.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/storage_p1.webp"
+      "photo": "assets/img/inventory/items/item_6103.webp"
     },
     {
       "id": "6104",
@@ -1686,7 +1686,7 @@
       "note": "건강위생 중복 기재",
       "pdf_url": "assets/docs/inventory/6_storage.pdf",
       "pdf_page": 1,
-      "photo": "assets/img/inventory/storage_p1.webp"
+      "photo": "assets/img/inventory/items/item_6104.webp"
     },
     {
       "id": "6201",
@@ -1701,7 +1701,7 @@
       "note": "마을 행사 및 김장용",
       "pdf_url": "assets/docs/inventory/6_storage.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/storage_p2.webp"
+      "photo": "assets/img/inventory/items/item_6201.webp"
     },
     {
       "id": "6202",
@@ -1716,7 +1716,7 @@
       "note": "창고 보관",
       "pdf_url": "assets/docs/inventory/6_storage.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/storage_p2.webp"
+      "photo": "assets/img/inventory/items/item_6202.webp"
     },
     {
       "id": "6203",
@@ -1731,7 +1731,7 @@
       "note": "창고 보관",
       "pdf_url": "assets/docs/inventory/6_storage.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/storage_p2.webp"
+      "photo": "assets/img/inventory/items/item_6203.webp"
     },
     {
       "id": "6204",
@@ -1746,7 +1746,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/6_storage.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/storage_p2.webp"
+      "photo": "assets/img/inventory/items/item_6204.webp"
     },
     {
       "id": "6205",
@@ -1761,7 +1761,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/6_storage.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/storage_p2.webp"
+      "photo": "assets/img/inventory/items/item_6205.webp"
     },
     {
       "id": "6206",
@@ -1776,7 +1776,7 @@
       "note": "",
       "pdf_url": "assets/docs/inventory/6_storage.pdf",
       "pdf_page": 2,
-      "photo": "assets/img/inventory/storage_p2.webp"
+      "photo": "assets/img/inventory/items/item_6206.webp"
     }
   ]
 }
