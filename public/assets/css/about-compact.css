@@ -114,3 +114,13 @@
   #inventory-dialog{position:absolute;left:0;top:0;width:100%!important;max-width:100%!important;border:none;box-shadow:none}
   .inventory-head-actions,.inventory-dialog-toolbar,.inventory-dialog-foot{display:none!important}
 }
+
+/* 비품 사진 및 원본 PDF 링크 스타일 */
+.inv-top-pdf-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;background:#42693f;color:#fff!important;border-radius:6px;text-decoration:none;font-size:13px;font-weight:600;white-space:nowrap;transition:background .15s}
+.inv-top-pdf-btn:hover{background:#304e2e}
+.inv-action-cell{display:flex;gap:4px;align-items:center;flex-wrap:wrap;justify-content:center}
+.inv-photo-btn{display:inline-flex;align-items:center;gap:3px;padding:3px 7px;font-size:11px;background:#fcf4e8;border:1px solid #dcb588;color:#7c4617;border-radius:4px;cursor:pointer;white-space:nowrap;font-weight:600}
+.inv-photo-btn:hover{background:#7c4617;color:#fff}
+.inv-pdf-link{display:inline-flex;align-items:center;gap:3px;padding:3px 7px;font-size:11px;background:#edf5fc;border:1px solid #b6d3eb;color:#1c5e8c;border-radius:4px;text-decoration:none;white-space:nowrap;font-weight:600}
+.inv-pdf-link:hover{background:#1c5e8c;color:#fff}
+.inv-group-title{display:flex;justify-content:space-between;align-items:center}

@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="../assets/css/app.css?v=1.3">
+  <title>시설·비품 관리 · 관리자</title>
+  <link rel="stylesheet" href="../assets/css/file-edit.css?v=5.72">
+  <link rel="stylesheet" href="../assets/css/admin-files-compact.css?v=5.23">
+  <style>
+    .inv-admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .inv-admin-grid label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #4a3828;
+    }
+    .inv-admin-grid input,
+    .inv-admin-grid select,
+    .inv-admin-grid textarea {
+      padding: 8px 10px;
+      border: 1px solid #d4c8bd;
+      border-radius: 6px;
+      font-size: 14px;
+      background: #fff;
+    }
+    .inv-full-row {
+      grid-column: 1 / -1;
+    }
+    .inv-form-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 14px;
+    }
+    .inv-item-card {
+      display: grid;
+      grid-template-columns: 80px minmax(0, 1fr) auto;
+      gap: 12px;
+      padding: 10px 14px;
+      background: #fff;
+      border: 1px solid #e2d9cf;
+      border-radius: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .inv-item-card:hover {
+      border-color: #b89b7f;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .inv-thumb {
+      width: 80px;
+      height: 60px;
+      background: #f7f3ee;
+      border: 1px solid #e4ddd5;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .inv-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .inv-thumb-placeholder {
+      font-size: 24px;
+      color: #9c8471;
+    }
+    .inv-meta-line {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 12px;
+      color: #6f5c4e;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+    .inv-badge-status {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .inv-status-사용 { background: #eaf4e8; color: #2e6924; border: 1px solid #c7e3c1; }
+    .inv-status-보관 { background: #eef3f7; color: #2b5575; border: 1px solid #c9dceb; }
+    .inv-status-양호 { background: #f0f7ea; color: #2e6924; border: 1px solid #c7e3c1; }
+    .inv-status-수리필요 { background: #fbeeed; color: #a42c26; border: 1px solid #f3cdc9; }
+    .inv-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .inv-filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .inv-tabs {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .inv-tab-btn {
+      padding: 6px 12px;
+      background: #f4ede4;
+      border: 1px solid #ddcfc2;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      color: #554133;
+      font-weight: 600;
+    }
+    .inv-tab-btn.active {
+      background: #734f31;
+      color: #fff;
+      border-color: #734f31;
+    }
+    .inv-search-input {
+      padding: 6px 12px;
+      border: 1px solid #d4c8bd;
+      border-radius: 20px;
+      font-size: 13px;
+      min-width: 200px;
+    }
+    .inv-preview-img-wrap {
+      margin-top: 6px;
+      max-width: 150px;
+      max-height: 100px;
+      overflow: hidden;
+      border-radius: 6px;
+      border: 1px solid #d4c8bd;
+      display: none;
+    }
+    .inv-preview-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    @media(max-width:640px){
+      .inv-item-card {
+        grid-template-columns: 60px minmax(0, 1fr);
+      }
+      .inv-thumb {
+        width: 60px;
+        height: 50px;
+      }
+      .inv-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        border-top: 1px dashed #ede5dc;
+        padding-top: 6px;
+      }
+    }
+  </style>
+</head>
+<body class="admin-page">
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand-block">
+        <a class="brand" data-brand href="../index.html">우경경로당</a>
+        <div class="small">관리자</div>
+      </div>
+      <nav class="top-actions" aria-label="주 메뉴"></nav>
+    </div>
+  </header>
+
+  <main class="wrap page-wrap">
+    <section class="page-title">
+      <span class="badge admin-badge">시설·비품 관리</span>
+      <h1>시설·비품 관리</h1>
+      <p>경로당 비품 대장 등록, 사양 및 수량 수정, 사진 첨부 및 통합 관리</p>
+    </section>
+
+    <!-- 등록 / 수정 폼 -->
+    <section class="settings-panel">
+      <div class="file-form-head">
+        <h2 id="inv-form-title">시설·비품 신규 등록</h2>
+        <button type="button" id="inv-form-toggle" class="btn" aria-expanded="true">등록 양식 접기</button>
+      </div>
+
+      <form id="inv-form" style="margin-top: 14px;">
+        <input type="hidden" id="inv-edit-index" value="-1">
+        <div class="inv-admin-grid">
+          <label>
+            대분류 (필수)
+            <select id="inv-cat" required>
+              <option value="energy">에너지 (냉난방·전력·가스)</option>
+              <option value="comm">통신·사무 (방송·CCTV·노래방·컴퓨터·TV)</option>
+              <option value="kitchen">주방·급수 (상하수도·싱크대·조리기구)</option>
+              <option value="health">건강·운동 (의료기기·안마의자·야외기구)</option>
+              <option value="safety">소방 (소화기·유도등·안전설비)</option>
+              <option value="storage">기타 (수납장·행사집기·창고비품)</option>
+            </select>
+          </label>
+
+          <label>
+            관리번호 (필수)
+            <input type="text" id="inv-id" placeholder="예: 1101, 2101, 3101" required>
+          </label>
+
+          <label>
+            품명 (필수)
+            <input type="text" id="inv-name" placeholder="예: 스탠드형 에어컨, 태진노래방 반주기" required>
+          </label>
+
+          <label>
+            세부 그룹
+            <input type="text" id="inv-group" placeholder="예: 주택용전력, TV·위성방송, 건강기구">
+          </label>
+
+          <label class="inv-full-row">
+            규격 및 모델명
+            <input type="text" id="inv-spec" placeholder="예: LG 스마트 인버터 F-Q161, 26인치 LED TV 등">
+          </label>
+
+          <label>
+            수량 (필수)
+            <input type="number" id="inv-qty" min="1" value="1" required>
+          </label>
+
+          <label>
+            단위
+            <input type="text" id="inv-unit" value="개" placeholder="개, 대, 세트, 조 등">
+          </label>
+
+          <label>
+            취득구분
+            <input type="text" id="inv-acquire" placeholder="예: 재물조사, 기증 (조영기), 자체구입">
+          </label>
+
+          <label>
+            상태
+            <select id="inv-status">
+              <option value="사용">사용 (정상 운용)</option>
+              <option value="양호">양호</option>
+              <option value="보관">보관 (창고/계절 비품)</option>
+              <option value="수리필요">수리필요</option>
+              <option value="불용예정">불용예정 (폐기검토)</option>
+            </select>
+          </label>
+
+          <label class="inv-full-row">
+            비품 사진 등록 (선택)
+            <input type="file" id="inv-photo-file" accept="image/*">
+            <input type="hidden" id="inv-photo-val">
+            <div id="inv-preview-wrap" class="inv-preview-img-wrap">
+              <img id="inv-preview-img" src="" alt="사진 미리보기">
+            </div>
+            <small style="color:#7a6859">직접 촬영한 사진을 선택하거나 등록할 수 있습니다.</small>
+          </label>
+
+          <label class="inv-full-row">
+            비고 (연락처, 설치일, 비치장소 등)
+            <textarea id="inv-note" rows="2" placeholder="예: 2024.10.01 재충전 완료, 관리업체 전화번호 등"></textarea>
+          </label>
+        </div>
+
+        <div class="inv-form-actions">
+          <button type="button" id="inv-reset-btn" class="btn">초기화</button>
+          <button type="submit" id="inv-submit-btn" class="btn primary">비품 등록하기</button>
+        </div>
+      </form>
+      <p id="inv-msg" class="small" role="status" style="margin-top:8px;font-weight:600;"></p>
+    </section>
+
+    <!-- 비품 대장 목록 -->
+    <section class="settings-panel">
+      <div class="panel-title">
+        <h2 id="inv-list-heading">등록 비품 목록</h2>
+      </div>
+
+      <div class="inv-filter-bar">
+        <div class="inv-tabs" id="inv-admin-tabs">
+          <button type="button" class="inv-tab-btn active" data-cat="all">전체</button>
+          <button type="button" class="inv-tab-btn" data-cat="energy">에너지</button>
+          <button type="button" class="inv-tab-btn" data-cat="comm">통신·사무</button>
+          <button type="button" class="inv-tab-btn" data-cat="kitchen">주방·급수</button>
+          <button type="button" class="inv-tab-btn" data-cat="health">건강·운동</button>
+          <button type="button" class="inv-tab-btn" data-cat="safety">소방</button>
+          <button type="button" class="inv-tab-btn" data-cat="storage">기타</button>
+        </div>
+        <div>
+          <input type="search" id="inv-admin-search" class="inv-search-input" placeholder="품명, 규격, 관리번호 검색...">
+        </div>
+      </div>
+
+      <div id="inv-items-container">
+        <!-- JS rendered cards -->
+      </div>
+    </section>
+
+    <!-- 사진 크게 보기 다이얼로그 -->
+    <dialog id="inv-admin-photo-dialog" class="photo-viewer">
+      <div class="photo-viewer-head">
+        <div>
+          <strong id="inv-admin-photo-title">비품 사진</strong>
+          <small>등록된 비품 사진</small>
+        </div>
+        <div class="photo-viewer-actions">
+          <button type="button" class="btn" id="inv-admin-photo-close">닫기</button>
+        </div>
+      </div>
+      <div class="photo-viewer-stage" style="display:flex;justify-content:center;align-items:center;padding:16px;background:#f5efe6;">
+        <img id="inv-admin-photo-img" src="" alt="비품 사진 크게 보기" style="max-width:100%;max-height:75vh;border-radius:6px;object-fit:contain;">
+      </div>
+    </dialog>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span data-brand>우경경로당</span> · 경로당 홈페이지 관리자
+    </div>
+  </footer>
+
+  <script src="../assets/js/common.js?v=1.1"></script>
+  <script src="../assets/js/admin-auth.js?v=1.3"></script>
+  <script src="../assets/js/admin-inventory.js?v=1.0"></script>
+</body>
+</html>
