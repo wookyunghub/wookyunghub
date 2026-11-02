@@ -7,12 +7,109 @@
   ]);
   const b={...(d.basic||{}),name:site.organization_name||(d.basic||{}).name,parent_organization:site.parent_organization??(d.basic||{}).parent_organization,branch_name:site.branch_name??(d.basic||{}).branch_name},esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const basic=document.getElementById('about-basic');
-  const basicCell=(label,value,unit='',badges=[])=>`<div class="fact-card"><small>${esc(label)}</small><div class="fact-main"><strong>${esc(value)}${esc(unit)}</strong>${badges.length?`<span class="fact-badges">${badges.filter(x=>x.value!==undefined&&x.value!==null&&x.value!=='').map(x=>`<span class="fact-badge">${esc(x.label)} ${esc(x.value)}${esc(x.unit||'')}</span>`).join('')}</span>`:''}</div></div>`;
+  const basicCell=(label,value,unit='',badges=[])=>`<div class="fact-card"><small>${esc(label)}</small><div class="fact-main"><strong>${esc(value)}${esc(unit)}</strong>${badges.length?`<span class="fact-badges">${badges.filter(x=>x.value!==undefined&&x.value!==null&&x.value!=='').map(x=>`<span class="fact-badge">${esc(x.label?x.label+' ': '')}${esc(x.value)}${esc(x.unit||'')}</span>`).join('')}</span>`:''}</div></div>`;
   const cells=[];
-  for(const [key,label] of [['name','경로당명'],['address','주소'],['phone','전화']])if(b[key]!==undefined&&b[key]!=='')cells.push(basicCell(label,b[key]));
-  if(b.members_total!==undefined&&b.members_total!=='')cells.push(basicCell('회원수',b.members_total,'명',[{label:'남',value:b.members_male,unit:'명'},{label:'여',value:b.members_female,unit:'명'}]));
-  if(b.building_area!==undefined&&b.building_area!=='')cells.push(basicCell('건물면적',b.building_area,'',[{label:'방',value:b.rooms,unit:'개'},{label:'화장실',value:b.restrooms,unit:'개'},{label:'주방',value:b.kitchen,unit:'개'}]));
-  const affiliation=[b.parent_organization,b.branch_name].map(v=>String(v||'').trim()).filter(Boolean).join(' ');if(affiliation)cells.splice(b.name?1:0,0,basicCell('소속',affiliation));
+
+  // 1. 경로당명
+  if(b.name){
+    cells.push(basicCell('경로당명', b.name, '', [
+      { label: 'ID', value: b.facility_id || 'SOGAREE 12' }
+    ]));
+  }
+
+  // 2. 소속 지회/분회
+  const aff = [b.parent_organization, b.branch_name].map(v=>String(v||'').trim()).filter(Boolean).join(' ');
+  if(aff){
+    cells.push(basicCell('소속', b.parent_organization || '(사)대한노인회 진천군지회', '', [
+      { label: '', value: b.branch_name || '문백면/영동분회' }
+    ]));
+  }
+
+  // 3. 고유번호
+  if(b.unique_number){
+    cells.push(basicCell('고유번호', b.unique_number, '', [
+      { label: '', value: '세무서 승인' }
+    ]));
+  }
+
+  // 4. 설치 신고일자
+  if(b.registered_date){
+    cells.push(basicCell('설치 신고일자', b.registered_date, '', [
+      { label: '', value: '신고완료' }
+    ]));
+  }
+
+  // 5. 소재지 (주소)
+  if(b.address){
+    cells.push(basicCell('소재지 (주소)', b.address, '', [
+      { label: '', value: '도로명' }
+    ]));
+  }
+
+  // 6. 전화번호
+  if(b.phone){
+    cells.push(basicCell('전화번호', b.phone, '', [
+      { label: '', value: '유선' }
+    ]));
+  }
+
+  // 7. 회원수
+  if(b.members_total!==undefined&&b.members_total!==''){
+    cells.push(basicCell('회원수', b.members_total, '명', [
+      { label: '남', value: b.members_male, unit: '명' },
+      { label: '여', value: b.members_female, unit: '명' }
+    ]));
+  }
+
+  // 8. 건축년도 (준공)
+  if(b.build_date){
+    cells.push(basicCell('건축년도 (준공)', b.build_date, '', [
+      { label: '', value: '단독건물' }
+    ]));
+  }
+
+  // 9. 대지면적
+  if(b.site_area){
+    cells.push(basicCell('대지면적', b.site_area, '', [
+      { label: '', value: b.site_area_pyeong || '101.52평' }
+    ]));
+  }
+
+  // 10. 건물면적 & 구조
+  if(b.building_area){
+    cells.push(basicCell('건물면적', b.building_area, '', [
+      { label: '', value: b.building_area_pyeong || '32.04평' },
+      { label: '', value: b.structure || '블록구조 (1층)' }
+    ]));
+  }
+
+  // 11. 내부 공간 구성
+  cells.push(basicCell('내부 공간 구성', `방 ${b.rooms || 3}개 · 화장실 ${b.restrooms || 2}개`, '', [
+    { label: '주방', value: b.kitchen || 1, unit: '개' },
+    { label: '보조실', value: b.sub_rooms || 1, unit: '개' }
+  ]));
+
+  // 12. 난방방법
+  if(b.heating){
+    cells.push(basicCell('난방방법', b.heating, '', [
+      { label: '', value: '심야전력 보일러' }
+    ]));
+  }
+
+  // 13. 편의 및 부대시설
+  if(b.convenience_facilities){
+    cells.push(basicCell('편의/부대시설', b.convenience_facilities, '', [
+      { label: '', value: '비품관리대장 참조' }
+    ]));
+  }
+
+  // 14. 소유자(명의) 및 대장
+  if(b.property_owner){
+    cells.push(basicCell('소유자(명의)', b.property_owner, '', [
+      { label: '건축물대장', value: b.building_ledger || '유(별첨)' }
+    ]));
+  }
+
   basic.innerHTML=cells.join('');
   const historyNote=document.getElementById('history-note');if(historyNote)historyNote.textContent='공지 외 공개 기록 중 최근 10건을 표시합니다.';
   const H=window.CenterHubHistory,h=document.getElementById('about-history'),rows=hist.records||[],visible=rows.slice(0,10);
