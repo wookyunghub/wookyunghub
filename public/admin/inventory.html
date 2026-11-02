@@ -226,6 +226,7 @@
       background: #faf8f5;
       color: #2b1f17;
       box-sizing: border-box;
+      width: 100%;
       transition: border-color .15s, background .15s, box-shadow .15s;
     }
     .inv-field input:focus,
@@ -236,44 +237,48 @@
       outline: none;
     }
 
-    /* 우측 각 행 필드 너비 조정 (품명, 모델명이 길어지지 않게) */
-    .row-1 .field-cat { flex: 0 0 120px; }
-    .row-1 .field-id { flex: 0 0 95px; }
-    .row-1 .field-name { flex: 1 1 180px; max-width: 320px; }
+    /* 우측 각 행 필드 너비 조정 - 모든 행의 우측 끝 라인 및 하단 버튼 우측선 일치 */
+    .row-1 .field-cat { flex: 0 0 125px; }
+    .row-1 .field-id { flex: 0 0 90px; }
+    .row-1 .field-name { flex: 1 1 auto; }
 
-    .row-2 .field-spec { flex: 1 1 160px; max-width: 270px; }
-    .row-2 .field-qty { flex: 0 0 52px; }
+    .row-2 .field-spec { flex: 1 1 auto; }
+    .row-2 .field-qty { flex: 0 0 54px; }
     .row-2 .field-qty input { text-align: center; padding-left: 2px; padding-right: 2px; }
-    .row-2 .field-unit { flex: 0 0 52px; }
+    .row-2 .field-unit { flex: 0 0 54px; }
     .row-2 .field-unit input { text-align: center; padding-left: 2px; padding-right: 2px; }
-    .row-2 .field-status { flex: 0 0 108px; }
+    .row-2 .field-status { flex: 0 0 115px; }
 
-    .row-3 .field-acquire { flex: 1 1 140px; max-width: 220px; }
-    .row-3 .field-group { flex: 1 1 180px; max-width: 288px; }
+    .row-3 .field-acquire { flex: 1 1 0; }
+    .row-3 .field-group { flex: 1 1 0; }
 
-    .row-4 .field-note { flex: 1 1 100%; max-width: 516px; }
+    .row-4 .field-note { flex: 1 1 100%; width: 100%; }
 
     /* 관리번호 안내 문구 */
     .inv-notice-line {
       font-size: 11px;
       color: #855c38;
       background: #fbf5ee;
-      padding: 4px 8px;
+      padding: 5px 9px;
       border-radius: 4px;
       border-left: 3px solid #b58d67;
       margin: 2px 0 0;
       line-height: 1.35;
+      width: 100%;
+      box-sizing: border-box;
     }
 
-    /* 폼 하단 액션 */
+    /* 폼 하단 액션: 우측 끝 라인을 입력창들과 일치 */
     .inv-form-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
       margin-top: 6px;
-      padding-top: 8px;
+      padding-top: 10px;
       border-top: 1px dashed #efe7de;
+      width: 100%;
+      box-sizing: border-box;
     }
     .inv-msg {
       margin: 0;
@@ -449,20 +454,76 @@
       .admin-page .settings-panel {
         padding: 10px 12px;
       }
-      .field-cat { flex: 1 1 calc(50% - 4px); }
-      .field-id { flex: 1 1 calc(50% - 4px); }
-      .field-name { flex: 1 1 100%; max-width: 100%; }
-      .field-spec { flex: 1 1 100%; max-width: 100%; }
+      .inv-panel-card {
+        max-width: 100%;
+        margin-bottom: 12px;
+        padding: 12px;
+        border-radius: 10px;
+      }
+      .inv-form-main-layout {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .inv-photo-column {
+        width: 100%;
+        flex: 1 1 auto;
+        align-items: center;
+      }
+      .inv-photo-card {
+        width: 160px;
+        height: 160px;
+      }
+      .inv-photo-meta-box {
+        width: 100%;
+        max-width: 280px;
+      }
+      .inv-fields-column {
+        width: 100%;
+        gap: 10px;
+      }
+      .inv-form-row {
+        gap: 6px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
 
-      .field-qty { flex: 1 1 calc(25% - 6px); }
-      .field-unit { flex: 1 1 calc(25% - 6px); }
-      .field-status { flex: 1 1 calc(50% - 6px); }
-      .field-acquire { flex: 1 1 calc(50% - 4px); max-width: 100%; }
-      .field-group { flex: 1 1 calc(50% - 4px); max-width: 100%; }
+      /* 모바일 1행: 대분류(50%) | 관리번호(50%) -> 다음줄: 품명(100%) */
+      .row-1 .field-cat { flex: 1 1 calc(50% - 3px); }
+      .row-1 .field-id { flex: 1 1 calc(50% - 3px); }
+      .row-1 .field-name { flex: 1 1 100%; width: 100%; }
 
-      .field-photo { flex: 1 1 100%; }
-      .field-note { flex: 1 1 100%; max-width: 100%; }
+      /* 모바일 2행: 규격 및 모델명(100%) -> 다음줄: 수량(고정 54px) | 단위(고정 54px) | 상태(남은 너비 100% 꽉 채움) => 1줄 완벽 배치 */
+      .row-2 .field-spec { flex: 1 1 100%; width: 100%; }
+      .row-2 .field-qty { flex: 0 0 54px; width: 54px; }
+      .row-2 .field-unit { flex: 0 0 54px; width: 54px; }
+      .row-2 .field-status { flex: 1 1 calc(100% - 120px); min-width: 90px; }
+      .row-2 .field-status select { padding: 4px 6px; font-size: 12px; }
 
+      /* 모바일 3행: 취득구분(50%) | 세부 그룹(50%) */
+      .row-3 .field-acquire { flex: 1 1 calc(50% - 3px); }
+      .row-3 .field-group { flex: 1 1 calc(50% - 3px); }
+
+      /* 모바일 4행: 비고(100%) */
+      .row-4 .field-note { flex: 1 1 100%; width: 100%; }
+
+      .inv-form-footer {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .inv-buttons {
+        display: flex;
+        gap: 8px;
+        width: 100%;
+      }
+      .inv-buttons button {
+        flex: 1;
+        height: 38px;
+        font-size: 13.5px;
+      }
+
+      /* 목록 카드 모바일 대응 */
       .inv-item-card {
         grid-template-columns: 46px minmax(0, 1fr);
         gap: 8px;
@@ -485,101 +546,6 @@
       .inv-list-toolbar {
         flex-direction: column;
         align-items: stretch;
-      }
-      .inv-panel-card {
-        max-width: 100%;
-        margin-bottom: 12px;
-        border-radius: 10px;
-      }
-      .inv-form-main-layout {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 14px;
-      }
-      .inv-photo-column {
-        width: 100%;
-        flex: 1 1 auto;
-        align-items: center;
-      }
-      .inv-photo-card {
-        width: 160px;
-        height: 160px;
-      }
-      .inv-photo-meta-box {
-        width: 100%;
-        max-width: 280px;
-      }
-      .inv-fields-column {
-        width: 100%;
-      }
-      .row-1 .field-cat { flex: 1 1 calc(52% - 4px); }
-      .row-1 .field-id { flex: 1 1 calc(48% - 4px); }
-      .row-1 .field-name { flex: 1 1 100%; max-width: 100%; width: 100%; }
-
-      .row-2 .field-spec { flex: 1 1 100%; max-width: 100%; width: 100%; }
-      .row-2 .field-qty { flex: 1 1 calc(50% - 4px); }
-      .row-2 .field-unit { flex: 1 1 calc(50% - 4px); }
-
-      .row-3 .field-acquire { flex: 1 1 calc(52% - 4px); }
-      .row-3 .field-status { flex: 1 1 calc(48% - 4px); }
-      .row-3 .field-group { flex: 1 1 100%; width: 100%; }
-
-      .inv-form-footer {
-        flex-direction: column-reverse;
-        align-items: stretch;
-        gap: 8px;
-      }
-      .inv-buttons {
-        display: flex;
-        gap: 8px;
-        width: 100%;
-      }
-      .inv-buttons button {
-        flex: 1;
-        height: 38px;
-        font-size: 13.5px;
-      }
-      .inv-search-input {
-        width: 100%;
-      }
-      .inv-list-toolbar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .inv-panel-card {
-        max-width: 100%;
-        margin-bottom: 12px;
-        border-radius: 10px;
-      }
-      .row-1 .field-cat { flex: 1 1 calc(55% - 5px); }
-      .row-1 .field-id { flex: 1 1 calc(45% - 5px); }
-      .row-1 .field-name { flex: 1 1 100%; width: 100%; }
-
-      .row-2 .field-spec { flex: 1 1 100%; width: 100%; }
-      .row-2 .field-qty { flex: 1 1 calc(50% - 5px); }
-      .row-2 .field-unit { flex: 1 1 calc(50% - 5px); }
-
-      .row-3 .field-acquire { flex: 1 1 calc(55% - 5px); }
-      .row-3 .field-status { flex: 1 1 calc(45% - 5px); }
-      .row-3 .field-group { flex: 1 1 100%; width: 100%; }
-
-      .row-4 .field-photo { flex: 1 1 100%; width: 100%; }
-      .row-4 .field-note { flex: 1 1 100%; width: 100%; }
-
-      .inv-form-footer {
-        flex-direction: column-reverse;
-        align-items: stretch;
-        gap: 8px;
-      }
-      .inv-buttons {
-        display: flex;
-        gap: 8px;
-        width: 100%;
-      }
-      .inv-buttons button {
-        flex: 1;
-        height: 38px;
-        font-size: 13.5px;
       }
     }
   </style>
