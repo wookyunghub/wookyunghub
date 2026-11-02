@@ -15,6 +15,12 @@ function goToPage(n,behavior='auto'){
   if(jump)jump.value=n;
 }
 (async()=>{
+ document.querySelectorAll('.viewer-book-switcher .book-tab[data-doc]').forEach(tab => {
+   if (tab.dataset.doc === window.DOC_ID) {
+     tab.classList.add('active');
+     tab.setAttribute('aria-current', 'page');
+   }
+ });
  const all=await loadJSON('../data/documents.json'); const site=await loadJSON('../data/site.json');
  const d=all.documents[window.DOC_ID]; if(!d)throw new Error('Unknown document');
  document.title=`${d.title} - ${site.organization_name}`;
