@@ -94,19 +94,39 @@
 .inv-table td{padding:9px 10px;border-bottom:1px solid #f2ede7;color:#333;vertical-align:middle}
 .inv-table tr:last-child td{border-bottom:none}
 .inv-table tr:hover td{background:#fdfbf7}
-.inv-status-badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700}
+.inv-name-line{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.inv-status-badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;line-height:1.2}
 .inv-status-사용{background:#eaf4e8;color:#2e6924;border:1px solid #c7e3c1}
 .inv-status-보관{background:#eef3f7;color:#2b5575;border:1px solid #c9dceb}
 .inv-status-고장,.inv-status-폐기대상{background:#fbeeed;color:#a42c26;border:1px solid #f3cdc9}
 .inv-status-준비중{background:#fff6e6;color:#9c6310;border:1px solid #fae2b8}
 .inventory-dialog-foot{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#fbf7f2;border-top:1px solid #e7ded5;font-size:13px;color:#7a6a5d}
+
+/* 모바일 반응형: 헤더 버튼 아래 배치 + 필터 1줄 4개 + 테이블 최적화 */
 @media(max-width:640px){
-  .inventory-dialog{width:calc(100vw - 14px);max-height:94vh}
-  .inventory-dialog-head{padding:12px 14px}
-  .inventory-dialog-head h3{font-size:17px}
-  .inventory-dialog-toolbar{padding:8px 14px}
-  .inventory-dialog-body{padding:10px 14px}
-  .inv-table th:nth-child(1),.inv-table td:nth-child(1){display:none} /* 번호 열 숨김 */
+  .inventory-dialog{width:calc(100vw - 12px);max-height:94vh;border-radius:12px}
+  .inventory-dialog-head{flex-direction:column;align-items:stretch;gap:10px;padding:12px 14px 10px}
+  .inventory-dialog-head h3{font-size:16.5px;line-height:1.3}
+  .inventory-dialog-sub{font-size:12px;margin-top:2px}
+  .inventory-head-actions{display:flex;gap:8px;width:100%;align-items:center}
+  .inv-top-pdf-btn{flex:1 1 auto;justify-content:center;text-align:center;font-size:12px;padding:7px 8px;white-space:nowrap}
+  #inventory-close-btn{padding:7px 14px;font-size:12.5px;flex-shrink:0}
+  
+  .inventory-dialog-toolbar{padding:8px 12px;gap:6px}
+  .inventory-filter-pills{display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:5px;overflow-x:visible;padding-bottom:0}
+  .inv-pill{padding:6px 2px;font-size:11.5px;text-align:center;justify-content:center;display:flex;align-items:center;width:100%;box-sizing:border-box;white-space:nowrap;border-radius:6px}
+  
+  .inventory-dialog-body{padding:8px 10px;gap:8px}
+  .inv-group-title{padding:5px 8px;font-size:13px}
+  .inv-table th{padding:6px 6px;font-size:11.5px}
+  .inv-table td{padding:7px 6px;font-size:12px}
+  .inv-table th:nth-child(1),.inv-table td:nth-child(1){display:none} /* 관리번호 열 숨김 */
+  .inv-table th:last-child,.inv-table td:last-child{display:none}     /* 모바일에서 비고 열 숨김으로 품명/수량/사진 공간 극대화 */
+  
+  .inv-name-line strong{font-size:13px}
+  .inv-status-badge{font-size:10px;padding:1px 5px}
+  .inv-action-cell{flex-direction:column;gap:3px;align-items:center}
+  .inv-photo-btn,.inv-pdf-link{padding:3px 6px;font-size:10.5px}
 }
 @media print{
   body *{visibility:hidden}

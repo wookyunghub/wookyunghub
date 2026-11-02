@@ -201,10 +201,9 @@
             <tr>
               <th style="width:75px">관리번호</th>
               <th>품명 및 규격·모델</th>
-              <th style="width:65px;text-align:center">수량</th>
-              <th style="width:90px;text-align:center">취득구분</th>
-              <th style="width:70px;text-align:center">상태</th>
-              <th style="width:130px;text-align:center">사진 / 원본</th>
+              <th style="width:58px;text-align:center">수량</th>
+              <th style="width:72px;text-align:center">취득구분</th>
+              <th style="width:115px;text-align:center">사진 / 원본</th>
               <th>비고</th>
             </tr>
           </thead>
@@ -213,14 +212,14 @@
               <tr>
                 <td style="color:#7a6859;font-weight:600">${esc(item.id)}</td>
                 <td>
-                  <strong style="color:#3c281b">${esc(item.name)}</strong>
+                  <div class="inv-name-line">
+                    <strong style="color:#3c281b">${esc(item.name)}</strong>
+                    <span class="inv-status-badge inv-status-${esc(item.status || '사용')}">${esc(item.status || '사용')}</span>
+                  </div>
                   ${item.spec ? `<div style="font-size:12px;color:#6d5b4e;margin-top:2px">${esc(item.spec)}</div>` : ''}
                 </td>
                 <td style="text-align:center;font-weight:700;color:#2c4028">${esc(item.qty)}${esc(item.unit || '개')}</td>
                 <td style="text-align:center;font-size:12px;color:#5a493c">${esc(item.acquire || '-')}</td>
-                <td style="text-align:center">
-                  <span class="inv-status-badge inv-status-${esc(item.status || '사용')}">${esc(item.status || '사용')}</span>
-                </td>
                 <td class="inv-action-cell">
                   ${item.photo ? `<button type="button" class="inv-photo-btn" data-img="${item.photo}?v=20261031_v3" data-title="${esc(item.name)} (${esc(item.id)})">📷 사진</button>` : ''}
                   ${item.pdf_url ? `<a href="${item.pdf_url}" target="_blank" rel="noopener" class="inv-pdf-link" title="원본 PDF 열람">📄 원본</a>` : ''}
