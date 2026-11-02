@@ -7,87 +7,75 @@
   ]);
   const b={...(d.basic||{}),name:site.organization_name||(d.basic||{}).name,parent_organization:site.parent_organization??(d.basic||{}).parent_organization,branch_name:site.branch_name??(d.basic||{}).branch_name},esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const basic=document.getElementById('about-basic');
-  const renderBadge=x=>{
-    const text=`${esc(x.label?x.label+' ':'')}${esc(x.value)}${esc(x.unit||'')}`;
-    if(x.certKey){
-      return `<a href="${esc(x.href||'#')}" class="fact-badge fact-badge-link" data-cert-key="${esc(x.certKey)}" title="${esc(x.title||text)}">${text}</a>`;
-    }
-    return `<span class="fact-badge">${text}</span>`;
+
+  const basicCell=(label,value,sub='',cert=null,extra=false)=>{
+    const subHtml=sub?`<span class="fact-sub">${esc(sub)}</span>`:'';
+    const certHtml=cert?`<a href="${esc(cert.href||'#')}" class="fact-badge fact-badge-link" data-cert-key="${esc(cert.certKey)}" title="${esc(cert.title||cert.label)}">${esc(cert.label)}</a>`:'';
+    return `<div class="fact-card${extra?' fact-extra':''}"${extra?' hidden':''}><small>${esc(label)}</small><div class="fact-main"><span class="fact-main-text"><strong>${esc(value)}</strong>${subHtml}</span>${certHtml}</div></div>`;
   };
-  const basicCell=(label,value,unit='',badges=[])=>`<div class="fact-card"><small>${esc(label)}</small><div class="fact-main"><strong>${esc(value)}${esc(unit)}</strong>${badges.length?`<span class="fact-badges">${badges.filter(x=>x.value!==undefined&&x.value!==null&&x.value!=='').map(renderBadge).join('')}</span>`:''}</div></div>`;
-  const cells=[];
 
-  // === 1행: 경로당명 | 소속 | 대표자 (회장등록증 연결) ===
-  cells.push(basicCell('경로당명', b.name || '우경경로당', '', [
-    { label: 'ID', value: b.facility_id || 'SOGAREE 12' }
-  ]));
+  const parentOrg = b.parent_organization || '(사)대한노인회 진천군지회';
+  const branchText = (!b.branch_name || b.branch_name === '문백.영동분회' || b.branch_name === '문백면/영동분회')
+    ? '문백면 영동분회'
+    : String(b.branch_name).replace(/[./]/g, ' ');
 
-  cells.push(basicCell('소속', b.parent_organization || '(사)대한노인회 진천군지회', '', [
-    { label: '', value: (b.branch_name && b.branch_name !== '문백.영동분회') ? b.branch_name : '문백면/영동분회' }
-  ]));
+  const cells=[
+    // === 1행 (초기 표시): 경로당명 | 소속 | 대표자 ===
+    basicCell('경로당명', b.name || '우경경로당'),
+    basicCell('소속', `${parentOrg} ${branchText}`.trim()),
+    basicCell('대표자', b.chairman_name || '조영기', '', {
+      label: '📄 회장등록증',
+      certKey: 'chairman',
+      href: b.chairman_cert || 'assets/img/certificates/cert_chairman_registration.webp',
+      title: '대한노인회 우경경로당 회장 등록증 열람'
+    }),
 
-  cells.push(basicCell('대표자 (회장·시설장)', b.chairman_name || '조영기', '', [
-    { label: '임기', value: '2023.11~2027.10' },
-    { label: '', value: '📄 회장등록증 열람', certKey: 'chairman', href: b.chairman_cert || 'assets/img/certificates/cert_chairman_registration.webp', title: '대한노인회 우경경로당 회장 등록증 원본 열람' }
-  ]));
+    // === 2행 (초기 표시): 소재지 | 전화번호 | 회원수 ===
+    basicCell('소재지', b.address || '충북 진천군 문백면 사양1길 2-12'),
+    basicCell('전화번호', b.phone || '043-532-5593'),
+    basicCell('회원수', `${b.members_total ?? 50}명`, `(남 ${b.members_male ?? 21} · 여 ${b.members_female ?? 29})`),
 
-  // === 2행 (전화번호 위 행): 고유번호 (고유번호증 연결) | 설치신고 정보 (설치신고확인증 연결) | 건축년도 ===
-  cells.push(basicCell('고유번호', b.unique_number || '301-80-18628', '', [
-    { label: '', value: '📄 고유번호증 열람', certKey: 'unique', href: b.unique_number_cert || 'assets/img/certificates/cert_unique_number.webp', title: '고유번호증 원본 열람 (충주세무서장 발급)' }
-  ]));
+    // === 3행 (자세히 보기 영역): 고유번호 | 설치신고 | 건축년도 ===
+    basicCell('고유번호', b.unique_number || '301-80-18628', '', {
+      label: '📄 고유번호증',
+      certKey: 'unique',
+      href: b.unique_number_cert || 'assets/img/certificates/cert_unique_number.webp',
+      title: '고유번호증 원본 열람 (충주세무서장 발급)'
+    }, true),
+    basicCell('설치 신고일자', b.registered_date || '1975. 03. 01', `(정원 ${b.facility_capacity || 20}명)`, {
+      label: '📄 신고확인증',
+      certKey: 'facility',
+      href: b.facility_cert || 'assets/img/certificates/cert_facility_registration.webp',
+      title: '노인복지시설 설치신고확인증 원본 열람 (진천군수 발급)'
+    }, true),
+    basicCell('건축년도', b.build_date || '2009. 07. 29', '', null, true),
 
-  cells.push(basicCell('설치 신고일자', b.registered_date || '1975. 03. 01', '', [
-    { label: '정원', value: b.facility_capacity || 20, unit: '명' },
-    { label: '', value: '📄 설치신고확인증 열람', certKey: 'facility', href: b.facility_cert || 'assets/img/certificates/cert_facility_registration.webp', title: '노인복지시설 설치신고확인증 원본 열람 (진천군수 발급)' }
-  ]));
+    // === 4행 (자세히 보기 영역): 대지면적 | 건물면적 | 내부 공간 구성 ===
+    basicCell('대지면적', b.site_area || '335㎡', `(${b.site_area_pyeong || '101.52평'})`, null, true),
+    basicCell('건물면적', b.building_area || '105.73㎡', `(${b.building_area_pyeong || '32.04평'} · 블록구조 1층)`, null, true),
+    basicCell('내부 공간', `방 ${b.rooms || 3} · 화장실 ${b.restrooms || 2} · 주방 ${b.kitchen || 1} · 보조실 ${b.sub_rooms || 1}`, '', null, true),
 
-  cells.push(basicCell('건축년도 (준공)', b.build_date || '2009. 07. 29', '', [
-    { label: '', value: '단독건물' }
-  ]));
-
-  // === 3행 (전화번호 행): 소재지(주소) | 전화번호 | 회원수 ===
-  cells.push(basicCell('소재지 (주소)', b.address || '충북 진천군 문백면 사양1길 2-12', '', [
-    { label: '', value: '도로명' }
-  ]));
-
-  cells.push(basicCell('전화번호', b.phone || '043-532-5593', '', [
-    { label: '', value: '유선' }
-  ]));
-
-  cells.push(basicCell('회원수', b.members_total ?? 50, '명', [
-    { label: '남', value: b.members_male ?? 21, unit: '명' },
-    { label: '여', value: b.members_female ?? 29, unit: '명' }
-  ]));
-
-  // === 4행: 대지면적 | 건물면적·구조 | 내부 공간 구성 ===
-  cells.push(basicCell('대지면적', b.site_area || '335㎡', '', [
-    { label: '', value: b.site_area_pyeong || '101.52평' }
-  ]));
-
-  cells.push(basicCell('건물면적', b.building_area || '105.73㎡', '', [
-    { label: '', value: b.building_area_pyeong || '32.04평' },
-    { label: '', value: b.structure || '블록구조 (1층)' }
-  ]));
-
-  cells.push(basicCell('내부 공간 구성', `방 ${b.rooms || 3}개 · 화장실 ${b.restrooms || 2}개`, '', [
-    { label: '주방', value: b.kitchen || 1, unit: '개' },
-    { label: '보조실', value: b.sub_rooms || 1, unit: '개' }
-  ]));
-
-  // === 5행: 난방방법 | 편의/부대시설 | 소유자(명의) ===
-  cells.push(basicCell('난방방법', b.heating || '심야전력', '', [
-    { label: '', value: '심야전력 보일러' }
-  ]));
-
-  cells.push(basicCell('편의/부대시설', b.convenience_facilities || '우경정 쉼터, 실외운동기구 외', '', [
-    { label: '', value: '비품관리대장 참조' }
-  ]));
-
-  cells.push(basicCell('소유자(명의)', b.property_owner || '리장 이동수', '', [
-    { label: '건축물대장', value: b.building_ledger || '유(별첨)' }
-  ]));
+    // === 5행 (자세히 보기 영역): 난방방법 | 편의시설 | 소유자(명의) ===
+    basicCell('난방방법', b.heating || '심야전력', '', null, true),
+    basicCell('편의시설', b.convenience_facilities || '우경정 쉼터, 실외운동기구 외', '', null, true),
+    basicCell('소유자(명의)', b.property_owner || '리장 이동수', `(건축물대장 ${b.building_ledger || '유'})`, null, true)
+  ];
 
   basic.innerHTML=cells.join('');
+
+  const basicToggleBtn=document.getElementById('basic-more-toggle');
+  if(basicToggleBtn){
+    let expanded=false;
+    basicToggleBtn.addEventListener('click',()=>{
+      expanded=!expanded;
+      basic.querySelectorAll('.fact-extra').forEach(el=>{
+        el.hidden=!expanded;
+      });
+      basicToggleBtn.setAttribute('aria-expanded',String(expanded));
+      basicToggleBtn.textContent=expanded?'접기 ▴':'자세히 보기 ▾';
+    });
+  }
+
   const historyNote=document.getElementById('history-note');if(historyNote)historyNote.textContent='공지 외 공개 기록 중 최근 10건을 표시합니다.';
   const H=window.CenterHubHistory,h=document.getElementById('about-history'),rows=hist.records||[],visible=rows.slice(0,10);
   h.innerHTML=visible.length?visible.map(x=>`<div class="history-item"><time>${esc(H.formatDate(x.date))}</time><div class="history-copy"><strong>${esc(x.title||'')}</strong></div></div>`).join(''):`<div class="empty-state compact-empty" style="display:block;width:100%;text-align:left">${hist.error?'기록을 불러오지 못했습니다. 서버 연결을 확인한 후 새로고침해 주세요.':'표시할 공개 기록이 없습니다.'}</div>`;
