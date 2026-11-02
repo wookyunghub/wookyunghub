@@ -68,7 +68,11 @@
         "address": "사양1길 14-1",
         "note": "",
         "public": true,
-        "book_include": true
+        "book_include": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-003"
       },
       {
         "id": "officer-vp-m",
@@ -79,7 +83,10 @@
         "address": "",
         "note": "전임자 작고로 공석중(원본 비고)",
         "public": true,
-        "book_include": true
+        "book_include": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31"
       },
       {
         "id": "officer-vp-f",
@@ -90,7 +97,11 @@
         "address": "사양1길 2-5",
         "note": "시간관리",
         "public": true,
-        "book_include": true
+        "book_include": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-023"
       },
       {
         "id": "officer-secretary",
@@ -101,7 +112,11 @@
         "address": "사양1길 13-4",
         "note": "경로당 비품관리",
         "public": true,
-        "book_include": true
+        "book_include": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-032"
       },
       {
         "id": "officer-auditor",
@@ -112,7 +127,11 @@
         "address": "사양길 36-3",
         "note": "",
         "public": true,
-        "book_include": true
+        "book_include": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-037"
       }
     ],
     "board": [
@@ -125,7 +144,11 @@
         "address": "사양1길 14-1",
         "note": "",
         "public": true,
-        "book_include": true
+        "book_include": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-003"
       },
       {
         "id": "board-vp",
@@ -136,7 +159,11 @@
         "address": "사양1길 2-5",
         "note": "",
         "public": true,
-        "book_include": true
+        "book_include": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-023"
       },
       {
         "id": "board-1",
@@ -147,7 +174,11 @@
         "address": "사양1길 13-4",
         "note": "소갈이",
         "public": true,
-        "book_include": true
+        "book_include": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-032"
       },
       {
         "id": "board-2",
@@ -158,7 +189,11 @@
         "address": "사양1길 13-3",
         "note": "소갈이",
         "public": true,
-        "book_include": true
+        "book_include": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-031"
       },
       {
         "id": "board-3",
@@ -169,7 +204,11 @@
         "address": "사양2길 40-5",
         "note": "안 골",
         "public": true,
-        "book_include": true
+        "book_include": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-017"
       },
       {
         "id": "board-4",
@@ -180,7 +219,11 @@
         "address": "사양2길 40-7",
         "note": "안 골",
         "public": true,
-        "book_include": true
+        "book_include": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-008"
       },
       {
         "id": "board-5",
@@ -191,7 +234,11 @@
         "address": "사양2길 36-3",
         "note": "벌바위",
         "public": true,
-        "book_include": true
+        "book_include": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-011"
       },
       {
         "id": "board-6",
@@ -202,8 +249,13 @@
         "address": "사양2길 11",
         "note": "리장대-벌바위",
         "public": true,
-        "book_include": true
+        "book_include": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-049"
       }
-    ]
+    ],
+    "history": []
   }
 }

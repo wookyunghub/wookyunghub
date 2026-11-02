@@ -79,7 +79,9 @@
   const actions=document.getElementById('history-actions'),more=document.getElementById('history-more');
   if(actions&&more){actions.hidden=!rows.length;more.href='history.html';more.textContent=`전체 연혁 보기 (${rows.length}건)`;more.removeAttribute('aria-expanded');}
 
-  const chart=d.organization_chart||{},officers=(chart.officers||[]).filter(x=>x.public!==false),board=(chart.board||[]).filter(x=>x.public!==false);
+  const chart=d.organization_chart||{};
+  const officers=(chart.officers||[]).filter(x=>x.public!==false && x.is_current!==false);
+  const board=(chart.board||[]).filter(x=>x.public!==false && x.is_current!==false);
   const name=x=>esc(x.name||'공석');
   const node=(x,cls='')=>`<div class="org-node ${cls} ${x.name?'':'vacant'}"><span>${esc(x.position||'')}</span><strong>${name(x)}</strong></div>`;
   const officerEl=document.getElementById('officer-chart');
@@ -89,7 +91,7 @@
       const chair=officers.filter(x=>x.position==='회장');
       const vice=officers.filter(x=>x.position.startsWith('부회장'));
       const rest=officers.filter(x=>x.position!=='회장'&&!x.position.startsWith('부회장'));
-      officerEl.innerHTML=`<div class="org-level org-level-top">${chair.map(x=>node(x,'org-primary')).join('')}</div>${vice.length?`<div class="org-connector"></div><div class="org-level">${vice.map(x=>node(x)).join('')}</div>`:''}${rest.length?`<div class="org-connector"></div><div class="org-level">${rest.map(x=>node(x)).join('')}</div>`:''}`;
+      officerEl.innerHTML=`<div class="org-level org-level-top">${chair.map(x=>node(x,'org-primary')).join('')}</div>${vice.length?`<div class="org-connector"></div><div class="org-level org-level-vice ${vice.length===1?'org-level-single':''}">${vice.map(x=>node(x)).join('')}</div>`:''}${rest.length?`<div class="org-connector"></div><div class="org-level">${rest.map(x=>node(x)).join('')}</div>`:''}`;
     }
   }
   const boardEl=document.getElementById('board-chart');
@@ -97,7 +99,35 @@
     if(!board.length)boardEl.innerHTML='<div class="empty-state compact-empty">공개 가능한 이사회 정보가 없습니다.</div>';
     else{
       const chair=board.filter(x=>x.position==='회장'),vice=board.filter(x=>x.position==='부회장'),directors=board.filter(x=>!['회장','부회장'].includes(x.position));
-      boardEl.innerHTML=`<div class="org-level org-level-top">${chair.map(x=>node(x,'org-primary')).join('')}</div>${vice.length?`<div class="org-connector"></div><div class="org-level">${vice.map(x=>node(x)).join('')}</div>`:''}${directors.length?`<div class="org-connector"></div><div class="org-level org-directors">${directors.map(x=>node(x)).join('')}</div>`:''}`;
+      boardEl.innerHTML=`<div class="org-level org-level-top">${chair.map(x=>node(x,'org-primary')).join('')}</div>${vice.length?`<div class="org-connector"></div><div class="org-level org-level-vice ${vice.length===1?'org-level-single':''}">${vice.map(x=>node(x)).join('')}</div>`:''}${directors.length?`<div class="org-connector"></div><div class="org-level org-directors">${directors.map(x=>node(x)).join('')}</div>`:''}`;
+    }
+  }
+
+  // 역대 임원진 이력 렌더링
+  const histSection = document.getElementById('officers-history-section');
+  const histToggleBtn = document.getElementById('btn-toggle-officers-history');
+  const histList = document.getElementById('officers-history-list');
+  const historyData = chart.history || [];
+  if(histSection && historyData.length > 0){
+    histSection.hidden = false;
+    if(histList){
+      histList.innerHTML = `<table class="officers-history-table">
+        <thead><tr><th>구분</th><th>직위</th><th>성명</th><th>임기</th><th>비고</th></tr></thead>
+        <tbody>${historyData.map(h => `<tr>
+          <td>${esc(h.category === 'board' ? '이사회' : '경로당 임원')}</td>
+          <td><strong>${esc(h.position || '')}</strong></td>
+          <td>${esc(h.name || '')}</td>
+          <td>${esc([h.term_start, h.term_end].filter(Boolean).join(' ~ ') || '-')}</td>
+          <td>${esc(h.note || '-')}</td>
+        </tr>`).join('')}</tbody>
+      </table>`;
+    }
+    if(histToggleBtn && histList){
+      histToggleBtn.onclick = () => {
+        const isHidden = histList.hidden;
+        histList.hidden = !isHidden;
+        histToggleBtn.textContent = isHidden ? '접기 ▴' : '이력 보기 ▾';
+      };
     }
   }
   document.getElementById('facility-list').innerHTML=(d.facilities||[]).map(x=>`<span>${esc(x)}</span>`).join('');

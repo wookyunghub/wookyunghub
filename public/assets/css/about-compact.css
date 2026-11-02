@@ -12,21 +12,15 @@
   border-radius:12px;
   background:#ffffff;
   border:1px solid #e2d7c9;
-  border-left:4px solid #829a7c;
+  border-top:4px solid #819a7b !important;
   box-shadow:0 2px 8px rgba(88,66,42,.06);
   transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
 }
 .facts-grid>.fact-card:hover{
   transform:translateY(-2px);
   box-shadow:0 6px 16px rgba(88,66,42,.1);
-  border-left-color:#526c49;
+  border-top-color:#526c49 !important;
 }
-.facts-grid>.fact-card:nth-child(1){border-left-color:#a87d55;}
-.facts-grid>.fact-card:nth-child(2){border-left-color:#829a7c;}
-.facts-grid>.fact-card:nth-child(3){border-left-color:#5a7698;}
-.facts-grid>.fact-card:nth-child(4){border-left-color:#829a7c;}
-.facts-grid>.fact-card:nth-child(5){border-left-color:#a87d55;}
-.facts-grid>.fact-card:nth-child(6){border-left-color:#5a7698;}
 .fact-card small{font-size:12px;margin-bottom:6px;color:#856d59;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:4px}
 .fact-main{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px 10px}
 .fact-main-text{display:inline-flex;align-items:baseline;flex-wrap:wrap;gap:5px;min-width:0}
@@ -165,8 +159,35 @@
   cursor:default !important;
   box-shadow:none !important;
 }
-@media(max-width:800px){#facilities .facility-plan{flex-direction:column;align-items:flex-start;gap:14px}#facilities .facility-plan-thumb{width:100%;max-width:280px;height:120px}}
-@media(max-width:480px){#facilities .facility-summary{gap:6px}}
+@media(max-width:800px){
+  #facilities .facility-plan{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:14px !important;
+  }
+  #facilities .facility-plan-thumb{
+    order:1 !important;
+    width:100% !important;
+    max-width:100% !important;
+    height:160px !important;
+    margin:0 auto !important;
+  }
+  #facilities .facility-plan-info{
+    order:2 !important;
+    width:100% !important;
+  }
+  #facilities .facility-plan-info-row{
+    width:100% !important;
+  }
+  #facilities .facility-summary{
+    width:100% !important;
+    display:flex !important;
+    flex-direction:row !important;
+    flex-wrap:wrap !important;
+    gap:6px !important;
+  }
+}
 
 /* 시설·비품 대장 조회 버튼 및 액션 */
 .facility-header-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -257,7 +278,7 @@
 .basic-toggle-btn{font-size:13px;padding:6px 18px;border-radius:999px;background:#f7f4ef;border:1px solid #d4c6b6;color:#544030;font-weight:700;cursor:pointer;transition:all .15s ease}
 .basic-toggle-btn:hover{background:#ece4da;border-color:#bba58e;color:#38291d}
 
-/* 조직도 레벨 정렬 (PC 및 모바일 부회장/임원 단일 노드 중앙 정렬) */
+/* 조직도 레벨 정렬 (PC 및 모바일 부회장/임원 단일 노드 중앙 정렬 완벽 보장) */
 .org-chart .org-level{
   display: flex !important;
   justify-content: center !important;
@@ -268,7 +289,15 @@
   margin: 0 auto !important;
 }
 .org-chart .org-node{
-  margin: 0 auto;
+  margin: 0 auto !important;
+}
+.org-chart .org-level-single,
+.org-chart .org-level-vice{
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin: 0 auto !important;
 }
 @media(max-width: 560px){
   .org-chart .org-level{
@@ -277,6 +306,21 @@
     align-items: center !important;
     flex-wrap: wrap !important;
     width: 100% !important;
+    margin: 0 auto !important;
+  }
+  .org-chart .org-level.org-level-single,
+  .org-chart .org-level.org-level-vice{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+  .org-chart .org-level.org-level-single .org-node,
+  .org-chart .org-level.org-level-vice .org-node{
+    margin: 0 auto !important;
+    grid-column: 1 / -1 !important;
+    justify-self: center !important;
   }
   .org-chart .org-level.org-directors{
     display: grid !important;
@@ -288,4 +332,40 @@
     min-width: 110px;
     max-width: 160px;
   }
+}
+
+/* 역대 임원 이력 스타일 */
+.officers-history-box {
+  margin-top: 20px;
+  background: #fdfbf7;
+  border: 1px solid #e2dbcf;
+  border-radius: 12px;
+  padding: 16px;
+}
+.officers-history-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.officers-history-head h4 {
+  margin: 0;
+  font-size: 15px;
+  color: #3e3328;
+  font-weight: 700;
+}
+.officers-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 13.5px;
+}
+.officers-history-table th, .officers-history-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #ebd9c8;
+  text-align: left;
+}
+.officers-history-table th {
+  background: #f5ede2;
+  color: #5d4a36;
+  font-weight: 700;
 }

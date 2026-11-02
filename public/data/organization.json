@@ -63,31 +63,62 @@
         "id": "officer-chair",
         "position": "회장",
         "name": "조영기",
-        "public": true
+        "public": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-003",
+        "birth_date": "1940-06-03",
+        "phone": "010-5247-8787",
+        "address": "문백면 사양1길 14-14"
       },
       {
         "id": "officer-vp-m",
         "position": "부회장(남)",
         "name": "",
-        "public": true
+        "public": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31"
       },
       {
         "id": "officer-vp-f",
         "position": "부회장(여)",
         "name": "연순녀",
-        "public": true
+        "public": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-023",
+        "birth_date": "1938-10-25",
+        "phone": "010-2433-1950",
+        "address": "문백면 사양1길 2-5"
       },
       {
         "id": "officer-secretary",
         "position": "사무장",
         "name": "고현숙",
-        "public": true
+        "public": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-032",
+        "birth_date": "1949-01-11",
+        "phone": "010-9268-3603",
+        "address": "문백면 사양1길 13-4"
       },
       {
         "id": "officer-auditor",
         "position": "감사",
         "name": "임희순",
-        "public": true
+        "public": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-037",
+        "birth_date": "1955-07-03",
+        "phone": "010-9486-0325",
+        "address": "문백면 사양길 36-3"
       }
     ],
     "board": [
@@ -95,50 +126,107 @@
         "id": "board-chair",
         "position": "회장",
         "name": "조영기",
-        "public": true
+        "public": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-003",
+        "birth_date": "1940-06-03",
+        "phone": "010-5247-8787",
+        "address": "문백면 사양1길 14-14"
       },
       {
         "id": "board-vp",
         "position": "부회장",
         "name": "연순녀",
-        "public": true
+        "public": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-023",
+        "birth_date": "1938-10-25",
+        "phone": "010-2433-1950",
+        "address": "문백면 사양1길 2-5"
       },
       {
         "id": "board-1",
         "position": "이사",
         "name": "고현숙",
-        "public": true
+        "public": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-032",
+        "birth_date": "1949-01-11",
+        "phone": "010-9268-3603",
+        "address": "문백면 사양1길 13-4"
       },
       {
         "id": "board-2",
         "position": "이사",
         "name": "황정해",
-        "public": true
+        "public": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-031",
+        "birth_date": "1947-10-03",
+        "phone": "010-2724-1739",
+        "address": "문백면 사양1길 13-3"
       },
       {
         "id": "board-3",
         "position": "이사",
         "name": "권혁수",
-        "public": true
+        "public": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-017",
+        "birth_date": "1959-08-20",
+        "phone": "010-5465-2229",
+        "address": "문백면 사양길 46"
       },
       {
         "id": "board-4",
         "position": "이사",
         "name": "김기덕",
-        "public": true
+        "public": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-008",
+        "birth_date": "1952-03-07",
+        "phone": "010-8829-3734",
+        "address": "문백면 사양2길 40-7"
       },
       {
         "id": "board-5",
         "position": "이사",
         "name": "장재성",
-        "public": true
+        "public": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-011",
+        "birth_date": "1954-01-15",
+        "phone": "010-5462-6640",
+        "address": "문백면 사양2길 36-3"
       },
       {
         "id": "board-6",
         "position": "이사",
         "name": "이동수",
-        "public": true
+        "public": true,
+        "is_current": true,
+        "term_start": "2023-11-01",
+        "term_end": "2027-10-31",
+        "member_id": "book2026-049",
+        "birth_date": "1964-02-17",
+        "phone": "010-9814-0081",
+        "address": "문백면 사양2길 11"
       }
-    ]
+    ],
+    "history": []
   }
 }

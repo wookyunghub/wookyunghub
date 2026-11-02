@@ -159,7 +159,7 @@
 
   let photoScale = 1, photoRotate = 0;
   function applyPhotoTransform(){
-    if(photoDialogImg) photoDialogImg.style.transform = 	ranslateZ(0) scale() rotate(deg);
+    if(photoDialogImg) photoDialogImg.style.transform = `translateZ(0) scale(${photoScale}) rotate(${photoRotate}deg)`;
   }
   function resetPhotoTransform(){
     photoScale = 1; photoRotate = 0; applyPhotoTransform();
@@ -228,6 +228,12 @@
 
   const initialTab = ['forms','docs','photos','all'].includes(location.hash.replace('#','')) ? location.hash.replace('#','') : 'all';
   applyTab(initialTab);
+
+  window.addEventListener('hashchange', () => {
+    const hash = location.hash.replace('#','');
+    const tab = ['forms','docs','photos','all'].includes(hash) ? hash : 'all';
+    applyTab(tab);
+  });
 
   document.querySelectorAll('.res-nav-tab').forEach(t => {
     t.onclick = () => {
