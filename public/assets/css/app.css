@@ -303,8 +303,11 @@ body{background:var(--bg);color:var(--text)}
 .viewer-book-switcher .book-tab.ebook-tab:hover{background:#e2efe5;border-color:#b5d5be}
 
 /* 읽기 전용 보안 강조 배지 */
-.readonly-badge{background:#edf6f0;color:#1e6b37;border:1px solid #bfe0cc;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:5px;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;letter-spacing:-0.01em}
-.readonly-badge .lock-icon{font-size:11px}
+/* 읽기 전용 알림 라벨 (붉은 계열, 버튼 느낌 없는 컴팩트 라벨) */
+.readonly-label,
+.readonly-badge{background:#fdf2f2;color:#c2362b;border:1px solid #f6cfcb;border-radius:4px;font-size:11.5px;font-weight:700;padding:2px 6px;display:inline-flex;align-items:center;gap:3.5px;white-space:nowrap;letter-spacing:-0.01em;line-height:1.25;cursor:default;user-select:none;box-shadow:none}
+.readonly-label .lock-icon,
+.readonly-badge .lock-icon{font-size:11px;opacity:0.85}
 
 @media(max-width:680px){
   .viewer-top-bar{flex-direction:column;align-items:stretch;gap:8px;padding:9px 10px}
