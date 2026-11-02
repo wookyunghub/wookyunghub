@@ -27,6 +27,7 @@
     's-title':'site_title',
     's-mode':'link_mode',
     's-public':'public_url',
+    's-map':'map_url',
     's-logo':'logo_image',
     's-building':'building_image'
   };

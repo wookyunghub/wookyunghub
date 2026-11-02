@@ -12,14 +12,14 @@
   border-radius:12px;
   background:#ffffff;
   border:1px solid #e2d7c9;
-  border-top:4px solid #819a7b !important;
+  border-left:5px solid #819a7b !important;
   box-shadow:0 2px 8px rgba(88,66,42,.06);
   transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
 }
 .facts-grid>.fact-card:hover{
   transform:translateY(-2px);
   box-shadow:0 6px 16px rgba(88,66,42,.1);
-  border-top-color:#526c49 !important;
+  border-left-color:#526c49 !important;
 }
 .fact-card small{font-size:12px;margin-bottom:6px;color:#856d59;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:4px}
 .fact-main{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px 10px}
@@ -278,8 +278,31 @@
 .basic-toggle-btn{font-size:13px;padding:6px 18px;border-radius:999px;background:#f7f4ef;border:1px solid #d4c6b6;color:#544030;font-weight:700;cursor:pointer;transition:all .15s ease}
 .basic-toggle-btn:hover{background:#ece4da;border-color:#bba58e;color:#38291d}
 
-/* 조직도 레벨 정렬 (PC 및 모바일 부회장/임원 단일 노드 중앙 정렬 완벽 보장) */
-.org-chart .org-level{
+/* ==========================================================================
+   조직도 레이아웃 & 카드 규격 통일 (모든 카드 크기 100% 동일 + 이사 3명씩 2줄 배치)
+   ========================================================================== */
+@media(min-width: 901px) {
+  .organization-sections {
+    display: grid !important;
+    grid-template-columns: minmax(290px, 1fr) minmax(440px, 1.45fr) !important;
+    gap: 18px !important;
+    align-items: stretch !important;
+  }
+}
+@media(max-width: 900px) {
+  .organization-sections {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+.org-chart {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+.org-chart .org-level {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
@@ -288,49 +311,94 @@
   width: 100% !important;
   margin: 0 auto !important;
 }
-.org-chart .org-node{
+
+/* 모든 이름카드(org-node) 동일 규격 적용 */
+.org-chart .org-node {
+  width: 130px !important;
+  min-width: 130px !important;
+  max-width: 130px !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+  padding: 8px 10px !important;
   margin: 0 auto !important;
+  border-radius: 9px !important;
+  text-align: center !important;
 }
-.org-chart .org-level-single,
-.org-chart .org-level-vice{
+.org-chart .org-node span {
+  font-size: 11.5px !important;
+  margin-bottom: 2px !important;
+  display: block !important;
+  color: #587087 !important;
+}
+.org-chart .org-node strong {
+  font-size: 15px !important;
+  white-space: nowrap !important;
+  display: block !important;
+  color: #142b43 !important;
+}
+
+/* 부회장 단일 노드 중앙 정렬 보장 */
+.org-chart .org-level.org-level-single,
+.org-chart .org-level.org-level-vice {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
   width: 100% !important;
   margin: 0 auto !important;
 }
-@media(max-width: 560px){
-  .org-chart .org-level{
+
+/* 이사회 이사들: PC/태블릿에서 3명씩 2줄 배치 */
+.org-chart .org-level.org-directors {
+  display: grid !important;
+  grid-template-columns: repeat(3, 130px) !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+}
+.org-chart .org-level.org-directors .org-node {
+  width: 130px !important;
+  min-width: 130px !important;
+  max-width: 130px !important;
+}
+
+@media(max-width: 560px) {
+  .org-chart .org-level {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     flex-wrap: wrap !important;
     width: 100% !important;
-    margin: 0 auto !important;
+  }
+  .org-chart .org-node {
+    width: 120px !important;
+    min-width: 120px !important;
+    max-width: 120px !important;
+    padding: 7px 6px !important;
   }
   .org-chart .org-level.org-level-single,
-  .org-chart .org-level.org-level-vice{
+  .org-chart .org-level.org-level-vice {
     display: flex !important;
     justify-content: center !important;
-    align-items: center !important;
     width: 100% !important;
-    margin: 0 auto !important;
   }
   .org-chart .org-level.org-level-single .org-node,
-  .org-chart .org-level.org-level-vice .org-node{
+  .org-chart .org-level.org-level-vice .org-node {
     margin: 0 auto !important;
     grid-column: 1 / -1 !important;
     justify-self: center !important;
   }
-  .org-chart .org-level.org-directors{
+  .org-chart .org-level.org-directors {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 8px !important;
     width: 100% !important;
   }
-  .org-chart .org-node{
-    min-width: 110px;
-    max-width: 160px;
+  .org-chart .org-level.org-directors .org-node {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
   }
 }
 
@@ -368,4 +436,95 @@
   background: #f5ede2;
   color: #5d4a36;
   font-weight: 700;
+}
+
+/* 오시는 길 지도 및 길찾기 스타일 */
+.access-card {
+  margin-top: 14px;
+  background: #ffffff;
+  border: 1px solid #e2d7c9;
+  border-left: 5px solid #819a7b;
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 2px 8px rgba(88,66,42,.06);
+}
+.access-main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.access-addr-block {
+  min-width: 240px;
+}
+.access-addr-label {
+  font-size: 12px;
+  color: #856d59;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.access-addr-text {
+  font-size: 16px;
+  font-weight: 800;
+  color: #2c241d;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.access-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.btn-map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 8px !important;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all .15s ease;
+}
+.btn-map-kakao {
+  background: #fee500;
+  color: #191919;
+  border: 1px solid #ebd300;
+}
+.btn-map-kakao:hover {
+  background: #fada0a;
+  box-shadow: 0 2px 8px rgba(254,229,0,.35);
+  color: #000;
+}
+.btn-map-naver {
+  background: #03c75a;
+  color: #ffffff;
+  border: 1px solid #02b351;
+}
+.btn-map-naver:hover {
+  background: #02b150;
+  box-shadow: 0 2px 8px rgba(3,199,90,.3);
+  color: #fff;
+}
+.btn-copy-addr {
+  background: #f7f4ef;
+  color: #544030;
+  border: 1px solid #d4c6b6;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  border-radius: 8px !important;
+  cursor: pointer;
+}
+.btn-copy-addr:hover {
+  background: #ede5da;
+}
+.access-map-note {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: #7a6a5b;
+  line-height: 1.5;
 }

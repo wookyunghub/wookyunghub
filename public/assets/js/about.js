@@ -131,7 +131,48 @@
     }
   }
   document.getElementById('facility-list').innerHTML=(d.facilities||[]).map(x=>`<span>${esc(x)}</span>`).join('');
-  document.getElementById('access-address').textContent=d.access?.address||b.address||'';document.getElementById('access-note').textContent=d.access?.map_note||'';
+  // 오시는 길 주소 및 지도/길찾기 연동
+  const addrEl = document.getElementById('access-address');
+  const noteEl = document.getElementById('access-note');
+  const mapActionsEl = document.getElementById('access-map-actions');
+  const copyBtn = document.getElementById('btn-copy-address');
+  const fullAddr = d.access?.address || b.address || '충북 진천군 문백면 사양1길 2-12';
+  const customMapUrl = site.map_url || d.access?.map_url || '';
+  const mapNote = d.access?.map_note || '';
+
+  if(addrEl) addrEl.textContent = fullAddr;
+  if(noteEl) noteEl.textContent = mapNote;
+
+  if(mapActionsEl){
+    const kakaoMapUrl = 'https://map.kakao.com/link/search/' + encodeURIComponent(fullAddr);
+    const naverMapUrl = 'https://map.naver.com/p/search/' + encodeURIComponent(fullAddr);
+    let btns = '';
+    if(customMapUrl){
+      btns += `<a href="${esc(customMapUrl)}" target="_blank" rel="noopener" class="btn-map-link" style="background:#4a6741;color:#fff;border:1px solid #3d5535;"><span>📍</span> 지도 바로가기</a>`;
+    }
+    btns += `<a href="${kakaoMapUrl}" target="_blank" rel="noopener" class="btn-map-link btn-map-kakao" title="카카오맵에서 위치 및 길찾기 보기"><span>🟡</span> 카카오맵</a>`;
+    btns += `<a href="${naverMapUrl}" target="_blank" rel="noopener" class="btn-map-link btn-map-naver" title="네이버 지도에서 위치 및 길찾기 보기"><span>🟢</span> 네이버 지도</a>`;
+    mapActionsEl.innerHTML = btns;
+  }
+
+  if(copyBtn){
+    copyBtn.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(fullAddr);
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = '✓ 복사완료!';
+        copyBtn.style.background = '#e2ebd9';
+        copyBtn.style.color = '#2c581d';
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+          copyBtn.style.background = '';
+          copyBtn.style.color = '';
+        }, 1800);
+      } catch(e) {
+        alert('주소: ' + fullAddr);
+      }
+    };
+  }
 
   const CERT_DOCS = {
     floorplan: {
