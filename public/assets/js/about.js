@@ -106,25 +106,25 @@
   const CERT_DOCS = {
     floorplan: {
       title: '경로당 평면도',
-      sub: '운영대장 본책1 · 28쪽 평면도 사진 보기',
+      sub: '',
       src: 'assets/img/floorplan-book1-p28.webp?v=2.8',
       ebook: 'ebook.html?ledger=2025-2026&doc=book1&page=28'
     },
     unique: {
-      title: '고유번호증 (301-80-18628)',
-      sub: '단체명: 우경경로당 · 대표자: 조영기 · 충주세무서장 발급 (2023. 11. 30)',
+      title: '고유번호증',
+      sub: '',
       src: 'assets/img/certificates/cert_unique_number.webp?v=1.0',
       ebook: 'ebook.html?ledger=2025-2026&doc=book1&page=11'
     },
     facility: {
       title: '노인복지시설 설치신고확인증',
-      sub: '제 충북진천-노인-19960315-189 호 · 시설장: 조영기 · 정원 20명 · 진천군수 (2023. 11. 23)',
+      sub: '',
       src: 'assets/img/certificates/cert_facility_registration.webp?v=1.0',
       ebook: 'ebook.html?ledger=2025-2026&doc=book1&page=9'
     },
     chairman: {
       title: '대한노인회 우경경로당 회장 등록증',
-      sub: '소속: 진천군지회 · 성명: 조영기 · 임기: 2023. 11. 01 ~ 2027. 10. 31',
+      sub: '',
       src: 'assets/img/certificates/cert_chairman_registration.webp?v=1.0',
       ebook: 'ebook.html?ledger=2025-2026&doc=book1&page=19'
     }
@@ -145,7 +145,10 @@
     const openDocModal=(key)=>{
       const info = CERT_DOCS[key] || CERT_DOCS.floorplan;
       if(docViewerTitle) docViewerTitle.textContent = info.title;
-      if(docViewerSub) docViewerSub.textContent = info.sub;
+      if(docViewerSub) {
+        docViewerSub.textContent = info.sub || '';
+        docViewerSub.hidden = !info.sub;
+      }
       floorplanImage.src = info.src;
       floorplanImage.alt = info.title + ' 크게 보기';
       if(docViewerNewtab) docViewerNewtab.href = info.src;
