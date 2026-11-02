@@ -31,7 +31,41 @@
       let r = await fetch(noCache(u(path)),{cache:'no-store',credentials:'same-origin',...options});
       const contentType = r.headers.get('content-type')||'';
       if(r.ok && contentType.toLowerCase().includes('application/json')) {
-        return await r.json();
+        const liveData = await r.json();
+        if (API_STATIC_FALLBACKS[clean]) {
+          try {
+            const staticData = await loadJson(API_STATIC_FALLBACKS[clean], null);
+            if (staticData) {
+              if (clean === 'api/public/resources' || clean === 'api/admin/files') {
+                const merged = { photos: [...(liveData.photos || [])], documents: [...(liveData.documents || [])], receipts: [...(liveData.receipts || [])] };
+                for (const k of ['photos', 'documents', 'receipts']) {
+                  const seen = new Set(merged[k].map(x => String(x.id)));
+                  for (const item of (staticData[k] || [])) {
+                    if (item && item.id && !seen.has(String(item.id))) {
+                      merged[k].push(item);
+                      seen.add(String(item.id));
+                    }
+                  }
+                }
+                return merged;
+              }
+              if (clean === 'api/public/records' || clean === 'api/admin/records') {
+                const liveArr = Array.isArray(liveData) ? liveData : (liveData.records || []);
+                const staticArr = Array.isArray(staticData) ? staticData : (staticData.records || []);
+                const seen = new Set(liveArr.map(x => String(x.id)));
+                const mergedRecords = [...liveArr];
+                for (const item of staticArr) {
+                  if (item && item.id && !seen.has(String(item.id))) {
+                    mergedRecords.push(item);
+                    seen.add(String(item.id));
+                  }
+                }
+                return Array.isArray(liveData) ? mergedRecords : { ...liveData, records: mergedRecords };
+              }
+            }
+          } catch(_){}
+        }
+        return liveData;
       }
     } catch(e){}
 

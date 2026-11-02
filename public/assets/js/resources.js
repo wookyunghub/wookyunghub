@@ -2,10 +2,37 @@
   const C = window.CenterHubCommon;
   await C.siteReady;
   
-  const d = await C.api('api/public/resources', {documents:[], photos:[]});
+  async function fetchJsonSafe(url){
+    try{
+      const r = await fetch(url, {cache:'no-store'});
+      if(r.ok && (r.headers.get('content-type')||'').toLowerCase().includes('application/json')) return await r.json();
+    }catch(e){}
+    return null;
+  }
+
+  const [apiData, staticData, remoteData] = await Promise.all([
+    C.api('api/public/resources', null),
+    fetchJsonSafe('data/resources.json'),
+    fetchJsonSafe('https://wookyunghub.pythonanywhere.com/api/public/resources')
+  ]);
+
+  const merged = { documents: [], photos: [] };
+  for (const k of ['documents', 'photos']) {
+    const seen = new Set();
+    for (const src of [apiData, staticData, remoteData]) {
+      if (!src || !Array.isArray(src[k])) continue;
+      for (const item of src[k]) {
+        if (item && item.id && !seen.has(String(item.id))) {
+          merged[k].push(item);
+          seen.add(String(item.id));
+        }
+      }
+    }
+  }
+
   const sortFn = window.CenterHubResourceOrder ? window.CenterHubResourceOrder.newestFirst : ((a,b)=>(b.date||'').localeCompare(a.date||''));
-  const allDocs = [...(d.documents || [])].sort(sortFn);
-  const allPhotos = [...(d.photos || [])].sort(sortFn);
+  const allDocs = [...(merged.documents || [])].filter(x => x.public !== false).sort(sortFn);
+  const allPhotos = [...(merged.photos || [])].filter(x => x.public !== false).sort(sortFn);
 
   // Split documents into forms and general documents
   const forms = allDocs.filter(x => x.attachment_role === 'form');
