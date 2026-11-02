@@ -1,7 +1,7 @@
 (async()=>{
   const $=id=>document.getElementById(id);
   const list=$('file-list'),filter=$('file-filter'),msg=$('file-msg'),uploadBtn=$('file-upload'),cancelBtn=$('file-cancel');
-  const dialog=$('file-detail'),detail=$('file-detail-body');
+  const dialog=$('file-detail'),detail=$('file-detail-body'),detailTitle=$('file-detail-title');
   const docPills=$('file-doc-pills'),scrollTopBtn=$('file-scroll-top');
   const roles={minutes:'회의록 원본',attendance:'참석명단',report:'보고자료',receipt:'증빙',form:'서식',document:'일반문서',other:'일반문서'};
   const types={
@@ -84,45 +84,112 @@
   }
 
   $('file-detail-close').onclick=()=>dialog.close();
+  if(dialog){
+    dialog.addEventListener('click',e=>{
+      if(e.target===dialog)dialog.close();
+    });
+  }
   
   let data={documents:[],photos:[],receipts:[]};
   let currentTab=['photo','form','document','receipt','all'].includes(location.hash.replace('#',''))?location.hash.replace('#',''):'photo';
   let currentDocSub='document_all';
 
-  async function load(){
+  async function fetchJsonSafe(url, opts={}){
     try{
-      const r=await fetch('../api/admin/files',{credentials:'same-origin',cache:'no-store'});
+      const r=await fetch(url,{cache:'no-store',...opts});
       if(r.ok&&(r.headers.get('content-type')||'').toLowerCase().includes('application/json')){
-        data=await r.json();
-        render();
-        return;
+        return await r.json();
       }
     }catch(e){}
-    try{
-      const r2=await fetch('../api/public/resources',{cache:'no-store'});
-      if(r2.ok&&(r2.headers.get('content-type')||'').toLowerCase().includes('application/json')){
-        data=await r2.json();
-        render();
-        return;
+    return null;
+  }
+
+  async function loadAllRecords(){
+    const recMap=new Map();
+    const sources=[
+      ()=>fetchJsonSafe('../api/admin/records',{credentials:'same-origin'}),
+      ()=>fetchJsonSafe('../api/public/records'),
+      ()=>fetchJsonSafe('../data/records.json'),
+      ()=>fetchJsonSafe('https://wookyunghub.pythonanywhere.com/api/public/records')
+    ];
+    for(const getSrc of sources){
+      const res=await getSrc();
+      const arr=Array.isArray(res)?res:(res&&Array.isArray(res.records)?res.records:[]);
+      for(const r of arr){
+        if(!r||!r.id||r.status==='deleted')continue;
+        if(!recMap.has(r.id)){
+          recMap.set(r.id,r);
+        }else{
+          const prev=recMap.get(r.id);
+          const mergedAtt=Array.from(new Set([...(prev.attachments||[]),...(r.attachments||[])]));
+          recMap.set(r.id,{...prev,attachments:mergedAtt});
+        }
       }
-    }catch(e){}
-    try{
-      const r3=await fetch('https://wookyunghub.pythonanywhere.com/api/public/resources',{cache:'no-store'});
-      if(r3.ok&&(r3.headers.get('content-type')||'').toLowerCase().includes('application/json')){
-        data=await r3.json();
-        render();
-        return;
+    }
+    return Array.from(recMap.values());
+  }
+
+  function attachRecordLinks(resourceData, records){
+    const linkMap=new Map();
+    for(const r of records){
+      const info={id:r.id,title:r.title||r.id,date:r.date||'',module:r.module||''};
+      for(const attKey of (r.attachments||[])){
+        if(!attKey)continue;
+        const keys=[String(attKey)];
+        const bare=String(attKey).includes(':')?String(attKey).split(':')[1]:String(attKey);
+        if(bare)keys.push(bare);
+        for(const k of keys){
+          if(!linkMap.has(k))linkMap.set(k,[]);
+          const list=linkMap.get(k);
+          if(!list.some(x=>x.id===info.id))list.push(info);
+        }
       }
-    }catch(e){}
-    try{
-      const r4=await fetch('../data/resources.json',{cache:'no-store'});
-      if(r4.ok){
-        data=await r4.json();
-        render();
-        return;
+    }
+    for(const kind of ['documents','photos','receipts']){
+      for(const item of (resourceData[kind]||[])){
+        const existing=Array.isArray(item.linked_records)?item.linked_records:[];
+        const fromRecords=linkMap.get(`${kind}:${item.id}`)||linkMap.get(String(item.id))||[];
+        const merged=[...existing];
+        for(const r of fromRecords){
+          if(!merged.some(m=>m.id===r.id))merged.push(r);
+        }
+        item.linked_records=merged;
       }
-    }catch(e){}
-    throw new Error('자료 목록을 불러오지 못했습니다.');
+    }
+  }
+
+  function mergeResourceDatasets(primary, secondary){
+    if(!secondary)return primary;
+    const out={documents:[...(primary.documents||[])],photos:[...(primary.photos||[])],receipts:[...(primary.receipts||[])]};
+    for(const kind of ['documents','photos','receipts']){
+      const seen=new Set(out[kind].map(x=>String(x.id)));
+      for(const item of (secondary[kind]||[])){
+        if(item&&item.id&&!seen.has(String(item.id))){
+          out[kind].push(item);
+          seen.add(String(item.id));
+        }
+      }
+    }
+    return out;
+  }
+
+  async function load(){
+    const [adminData, pubData, staticData, remoteData, records] = await Promise.all([
+      fetchJsonSafe('../api/admin/files',{credentials:'same-origin'}),
+      fetchJsonSafe('../api/public/resources'),
+      fetchJsonSafe('../data/resources.json'),
+      fetchJsonSafe('https://wookyunghub.pythonanywhere.com/api/public/resources'),
+      loadAllRecords()
+    ]);
+
+    let merged = adminData || pubData || staticData || remoteData;
+    if(!merged) throw new Error('자료 목록을 불러오지 못했습니다.');
+    for(const extra of [pubData, staticData, remoteData]){
+      merged = mergeResourceDatasets(merged, extra);
+    }
+    attachRecordLinks(merged, records);
+    data = merged;
+    render();
   }
 
   function thumb(x){
@@ -227,22 +294,33 @@
 
   function show(x){
     const url=safeUrl(x),ext=kindOf(x);
+    const isImage=['jpg','jpeg','png','gif','webp','bmp'].includes(ext)&&url;
+    const typeLabel=roles[x.attachment_role]||labels[x._kind]||'자료';
+    const sizeText=x.size?(x.size>=1024*1024?(x.size/(1024*1024)).toFixed(2)+' MB':(x.size/1024).toFixed(1)+' KB'):'';
+    const linked=Array.isArray(x.linked_records)?x.linked_records:[];
+    if(detailTitle)detailTitle.textContent=x.title||x.name||'자료 상세보기';
+
+    const linkedHtml=linked.length
+      ? linked.map(r=>`<a class="linked-record-chip" href="../news-detail.html?id=${encodeURIComponent(r.id)}&from=admin" title="연결된 기록 열기">🔗 ${esc(r.title||r.id)}${r.date?` (${esc(r.date)})`:''}</a>`).join('')
+      : '<span style="color:#7c6d5f;font-size:13px">없음 · 독립 자료</span>';
+
     detail.innerHTML=`
-      <div class="file-detail-grid">
-        ${['jpg','jpeg','png','gif','webp','bmp'].includes(ext)&&url?`<div class="file-detail-thumb"><img src="${esc(url)}" alt="" onerror="if(!this.dataset.fb&&!location.hostname.includes('pythonanywhere')){this.dataset.fb='1';this.src='https://wookyunghub.pythonanywhere.com'+(this.getAttribute('src').startsWith('/')?this.getAttribute('src'):'/'+this.getAttribute('src'));}"></div>`:''}
-        <div class="file-detail-info">
-          <p><strong>제목:</strong> ${esc(x.title||x.name)}</p>
-          <p><strong>자료구분:</strong> ${esc(roles[x.attachment_role]||labels[x._kind])}</p>
-          <p><strong>날짜:</strong> ${esc(x.date||'미입력')}</p>
-          <p><strong>공개 상태:</strong> ${x.public?'공개':'관리자 전용(비공개)'}</p>
-          <p><strong>파일명:</strong> ${esc(x.name||'-')}</p>
-          <p><strong>크기:</strong> ${x.size?(x.size/1024).toFixed(1)+' KB':'-'}</p>
-          ${x.description?`<p><strong>설명:</strong> ${esc(x.description)}</p>`:''}
-          <p><strong>연결 기록:</strong> ${esc(linksText(x)||'없음 · 독립 자료')}</p>
+      ${isImage?`<div class="file-detail-stage"><img src="${esc(url)}" alt="${esc(x.title||x.name||'')}" onerror="if(!this.dataset.fb&&!location.hostname.includes('pythonanywhere')){this.dataset.fb='1';this.src='https://wookyunghub.pythonanywhere.com'+(this.getAttribute('src').startsWith('/')?this.getAttribute('src'):'/'+this.getAttribute('src'));}"></div>`:''}
+      <div class="file-detail-summary">
+        <div class="file-detail-meta-bar">
+          <div class="file-detail-chips">
+            <span class="file-meta-chip">${esc(typeLabel)}</span>
+            <span class="file-meta-chip">📅 ${esc(x.date||'날짜 미입력')}</span>
+            <span class="file-meta-chip ${x.public?'pub-on':'pub-off'}">${x.public?'공개':'관리자 전용(비공개)'}</span>
+            <span class="file-meta-file">${esc(x.name||'-')}${sizeText?` (${esc(sizeText)})`:''}</span>
+          </div>
+          ${url?`<a class="btn primary file-detail-dl-btn" href="${esc(url)}" download="${esc(x.name||'다운로드')}" target="_blank" rel="noopener">원본 다운로드</a>`:''}
         </div>
-      </div>
-      <div class="toolbar" style="margin-top:14px;justify-content:flex-end">
-        ${url?`<a class="btn primary" href="${esc(url)}" download="${esc(x.name||'다운로드')}" target="_blank" rel="noopener">원본 다운로드</a>`:''}
+        ${x.description?`<div class="file-detail-row"><strong>설명</strong><span>${esc(x.description)}</span></div>`:''}
+        <div class="file-detail-row">
+          <strong>연결 기록</strong>
+          <div class="file-detail-links">${linkedHtml}</div>
+        </div>
       </div>
     `;
     dialog.showModal();

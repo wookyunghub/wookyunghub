@@ -376,7 +376,11 @@ class Handler(SimpleHTTPRequestHandler):
             for m in mods:rows.extend(REPO.list_records(m,public_only=True))
             rows.sort(key=lambda x:x.get('date',''),reverse=True);return self.json({'records':[public_news_record(r) for r in rows]})
         if path=='/api/public/resources':
-            d=read_json(STORAGE/'resources.json',{'documents':[],'photos':[],'receipts':[]});return self.json({'documents':[x for x in d.get('documents',[]) if x.get('public')],'photos':[x for x in d.get('photos',[]) if x.get('public')]})
+            d=read_json(STORAGE/'resources.json',{'documents':[],'photos':[],'receipts':[]})
+            return self.json({
+                'documents':[{**x,'linked_records':resource_links('documents',x.get('id',''))} for x in d.get('documents',[]) if x.get('public')],
+                'photos':[{**x,'linked_records':resource_links('photos',x.get('id',''))} for x in d.get('photos',[]) if x.get('public')]
+            })
         if path=='/api/admin/members':
             if not self.need_admin():return
             return self.json({'members':[x for x in member_list() if x.get('status','active')!='deleted'], 'total':len([x for x in member_list() if x.get('status','active')!='deleted'])})
@@ -736,7 +740,12 @@ class Handler(SimpleHTTPRequestHandler):
         if upload_token:item['upload_token']=upload_token
         idx=resources;idx.setdefault(kind,[]).insert(0,item);idx['updated']=time.strftime('%Y-%m-%d');write_json(STORAGE/'resources.json',idx);self.sync_public_resources(idx);return self.json({'ok':True,'item':item})
     def sync_public_resources(self,idx):
-        out={'documents':[x for x in idx.get('documents',[]) if x.get('public')],'photos':[x for x in idx.get('photos',[]) if x.get('public')],'updated':idx.get('updated','')};write_json(PUBLIC/'data/resources.json',out)
+        out={
+            'documents':[{**x,'linked_records':resource_links('documents',x.get('id',''))} for x in idx.get('documents',[]) if x.get('public')],
+            'photos':[{**x,'linked_records':resource_links('photos',x.get('id',''))} for x in idx.get('photos',[]) if x.get('public')],
+            'updated':idx.get('updated','')
+        }
+        write_json(PUBLIC/'data/resources.json',out)
         for kind in ('documents','photos','receipts'):
             for item in idx.get(kind,[]):
                 src = STORAGE / item.get('path','')

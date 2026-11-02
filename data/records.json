@@ -20,8 +20,9 @@
         "outcome": ""
       },
       "attachments": [
+        "photos:b38dea2fcb522afa",
         "photos:be948035699e184f",
-        "photos:b38dea2fcb522afa"
+        "photos:68ed60395128d10a"
       ],
       "recorder": "관리자",
       "created_at": "2026-10-24T14:56:57",
@@ -478,7 +479,8 @@
         "documents:dfd5898df9920304",
         "documents:ba4f33f7b0805e52",
         "photos:98938677e8b4891e",
-        "photos:c90ff211931a2c90"
+        "photos:c90ff211931a2c90",
+        "documents:981c1490964cdfa3"
       ],
       "recorder": "관리자",
       "created_at": "2026-10-22T10:33:54",
@@ -521,7 +523,10 @@
       ],
       "source": "2025-26 운영대장 본책2 PDF 15쪽",
       "extra": {},
-      "attachments": [],
+      "attachments": [
+        "photos:47e75ee3c7797422",
+        "photos:a2b3195ba69b28da"
+      ],
       "created_at": "2026-10-19T21:36:42",
       "updated_at": "2026-10-19T21:36:42"
     },
@@ -626,6 +631,7 @@
         "outcome": ""
       },
       "attachments": [
+        "photos:ede5d7101c17566e",
         "photos:c754c5a72eacba70",
         "photos:d8603aee02a6a960",
         "photos:44d0eeeab34d4c70"
@@ -697,7 +703,10 @@
         "participants": "",
         "decisions": ""
       },
-      "attachments": [],
+      "attachments": [
+        "documents:88608931d7f3da63",
+        "documents:fd1a6f5b79b4437c"
+      ],
       "created_at": "2026-10-19T21:36:42",
       "updated_at": "2026-10-24T14:29:27",
       "recorder": "관리자",
@@ -977,7 +986,8 @@
         "documents:a95ca07749742409",
         "documents:583dccc816e3fa8c",
         "documents:0d002615c3b2faf8",
-        "documents:13e6935b78b57c4a"
+        "documents:13e6935b78b57c4a",
+        "documents:7c196b790e8a127e"
       ],
       "created_at": "2026-10-19T21:36:42",
       "updated_at": "2026-10-25T17:22:02",
@@ -1306,7 +1316,14 @@
       "source": "운영대장 본책1 13~16쪽",
       "extra": {},
       "created_at": "2026-10-17T00:00:00",
-      "updated_at": "2026-10-17T00:00:00"
+      "updated_at": "2026-10-17T00:00:00",
+      "attachments": [
+        "photos:b302fd6dd15c67f2",
+        "photos:8eb3c90b85d21441",
+        "photos:f8a3bbf7fd383abc",
+        "photos:fd7b4e02ca804c8d",
+        "photos:a2286a48b7a85306"
+      ]
     },
     {
       "id": "history-0019",
@@ -1338,7 +1355,17 @@
       "source": "운영대장 본책1 13~16쪽",
       "extra": {},
       "created_at": "2026-10-17T00:00:00",
-      "updated_at": "2026-10-17T00:00:00"
+      "updated_at": "2026-10-17T00:00:00",
+      "attachments": [
+        "photos:70dda83511b4cc0b",
+        "photos:dd49bc31d024a4d2",
+        "photos:522c72a763042815",
+        "photos:a2b4d0ce1ca2bbcb",
+        "photos:b36426c855e558fd",
+        "photos:bbf77d355ea2c6ed",
+        "photos:eade87755923d1ae",
+        "documents:cfecd53907f53038"
+      ]
     },
     {
       "id": "history-0021",
@@ -1619,7 +1646,9 @@
       "extra": {
         "source_page": 17
       },
-      "attachments": [],
+      "attachments": [
+        "receipts:7b165c40860ab90d"
+      ],
       "created_at": "2026-10-17T00:00:00",
       "updated_at": "2026-10-23T21:07:02",
       "history_excluded": false
@@ -1811,10 +1840,223 @@
         "participants": "",
         "decisions": ""
       },
-      "attachments": [],
+      "attachments": [
+        "photos:45830749ee1336fb"
+      ],
       "created_at": "2026-10-21T19:48:09",
       "updated_at": "2026-10-23T20:40:44",
       "recorder": "관리자"
+    },
+    {
+      "id": "event-01b935cdbe08",
+      "module": "event",
+      "date": "2026-09-22",
+      "title": "2026 사랑의 저금통 후원",
+      "body": "사랑의 저금통 모금 이체  (2026.09.22.)\n    1원권 ×  58       58원\n    5웜   ×  33      165원 합 223원 우경경로당마을자체계좌에 수집자에게 현찰가 판매 입금\n                      \n   10원   ×   4       40\n   50원   ×   1       50\n  100원   ×   9      900\n  500원   ×   3    1,500\n 1,000원   ×   7    7,000\n10,000원   ×   8   80,000    \n              모금 89,713원중 문백장월농협입금불가 58+165= 223원 (1웜, 5원권)\n        이체금 모금 89,490+자체70,000 = 159,490",
+      "public": true,
+      "book_include": false,
+      "edition_period": "",
+      "status": "active",
+      "history_excluded": false,
+      "tags": [],
+      "source": "관리자 등록",
+      "extra": {
+        "place": "",
+        "attendance": "",
+        "outcome": ""
+      },
+      "attachments": [
+        "receipts:f64cc6ad72bae380"
+      ],
+      "recorder": "관리자",
+      "created_at": "2026-10-31T12:13:04",
+      "updated_at": "2026-11-02T12:22:05"
+    },
+    {
+      "id": "facility-ba521f096c7f",
+      "module": "facility",
+      "date": "2025-12-17",
+      "title": "알림판 코팅 및 문구 구입",
+      "body": "알림판 코팅 및 필요 문구 구입",
+      "public": true,
+      "book_include": false,
+      "edition_period": "",
+      "status": "active",
+      "history_excluded": true,
+      "tags": [],
+      "source": "관리자 등록",
+      "extra": {},
+      "attachments": [
+        "photos:23d33cbad83139e6"
+      ],
+      "recorder": "",
+      "created_at": "2026-11-02T10:22:23",
+      "updated_at": "2026-11-02T10:22:23"
+    },
+    {
+      "id": "document-583814e3e3af",
+      "module": "document",
+      "date": "2025-12-13",
+      "title": "노후동파 수도전 부품교체 수리 및 보온 완료",
+      "body": "실외 상수도 동파 보수 부속품 구입\n구입처 : 청주유압수도상사\n구입액 : 34,100 원 (VAT 포함)\n\n새 부품으로 교치 및 수리, 보온 완료 (자체수리)",
+      "public": true,
+      "book_include": false,
+      "edition_period": "",
+      "status": "active",
+      "history_excluded": false,
+      "tags": [
+        "실외",
+        "상수도",
+        "동파",
+        "부속품"
+      ],
+      "source": "관리자 등록",
+      "extra": {},
+      "attachments": [
+        "photos:2fe789241581d57b",
+        "photos:d812f993d18ea8f4",
+        "photos:14eca1235243dade",
+        "photos:62bf0e8ab7c8ed1f"
+      ],
+      "recorder": "",
+      "created_at": "2026-11-02T10:18:40",
+      "updated_at": "2026-11-02T10:18:40"
+    },
+    {
+      "id": "document-8a4f69909e56",
+      "module": "document",
+      "date": "2025-12-05",
+      "title": "경동나비엔 보일러 점검 수리",
+      "body": "2025.12.05 1차 보일러점검\n     - 1차 점검시 난방온수온도 : 30\n2025.12.06 한전직원 통전 타이머 수리\n2025.12.08 통전수리후 결과\n     - 온수온도 : 78 (정상)",
+      "public": true,
+      "book_include": false,
+      "edition_period": "",
+      "status": "active",
+      "history_excluded": true,
+      "tags": [
+        "경동나비엔",
+        "보일러",
+        "고장",
+        "수리"
+      ],
+      "source": "관리자 등록",
+      "extra": {},
+      "attachments": [
+        "documents:6eea52a71b864784",
+        "receipts:7d1ca4f8de461a96"
+      ],
+      "recorder": "",
+      "created_at": "2026-11-02T10:55:31",
+      "updated_at": "2026-11-02T10:55:31"
+    },
+    {
+      "id": "document-b7eed267381e",
+      "module": "document",
+      "date": "2025-10-25",
+      "title": "경로당 건물명칭 변경요청",
+      "body": "사양1길 2-12, 건물명칭 변경요청의 건\n현재 틀린명칭 : 우경노인정\n요청 정정명칭 : 우경경로당\n\n참조 : 대한노인회 경로당 운영규정",
+      "public": true,
+      "book_include": false,
+      "edition_period": "",
+      "status": "active",
+      "history_excluded": false,
+      "tags": [
+        "경로당",
+        "명칭변경"
+      ],
+      "source": "관리자 등록",
+      "extra": {},
+      "attachments": [
+        "documents:a2a7c0a7ad7c08ec",
+        "photos:6d62f34ad538ec41",
+        "photos:6df60212be5c908b"
+      ],
+      "recorder": "",
+      "created_at": "2026-11-02T10:40:39",
+      "updated_at": "2026-11-02T10:42:21"
+    },
+    {
+      "id": "meeting-0570d023b2f5",
+      "module": "meeting",
+      "date": "2024-01-22",
+      "title": "2024 상반기 정기총회 개최",
+      "body": "안건자료 없음",
+      "public": true,
+      "book_include": false,
+      "edition_period": "",
+      "status": "active",
+      "history_excluded": false,
+      "tags": [],
+      "source": "관리자 등록",
+      "extra": {
+        "meeting_type": "정기",
+        "place": "우경경로당",
+        "chair": "조영기",
+        "participants": "",
+        "decisions": ""
+      },
+      "attachments": [
+        "photos:53a4c4696cc2b98d"
+      ],
+      "recorder": "관리자",
+      "created_at": "2026-10-30T12:55:37",
+      "updated_at": "2026-10-30T12:55:37"
+    },
+    {
+      "id": "meeting-3ee8c3ba1e52",
+      "module": "meeting",
+      "date": "2012-01-14",
+      "title": "신년노인총회",
+      "body": "총회 후 식사",
+      "public": true,
+      "book_include": false,
+      "edition_period": "",
+      "status": "active",
+      "history_excluded": false,
+      "tags": [],
+      "source": "관리자 등록",
+      "extra": {
+        "meeting_type": "정기",
+        "place": "우경경로당",
+        "chair": "",
+        "participants": "",
+        "decisions": ""
+      },
+      "attachments": [
+        "photos:79dd75c1aa4e2b98",
+        "photos:67a384186b512ca7"
+      ],
+      "recorder": "관리자",
+      "created_at": "2026-10-30T12:54:06",
+      "updated_at": "2026-10-30T12:54:06"
+    },
+    {
+      "id": "event-c6d0769b9f1a",
+      "module": "event",
+      "date": "2011-02-17",
+      "title": "2011 정월대보름 행사",
+      "body": "2011년 정원대보름 행사\n- 전통놀이 (윷놀이)",
+      "public": true,
+      "book_include": false,
+      "edition_period": "",
+      "status": "active",
+      "history_excluded": false,
+      "tags": [],
+      "source": "관리자 등록",
+      "extra": {
+        "place": "우경경로당",
+        "attendance": "",
+        "outcome": ""
+      },
+      "attachments": [
+        "photos:06d102b25cb3a36d",
+        "photos:7d1723fcbbc508fb",
+        "photos:313734f0350ec794",
+        "photos:9c14e468a4563aee"
+      ],
+      "recorder": "관리자",
+      "created_at": "2026-10-30T12:52:31",
+      "updated_at": "2026-10-30T12:52:31"
     }
   ],
   "updated": "2026-10-25"
