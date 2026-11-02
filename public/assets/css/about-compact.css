@@ -144,3 +144,12 @@
 .inv-pdf-link{display:inline-flex;align-items:center;gap:3px;padding:3px 7px;font-size:11px;background:#edf5fc;border:1px solid #b6d3eb;color:#1c5e8c;border-radius:4px;text-decoration:none;white-space:nowrap;font-weight:600}
 .inv-pdf-link:hover{background:#1c5e8c;color:#fff}
 .inv-group-title{display:flex;justify-content:space-between;align-items:center}
+
+/* 증명서·확인증 연결 배지 및 조직도 회장 등록증 버튼 */
+.fact-badge.fact-badge-link{background:#eef5ed;border:1px solid #9fc497;color:#23581d;cursor:pointer;text-decoration:none;transition:all .15s ease;display:inline-flex;align-items:center;gap:3px;font-weight:700}
+.fact-badge.fact-badge-link:hover{background:#526c49;color:#fff;border-color:#435b3c;transform:translateY(-1px);box-shadow:0 2px 6px rgba(82,108,73,.22)}
+.org-node .org-sub-meta{display:block;font-size:11px;color:#5a7186;margin-top:2px;font-weight:500}
+.org-node .org-cert-wrap{margin-top:5px;display:flex;justify-content:center}
+.org-node .org-cert-link{font-size:11px;padding:2px 8px;border-radius:999px}
+.cert-header-btn{background:#f7f2eb!important;border-color:#d5c3b0!important;color:#553e2d!important;font-weight:700}
+.cert-header-btn:hover{background:#ece0d1!important;border-color:#bfa68e!important}

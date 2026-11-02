@@ -7,7 +7,14 @@
   ]);
   const b={...(d.basic||{}),name:site.organization_name||(d.basic||{}).name,parent_organization:site.parent_organization??(d.basic||{}).parent_organization,branch_name:site.branch_name??(d.basic||{}).branch_name},esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const basic=document.getElementById('about-basic');
-  const basicCell=(label,value,unit='',badges=[])=>`<div class="fact-card"><small>${esc(label)}</small><div class="fact-main"><strong>${esc(value)}${esc(unit)}</strong>${badges.length?`<span class="fact-badges">${badges.filter(x=>x.value!==undefined&&x.value!==null&&x.value!=='').map(x=>`<span class="fact-badge">${esc(x.label?x.label+' ': '')}${esc(x.value)}${esc(x.unit||'')}</span>`).join('')}</span>`:''}</div></div>`;
+  const renderBadge=x=>{
+    const text=`${esc(x.label?x.label+' ':'')}${esc(x.value)}${esc(x.unit||'')}`;
+    if(x.certKey){
+      return `<a href="${esc(x.href||'#')}" class="fact-badge fact-badge-link" data-cert-key="${esc(x.certKey)}" title="${esc(x.title||text)}">${text}</a>`;
+    }
+    return `<span class="fact-badge">${text}</span>`;
+  };
+  const basicCell=(label,value,unit='',badges=[])=>`<div class="fact-card"><small>${esc(label)}</small><div class="fact-main"><strong>${esc(value)}${esc(unit)}</strong>${badges.length?`<span class="fact-badges">${badges.filter(x=>x.value!==undefined&&x.value!==null&&x.value!=='').map(renderBadge).join('')}</span>`:''}</div></div>`;
   const cells=[];
 
   // 1. 경로당명
@@ -25,35 +32,42 @@
     ]));
   }
 
-  // 3. 고유번호
+  // 3. 고유번호 (첨부1: 고유번호증 연결)
   if(b.unique_number){
     cells.push(basicCell('고유번호', b.unique_number, '', [
-      { label: '', value: '세무서 승인' }
+      { label: '', value: '📄 고유번호증 열람', certKey: 'unique', href: b.unique_number_cert || 'assets/img/certificates/cert_unique_number.webp', title: '고유번호증 원본 열람 (충주세무서장 발급)' }
     ]));
   }
 
-  // 4. 설치 신고일자
+  // 4. 설치 신고일자 (첨부2: 노인복지시설 설치신고확인증 연결)
   if(b.registered_date){
     cells.push(basicCell('설치 신고일자', b.registered_date, '', [
-      { label: '', value: '신고완료' }
+      { label: '정원', value: b.facility_capacity || 20, unit: '명' },
+      { label: '', value: '📄 설치신고확인증 열람', certKey: 'facility', href: b.facility_cert || 'assets/img/certificates/cert_facility_registration.webp', title: '노인복지시설 설치신고확인증 원본 열람 (진천군수 발급)' }
     ]));
   }
 
-  // 5. 소재지 (주소)
+  // 5. 대표자 / 시설장 (첨부3: 회장 등록증 연결)
+  cells.push(basicCell('대표자 (회장·시설장)', b.chairman_name || '조영기', '', [
+    { label: '임기', value: '2023.11~2027.10' },
+    { label: '', value: '📄 회장등록증 열람', certKey: 'chairman', href: b.chairman_cert || 'assets/img/certificates/cert_chairman_registration.webp', title: '대한노인회 우경경로당 회장 등록증 원본 열람' }
+  ]));
+
+  // 6. 소재지 (주소)
   if(b.address){
     cells.push(basicCell('소재지 (주소)', b.address, '', [
       { label: '', value: '도로명' }
     ]));
   }
 
-  // 6. 전화번호
+  // 7. 전화번호
   if(b.phone){
     cells.push(basicCell('전화번호', b.phone, '', [
       { label: '', value: '유선' }
     ]));
   }
 
-  // 7. 회원수
+  // 8. 회원수
   if(b.members_total!==undefined&&b.members_total!==''){
     cells.push(basicCell('회원수', b.members_total, '명', [
       { label: '남', value: b.members_male, unit: '명' },
@@ -61,21 +75,21 @@
     ]));
   }
 
-  // 8. 건축년도 (준공)
+  // 9. 건축년도 (준공)
   if(b.build_date){
     cells.push(basicCell('건축년도 (준공)', b.build_date, '', [
       { label: '', value: '단독건물' }
     ]));
   }
 
-  // 9. 대지면적
+  // 10. 대지면적
   if(b.site_area){
     cells.push(basicCell('대지면적', b.site_area, '', [
       { label: '', value: b.site_area_pyeong || '101.52평' }
     ]));
   }
 
-  // 10. 건물면적 & 구조
+  // 11. 건물면적 & 구조
   if(b.building_area){
     cells.push(basicCell('건물면적', b.building_area, '', [
       { label: '', value: b.building_area_pyeong || '32.04평' },
@@ -83,27 +97,27 @@
     ]));
   }
 
-  // 11. 내부 공간 구성
+  // 12. 내부 공간 구성
   cells.push(basicCell('내부 공간 구성', `방 ${b.rooms || 3}개 · 화장실 ${b.restrooms || 2}개`, '', [
     { label: '주방', value: b.kitchen || 1, unit: '개' },
     { label: '보조실', value: b.sub_rooms || 1, unit: '개' }
   ]));
 
-  // 12. 난방방법
+  // 13. 난방방법
   if(b.heating){
     cells.push(basicCell('난방방법', b.heating, '', [
       { label: '', value: '심야전력 보일러' }
     ]));
   }
 
-  // 13. 편의 및 부대시설
+  // 14. 편의 및 부대시설
   if(b.convenience_facilities){
     cells.push(basicCell('편의/부대시설', b.convenience_facilities, '', [
       { label: '', value: '비품관리대장 참조' }
     ]));
   }
 
-  // 14. 소유자(명의) 및 대장
+  // 15. 소유자(명의) 및 대장
   if(b.property_owner){
     cells.push(basicCell('소유자(명의)', b.property_owner, '', [
       { label: '건축물대장', value: b.building_ledger || '유(별첨)' }
@@ -119,7 +133,7 @@
 
   const chart=d.organization_chart||{},officers=(chart.officers||[]).filter(x=>x.public!==false),board=(chart.board||[]).filter(x=>x.public!==false);
   const name=x=>esc(x.name||'공석');
-  const node=(x,cls='')=>`<div class="org-node ${cls} ${x.name?'':'vacant'}"><span>${esc(x.position||'')}</span><strong>${name(x)}</strong></div>`;
+  const node=(x,cls='',withCert=false)=>`<div class="org-node ${cls} ${x.name?'':'vacant'}"><span>${esc(x.position||'')}</span><strong>${name(x)}</strong>${withCert?`<small class="org-sub-meta">임기 2023.11 ~ 2027.10</small><div class="org-cert-wrap"><a href="assets/img/certificates/cert_chairman_registration.webp" class="fact-badge fact-badge-link org-cert-link" data-cert-key="chairman" title="대한노인회 우경경로당 회장 등록증 원본 열람">📄 회장 등록증 보기</a></div>`:''}</div>`;
   const officerEl=document.getElementById('officer-chart');
   if(officerEl){
     if(!officers.length)officerEl.innerHTML='<div class="empty-state compact-empty">공개 가능한 임원 정보가 없습니다.</div>';
@@ -127,7 +141,7 @@
       const chair=officers.filter(x=>x.position==='회장');
       const vice=officers.filter(x=>x.position.startsWith('부회장'));
       const rest=officers.filter(x=>x.position!=='회장'&&!x.position.startsWith('부회장'));
-      officerEl.innerHTML=`<div class="org-level org-level-top">${chair.map(x=>node(x,'org-primary')).join('')}</div>${vice.length?`<div class="org-connector"></div><div class="org-level">${vice.map(x=>node(x)).join('')}</div>`:''}${rest.length?`<div class="org-connector"></div><div class="org-level">${rest.map(x=>node(x)).join('')}</div>`:''}`;
+      officerEl.innerHTML=`<div class="org-level org-level-top">${chair.map(x=>node(x,'org-primary',true)).join('')}</div>${vice.length?`<div class="org-connector"></div><div class="org-level">${vice.map(x=>node(x)).join('')}</div>`:''}${rest.length?`<div class="org-connector"></div><div class="org-level">${rest.map(x=>node(x)).join('')}</div>`:''}`;
     }
   }
   const boardEl=document.getElementById('board-chart');
@@ -135,23 +149,78 @@
     if(!board.length)boardEl.innerHTML='<div class="empty-state compact-empty">공개 가능한 이사회 정보가 없습니다.</div>';
     else{
       const chair=board.filter(x=>x.position==='회장'),vice=board.filter(x=>x.position==='부회장'),directors=board.filter(x=>!['회장','부회장'].includes(x.position));
-      boardEl.innerHTML=`<div class="org-level org-level-top">${chair.map(x=>node(x,'org-primary')).join('')}</div>${vice.length?`<div class="org-connector"></div><div class="org-level">${vice.map(x=>node(x)).join('')}</div>`:''}${directors.length?`<div class="org-connector"></div><div class="org-level org-directors">${directors.map(x=>node(x)).join('')}</div>`:''}`;
+      boardEl.innerHTML=`<div class="org-level org-level-top">${chair.map(x=>node(x,'org-primary',false)).join('')}</div>${vice.length?`<div class="org-connector"></div><div class="org-level">${vice.map(x=>node(x)).join('')}</div>`:''}${directors.length?`<div class="org-connector"></div><div class="org-level org-directors">${directors.map(x=>node(x)).join('')}</div>`:''}`;
     }
   }
   document.getElementById('facility-list').innerHTML=(d.facilities||[]).map(x=>`<span>${esc(x)}</span>`).join('');
   document.getElementById('access-address').textContent=d.access?.address||b.address||'';document.getElementById('access-note').textContent=d.access?.map_note||'';
 
+  const CERT_DOCS = {
+    floorplan: {
+      title: '경로당 평면도',
+      sub: '운영대장 본책1 · 28쪽 평면도 사진 보기',
+      src: 'assets/img/floorplan-book1-p28.webp?v=2.8',
+      ebook: 'ebook.html?ledger=2025-2026&doc=book1&page=28'
+    },
+    unique: {
+      title: '고유번호증 (301-80-18628)',
+      sub: '단체명: 우경경로당 · 대표자: 조영기 · 충주세무서장 발급 (2023. 11. 30)',
+      src: 'assets/img/certificates/cert_unique_number.webp?v=1.0',
+      ebook: 'ebook.html?ledger=2025-2026&doc=book1&page=11'
+    },
+    facility: {
+      title: '노인복지시설 설치신고확인증',
+      sub: '제 충북진천-노인-19960315-189 호 · 시설장: 조영기 · 정원 20명 · 진천군수 (2023. 11. 23)',
+      src: 'assets/img/certificates/cert_facility_registration.webp?v=1.0',
+      ebook: 'ebook.html?ledger=2025-2026&doc=book1&page=9'
+    },
+    chairman: {
+      title: '대한노인회 우경경로당 회장 등록증',
+      sub: '소속: 진천군지회 · 성명: 조영기 · 임기: 2023. 11. 01 ~ 2027. 10. 31',
+      src: 'assets/img/certificates/cert_chairman_registration.webp?v=1.0',
+      ebook: 'ebook.html?ledger=2025-2026&doc=book1&page=19'
+    }
+  };
 
   const floorplanThumb=document.getElementById("floorplan-thumb");
   const floorplanViewer=document.getElementById("floorplan-viewer");
   const floorplanImage=document.getElementById("floorplan-image");
-  if(floorplanThumb&&floorplanViewer&&floorplanImage){
+  const docViewerTitle=document.getElementById("doc-viewer-title");
+  const docViewerSub=document.getElementById("doc-viewer-sub");
+  const docViewerNewtab=document.getElementById("doc-viewer-newtab");
+  const docViewerEbook=document.getElementById("doc-viewer-ebook");
+
+  if(floorplanViewer&&floorplanImage){
     let scale=1,rotate=0;
     const applyTransform=()=>{floorplanImage.style.transform=`translateZ(0) scale(${scale}) rotate(${rotate}deg)`;};
     const resetTransform=()=>{scale=1;rotate=0;applyTransform();};
-    const openViewer=()=>{resetTransform();if(typeof floorplanViewer.showModal==='function')floorplanViewer.showModal();else floorplanViewer.setAttribute('open','open');};
+    const openDocModal=(key)=>{
+      const info = CERT_DOCS[key] || CERT_DOCS.floorplan;
+      if(docViewerTitle) docViewerTitle.textContent = info.title;
+      if(docViewerSub) docViewerSub.textContent = info.sub;
+      floorplanImage.src = info.src;
+      floorplanImage.alt = info.title + ' 크게 보기';
+      if(docViewerNewtab) docViewerNewtab.href = info.src;
+      if(docViewerEbook) {
+        if(info.ebook) {
+          docViewerEbook.href = info.ebook;
+          docViewerEbook.hidden = false;
+        } else {
+          docViewerEbook.hidden = true;
+        }
+      }
+      resetTransform();
+      if(typeof floorplanViewer.showModal==='function')floorplanViewer.showModal();
+      else floorplanViewer.setAttribute('open','open');
+    };
     const closeViewer=()=>{if(typeof floorplanViewer.close==='function')floorplanViewer.close();else floorplanViewer.removeAttribute('open');};
-    floorplanThumb.addEventListener('click',openViewer);
+    floorplanThumb?.addEventListener('click',()=>openDocModal('floorplan'));
+    document.querySelectorAll('[data-cert-key]').forEach(el=>{
+      el.addEventListener('click',e=>{
+        e.preventDefault();
+        openDocModal(el.getAttribute('data-cert-key'));
+      });
+    });
     document.getElementById('floorplan-close')?.addEventListener('click',closeViewer);
     document.getElementById('floorplan-zoom-in')?.addEventListener('click',()=>{scale=Math.min(4,Number((scale+0.2).toFixed(2)));applyTransform();});
     document.getElementById('floorplan-zoom-out')?.addEventListener('click',()=>{scale=Math.max(0.4,Number((scale-0.2).toFixed(2)));applyTransform();});
