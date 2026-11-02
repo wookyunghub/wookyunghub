@@ -241,6 +241,10 @@
   }
 
   function openPhotoViewer(src, title) {
+    if (window.CenterHubFiles && typeof window.CenterHubFiles.openImageViewer === 'function') {
+      window.CenterHubFiles.openImageViewer(src, title || '비품 사진');
+      return;
+    }
     if (!photoDialog || !photoImg) return;
     photoImg.src = src;
     if (photoTitle) photoTitle.textContent = title || '비품 사진';

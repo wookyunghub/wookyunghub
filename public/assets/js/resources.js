@@ -152,16 +152,61 @@
         photoDialogDl.href = url;
         photoDialogDl.download = item.name || '사진.jpg';
       }
+      resetPhotoTransform();
       photoDialog.showModal();
     });
   }
 
+  let photoScale = 1, photoRotate = 0;
+  function applyPhotoTransform(){
+    if(photoDialogImg) photoDialogImg.style.transform = 	ranslateZ(0) scale() rotate(deg);
+  }
+  function resetPhotoTransform(){
+    photoScale = 1; photoRotate = 0; applyPhotoTransform();
+  }
+
+  document.getElementById('photo-zoom-in')?.addEventListener('click', () => {
+    photoScale = Math.min(4, Number((photoScale + 0.2).toFixed(2)));
+    applyPhotoTransform();
+  });
+  document.getElementById('photo-zoom-out')?.addEventListener('click', () => {
+    photoScale = Math.max(0.4, Number((photoScale - 0.2).toFixed(2)));
+    applyPhotoTransform();
+  });
+  document.getElementById('photo-rotate-left')?.addEventListener('click', () => {
+    photoRotate -= 90;
+    applyPhotoTransform();
+  });
+  document.getElementById('photo-rotate-right')?.addEventListener('click', () => {
+    photoRotate += 90;
+    applyPhotoTransform();
+  });
+  document.getElementById('photo-reset')?.addEventListener('click', resetPhotoTransform);
+
+  if(photoDialogImg){
+    photoDialogImg.addEventListener('wheel', e => {
+      e.preventDefault();
+      const delta = e.deltaY < 0 ? 0.1 : -0.1;
+      photoScale = Math.max(0.4, Math.min(4, Number((photoScale + delta).toFixed(2))));
+      applyPhotoTransform();
+    }, { passive: false });
+  }
+
   if(photoDialog){
     if(photoDialogClose){
-      photoDialogClose.onclick = () => photoDialog.close();
+      photoDialogClose.onclick = () => { resetPhotoTransform(); photoDialog.close(); };
     }
     photoDialog.addEventListener('click', (e) => {
-      if(e.target === photoDialog) photoDialog.close();
+      if(e.target === photoDialog) { resetPhotoTransform(); photoDialog.close(); }
+    });
+    photoDialog.addEventListener('close', resetPhotoTransform);
+    document.addEventListener('keydown', e => {
+      if(!photoDialog.hasAttribute('open')) return;
+      if(e.key === 'Escape') { resetPhotoTransform(); photoDialog.close(); }
+      else if(e.key === '+' || e.key === '=') { photoScale = Math.min(4, Number((photoScale + 0.2).toFixed(2))); applyPhotoTransform(); }
+      else if(e.key === '-') { photoScale = Math.max(0.4, Number((photoScale - 0.2).toFixed(2))); applyPhotoTransform(); }
+      else if(e.key === '[') { photoRotate -= 90; applyPhotoTransform(); }
+      else if(e.key === ']') { photoRotate += 90; applyPhotoTransform(); }
     });
   }
 

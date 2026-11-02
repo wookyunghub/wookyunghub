@@ -305,7 +305,7 @@
       : '<span style="color:#7c6d5f;font-size:13px">없음 · 독립 자료</span>';
 
     detail.innerHTML=`
-      ${isImage?`<div class="file-detail-stage"><img src="${esc(url)}" alt="${esc(x.title||x.name||'')}" onerror="if(!this.dataset.fb&&!location.hostname.includes('pythonanywhere')){this.dataset.fb='1';this.src='https://wookyunghub.pythonanywhere.com'+(this.getAttribute('src').startsWith('/')?this.getAttribute('src'):'/'+this.getAttribute('src'));}"></div>`:''}
+      ${isImage?`<div class="file-detail-stage" style="position:relative;cursor:pointer" title="클릭하면 확대/축소/회전 뷰어로 크게 봅니다"><img src="${esc(url)}" alt="${esc(x.title||x.name||'')}" onerror="if(!this.dataset.fb&&!location.hostname.includes('pythonanywhere')){this.dataset.fb='1';this.src='https://wookyunghub.pythonanywhere.com'+(this.getAttribute('src').startsWith('/')?this.getAttribute('src'):'/'+this.getAttribute('src'));}"><div style="position:absolute;bottom:8px;right:12px;background:rgba(0,0,0,.65);color:#fff;padding:3px 8px;border-radius:4px;font-size:11.5px;font-weight:600">🔍 확대/회전 뷰어로 보기</div></div>`:''}
       <div class="file-detail-summary">
         <div class="file-detail-meta-bar">
           <div class="file-detail-chips">
@@ -324,6 +324,14 @@
       </div>
     `;
     dialog.showModal();
+    const stage = detail.querySelector('.file-detail-stage');
+    if (stage && isImage) {
+      stage.onclick = () => {
+        if (window.CenterHubFiles && typeof window.CenterHubFiles.openImageViewer === 'function') {
+          window.CenterHubFiles.openImageViewer(url, x.title || x.name || '자료 사진');
+        }
+      };
+    }
   }
 
   async function uploadForm(fd){

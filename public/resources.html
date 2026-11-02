@@ -77,18 +77,27 @@
   </section>
 
   <!-- 사진 상세보기 모달 다이얼로그 -->
-  <dialog id="photo-dialog" class="file-dialog">
-    <div class="file-dialog-head">
-      <h3 id="photo-dialog-title">사진 미리보기</h3>
-      <div style="display:flex;gap:6px;align-items:center">
+  <dialog id="photo-dialog" class="photo-viewer">
+    <div class="photo-viewer-head">
+      <div>
+        <strong id="photo-dialog-title">사진 미리보기</strong>
+      </div>
+      <div class="photo-viewer-actions">
         <a id="photo-dialog-download" class="btn" href="" download target="_blank" rel="noopener">원본 다운로드</a>
         <button type="button" class="btn" id="photo-dialog-close">닫기</button>
       </div>
     </div>
-    <div class="photo-dialog-stage">
-      <img id="photo-dialog-img" src="" alt="" loading="lazy">
+    <div class="photo-viewer-toolbar">
+      <button type="button" class="btn" id="photo-zoom-out">축소</button>
+      <button type="button" class="btn" id="photo-zoom-in">확대</button>
+      <button type="button" class="btn" id="photo-rotate-left">왼쪽 회전</button>
+      <button type="button" class="btn" id="photo-rotate-right">오른쪽 회전</button>
+      <button type="button" class="btn" id="photo-reset">원래 크기</button>
     </div>
-    <div class="photo-dialog-foot">
+    <div class="photo-viewer-stage">
+      <img id="photo-dialog-img" src="" alt="사진 크게 보기" loading="lazy">
+    </div>
+    <div class="photo-viewer-help photo-dialog-foot">
       <span id="photo-dialog-desc"></span>
     </div>
   </dialog>

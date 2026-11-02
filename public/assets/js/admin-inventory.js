@@ -169,11 +169,17 @@
       thumb.addEventListener('click', () => {
         const p = thumb.getAttribute('data-photo');
         const t = thumb.getAttribute('data-title');
-        if (p && photoDialog) {
-          dialogImg.src = p;
-          dialogTitle.textContent = t;
-          if (typeof photoDialog.showModal === 'function') photoDialog.showModal();
-          else photoDialog.setAttribute('open', 'open');
+        if (p) {
+          if (window.CenterHubFiles && typeof window.CenterHubFiles.openImageViewer === 'function') {
+            window.CenterHubFiles.openImageViewer(p, t || '비품 사진');
+            return;
+          }
+          if (photoDialog) {
+            dialogImg.src = p;
+            dialogTitle.textContent = t;
+            if (typeof photoDialog.showModal === 'function') photoDialog.showModal();
+            else photoDialog.setAttribute('open', 'open');
+          }
         }
       });
     });
