@@ -1,50 +1,84 @@
 (async()=>{
   const out=document.getElementById('news-detail'),back=document.getElementById('news-back'),edit=document.getElementById('record-detail-edit');
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const q=new URLSearchParams(location.search),id=q.get('id')||'',fromAdmin=q.get('from')==='admin';
-  back.href=fromAdmin?'admin/records.html':q.has('page')?`news-list.html?page=${encodeURIComponent(q.get('page'))}`:'news-list.html';
-  back.textContent=fromAdmin?'← 회의·행사 기록관리':'← 목록으로';
+  const q=new URLSearchParams(location.search),id=q.get('id')||'',fromParam=q.get('from')||'',fromAdmin=fromParam==='admin'||fromParam==='files';
+  back.href=fromParam==='files'?'admin/files.html':fromAdmin?'admin/records.html':q.has('page')?`news-list.html?page=${encodeURIComponent(q.get('page'))}`:'news-list.html';
+  back.textContent=fromParam==='files'?'← 첨부자료관리':fromAdmin?'← 회의·행사 기록관리':'← 목록으로';
+  async function fetchJsonSafe(url, opts={}){
+    try{
+      const r = await fetch(url, {cache:'no-store', ...opts});
+      if(r.ok && (r.headers.get('content-type')||'').toLowerCase().includes('application/json')) return await r.json();
+    }catch(e){}
+    return null;
+  }
   async function get(path){
     const clean = String(path).replace(/^\/+/,'').split('?')[0];
     if (clean.includes('admin/status')) {
-      try {
-        const r = await fetch(path, {credentials:'same-origin', cache:'no-store'});
-        if (r.ok && (r.headers.get('content-type')||'').toLowerCase().includes('application/json')) return await r.json();
-      } catch(e){}
-      return { authenticated: false };
-    }
-    let resData = null;
-    try {
-      const r = await fetch(path, {credentials:'same-origin', cache:'no-store'});
-      if (r.ok && (r.headers.get('content-type')||'').toLowerCase().includes('application/json')) {
-        resData = await r.json();
+      if (sessionStorage.getItem('centerhub_admin') === '1') return { authenticated: true };
+      const localStat = await fetchJsonSafe(path, {credentials:'same-origin'});
+      if (localStat && localStat.authenticated) {
+        try { sessionStorage.setItem('centerhub_admin', '1'); } catch(_){}
+        return localStat;
       }
-    } catch(e){}
+      const remoteStat = await fetchJsonSafe('https://wookyunghub.pythonanywhere.com/api/admin/status', {credentials:'include'});
+      if (remoteStat && remoteStat.authenticated) {
+        try { sessionStorage.setItem('centerhub_admin', '1'); } catch(_){}
+        return remoteStat;
+      }
+      return { authenticated: sessionStorage.getItem('centerhub_admin') === '1' };
+    }
+    const resData = await fetchJsonSafe(path, {credentials:'same-origin'});
 
     if (clean.includes('records')) {
-      if (resData && (Array.isArray(resData) ? resData.length : (resData.records||[]).length)) return resData;
-      try {
-        const lr = await fetch('https://wookyunghub.pythonanywhere.com/api/public/records', {cache:'no-store'});
-        if (lr.ok && (lr.headers.get('content-type')||'').toLowerCase().includes('application/json')) return await lr.json();
-      } catch(e){}
-      const fr = await fetch((location.pathname.includes('/admin/')?'../':'')+'data/records.json', {cache:'no-store'});
-      if (fr.ok) return await fr.json();
+      const prefix = location.pathname.includes('/admin/') ? '../' : '';
+      const [localStatic, remotePub] = await Promise.all([
+        fetchJsonSafe(prefix + 'data/records.json'),
+        fetchJsonSafe('https://wookyunghub.pythonanywhere.com/api/public/records')
+      ]);
+      const byId = new Map();
+      for (const src of [remotePub, localStatic, resData]) {
+        if (!src) continue;
+        const arr = Array.isArray(src) ? src : (src.records || []);
+        for (const item of arr) {
+          if (item && item.id) {
+            const prev = byId.get(String(item.id)) || {};
+            byId.set(String(item.id), { ...prev, ...item });
+          }
+        }
+      }
+      if (byId.size) return { records: [...byId.values()] };
     }
     if (clean.includes('resources') || clean.includes('files')) {
-      if (resData && (resData.photos?.length || resData.documents?.length)) return resData;
-      try {
-        const lr = await fetch('https://wookyunghub.pythonanywhere.com/api/public/resources', {cache:'no-store'});
-        if (lr.ok && (lr.headers.get('content-type')||'').toLowerCase().includes('application/json')) return await lr.json();
-      } catch(e){}
-      const fr = await fetch((location.pathname.includes('/admin/')?'../':'')+'data/resources.json', {cache:'no-store'});
-      if (fr.ok) return await fr.json();
+      const prefix = location.pathname.includes('/admin/') ? '../' : '';
+      const [localStatic, remotePub] = await Promise.all([
+        fetchJsonSafe(prefix + 'data/resources.json'),
+        fetchJsonSafe('https://wookyunghub.pythonanywhere.com/api/public/resources')
+      ]);
+      const merged = { photos: [], documents: [], receipts: [] };
+      for (const kind of ['photos', 'documents', 'receipts']) {
+        const byId = new Map();
+        for (const src of [remotePub, localStatic, resData]) {
+          if (!src || !Array.isArray(src[kind])) continue;
+          for (const item of src[kind]) {
+            if (item && item.id) {
+              const prev = byId.get(String(item.id)) || {};
+              byId.set(String(item.id), { ...prev, ...item });
+            }
+          }
+        }
+        merged[kind] = [...byId.values()];
+      }
+      if (merged.photos.length || merged.documents.length || merged.receipts.length) return merged;
     }
     if (resData) return resData;
     throw Error('상세정보를 불러오지 못했습니다.');
   }
   try{
   const C=window.CenterHubCommon;await C.siteReady;
-  let authenticated=false;try{authenticated=!!(await get('api/admin/status')).authenticated;}catch(e){if(fromAdmin)throw e;}
+  let authenticated = sessionStorage.getItem('centerhub_admin') === '1' || !!(C && typeof C.isAdminSession === 'function' && C.isAdminSession());
+  if (!authenticated) {
+    try { authenticated = !!(await get('api/admin/status')).authenticated; } catch(e) {}
+  }
   edit.hidden=!authenticated;
   if(!authenticated)edit.remove();
   if(fromAdmin&&!authenticated){out.textContent='관리자 로그인이 필요합니다. 로그인 후 관리자 목록에서 다시 선택해 주세요.';return;}
@@ -55,7 +89,7 @@
   if(!x){out.textContent='해당 기록을 찾을 수 없거나 조회 권한이 없습니다.';return;}
   const labels={notice:'공지',meeting:'회의',event:'행사',event_schedule:'행사',activity:'행사',history:'기타 운영',person:'임원·회원',facility:'시설·비품',asset:'시설·비품',finance:'재정',receipt:'영수증·증빙',regulation:'규정',document:'기타 운영'};
   if(authenticated){edit.href='admin/'+(x.module==='notice'?'announcements.html':'records.html')+'?edit='+encodeURIComponent(x.id);edit.hidden=false;}
-  if(fromAdmin&&x.module==='notice'){back.href='admin/announcements.html';back.textContent='← 공지사항 관리';}
+  if(fromParam==='admin'&&x.module==='notice'){back.href='admin/announcements.html';back.textContent='← 공지사항 관리';}
   if(!fromAdmin){const type=['all','notice','records'].includes(q.get('list'))?q.get('list'):'all';const backQuery=new URLSearchParams();if(type!=='all')backQuery.set('type',type);if(q.has('page'))backQuery.set('page',q.get('page'));back.href='news-list.html'+(backQuery.size?'?'+backQuery.toString():'');back.textContent=type==='notice'?'← 공지사항':type==='records'?'← 회의·행사 기록':'← 공지 및 소식';}
   if(x.module==='notice')out.closest('.content-panel').classList.add('notice-detail-panel');
   const extra=x.extra||{},title=x.title||'',body=x.body||'';

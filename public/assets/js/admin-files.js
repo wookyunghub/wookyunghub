@@ -301,7 +301,7 @@
     if(detailTitle)detailTitle.textContent=x.title||x.name||'자료 상세보기';
 
     const linkedHtml=linked.length
-      ? linked.map(r=>`<a class="linked-record-chip" href="../news-detail.html?id=${encodeURIComponent(r.id)}&from=admin" title="연결된 기록 열기">🔗 ${esc(r.title||r.id)}${r.date?` (${esc(r.date)})`:''}</a>`).join('')
+      ? linked.map(r=>`<a class="linked-record-chip" href="../news-detail.html?id=${encodeURIComponent(r.id)}&from=files" title="연결된 기록 열기">🔗 ${esc(r.title||r.id)}${r.date?` (${esc(r.date)})`:''}</a>`).join('')
       : '<span style="color:#7c6d5f;font-size:13px">없음 · 독립 자료</span>';
 
     detail.innerHTML=`
