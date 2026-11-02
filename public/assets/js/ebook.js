@@ -74,11 +74,22 @@
     document.getElementById('ebook-desc').textContent=meta.description||'';
   }
 
+  function isUserAdmin(){
+    return (C && typeof C.isAdminSession === 'function' && C.isAdminSession())
+      || sessionStorage.getItem('centerhub_admin') === '1'
+      || document.body.classList.contains('admin-session');
+  }
+
   function render(){
     const p2=Math.min(p+1,max);
-    const pageHTML=n=>(docId==='book1' && n>=47 && n<=60)
-      ? `<div class="ebook-page"><p class="finance-note">${n}쪽은 결산·수납·증빙 자료 보호를 위해 일반 열람이 제한됩니다.</p></div>`
-      : `<div class="ebook-page"><img src="${src(n)}" alt="${vols[volIndex].label} ${n}쪽"></div>`;
+    const admin=isUserAdmin();
+    const isRestricted=n=>(docId==='book1' && n>=47 && n<=60);
+    const pageHTML=n=>{
+      if(isRestricted(n) && !admin){
+        return `<div class="ebook-page"><p class="finance-note">${n}쪽은 결산·수납·증빙 자료 보호를 위해 일반 열람이 제한됩니다.</p></div>`;
+      }
+      return `<div class="ebook-page">${isRestricted(n) && admin ? '<div class="admin-unlocked-badge ebook-admin-badge"><span class="icon">🔓</span> 관리자 전용 원본 열람</div>' : ''}<img src="${src(n)}" alt="${vols[volIndex].label} ${n}쪽"></div>`;
+    };
     spread.innerHTML=pageHTML(p)+(p2!==p?pageHTML(p2):'');
 
     ind.textContent=p2===p

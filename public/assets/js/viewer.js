@@ -29,17 +29,30 @@ function goToPage(n,behavior='auto'){
  document.querySelector('[data-source]').textContent=d.source_name;
  const side=document.querySelector('#sections');
  d.sections.forEach(s=>{const a=document.createElement('a');a.href=`?page=${s.page}#p${s.page}`;a.textContent=`${s.title} · ${s.page}쪽`;side.appendChild(a)});
- const pages=document.querySelector('#pages');
- for(let i=1;i<=d.page_count;i++){
-   const box=document.createElement('section');box.className='page';box.id=`p${i}`;
-   if(window.DOC_ID==='book1' && i>=47 && i<=60){
-     const notice=document.createElement('p');notice.className='finance-note';
-     notice.textContent='이 페이지는 결산·수납·증빙 관련 개인정보 보호를 위해 일반 열람이 제한됩니다.';
-     box.appendChild(notice);
-   }else{const img=document.createElement('img');img.loading='lazy';img.alt=`${d.title} ${i}쪽`;img.src=`${d.image_base}/p${pad(i)}.webp`;box.appendChild(img);}
-   const label=document.createElement('div');label.className='page-label';label.textContent=`${i} / ${d.page_count}`;
-   box.appendChild(label);pages.appendChild(box);
- }
+ const isAdmin = (window.CenterHubCommon && typeof window.CenterHubCommon.isAdminSession === 'function' && window.CenterHubCommon.isAdminSession())
+    || sessionStorage.getItem('centerhub_admin') === '1'
+    || document.body.classList.contains('admin-session');
+
+  const pages=document.querySelector('#pages');
+  for(let i=1;i<=d.page_count;i++){
+    const box=document.createElement('section');box.className='page';box.id=`p${i}`;
+    const isRestrictedArea = (window.DOC_ID==='book1' && i>=47 && i<=60);
+    if(isRestrictedArea && !isAdmin){
+      const notice=document.createElement('p');notice.className='finance-note';
+      notice.textContent='이 페이지는 결산·수납·증빙 관련 개인정보 보호를 위해 일반 열람이 제한됩니다.';
+      box.appendChild(notice);
+    }else{
+      if(isRestrictedArea && isAdmin){
+        const adminBadge=document.createElement('div');
+        adminBadge.className='admin-unlocked-badge';
+        adminBadge.innerHTML='<span class="icon">🔓</span> <strong>관리자 전용 원본 열람</strong> (결산·수납·증빙 보호 구역 해제됨)';
+        box.appendChild(adminBadge);
+      }
+      const img=document.createElement('img');img.loading='lazy';img.alt=`${d.title} ${i}쪽`;img.src=`${d.image_base}/p${pad(i)}.webp`;box.appendChild(img);
+    }
+    const label=document.createElement('div');label.className='page-label';label.textContent=`${i} / ${d.page_count}`;
+    box.appendChild(label);pages.appendChild(box);
+  }
  const jump=document.querySelector('#jump'); jump.max=d.page_count;
  const jumpTotal=document.querySelector('#jump-total'); if(jumpTotal) jumpTotal.textContent=`/ ${d.page_count}쪽`;
  const first=requestedPage(d.page_count);jump.value=first;
