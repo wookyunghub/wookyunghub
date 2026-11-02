@@ -807,3 +807,42 @@ body .basic-toggle-btn {
   font-weight: 700;
   cursor: pointer;
 }
+
+/* ==========================================================================
+   자료실 연도별 그룹핑 & 정렬 안내 스타일
+   ========================================================================== */
+.res-grouped-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.res-year-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.res-year-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px dashed #d8cfc4;
+}
+.res-year-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #3d3126;
+  background: #f1eae1;
+  border: 1px solid #dcd1c2;
+  padding: 4px 12px;
+  border-radius: 9999px !important;
+  letter-spacing: -0.01em;
+}
+.res-year-count {
+  font-size: 12.5px;
+  color: #7d6b5c;
+  font-weight: 700;
+}

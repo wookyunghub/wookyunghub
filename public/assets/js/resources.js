@@ -30,13 +30,36 @@
     }
   }
 
-  const sortFn = window.CenterHubResourceOrder ? window.CenterHubResourceOrder.newestFirst : ((a,b)=>(b.date||'').localeCompare(a.date||''));
-  const allDocs = [...(merged.documents || [])].filter(x => x.public !== false).sort(sortFn);
-  const allPhotos = [...(merged.photos || [])].filter(x => x.public !== false).sort(sortFn);
+  // 정렬 기준:
+  // 1. 서식자료: 이름순 (가나다/한글 자모순)
+  // 2. 일반문서 / 사진: 날짜 최신순 + 연도별 그룹핑
+  const sortDateDesc = (a, b) => (b.date || '').localeCompare(a.date || '');
+  const sortNameKo = (a, b) => {
+    const nameA = a.title || a.name || '';
+    const nameB = b.title || b.name || '';
+    return nameA.localeCompare(nameB, 'ko', { numeric: true, sensitivity: 'base' });
+  };
 
-  // Split documents into forms and general documents
-  const forms = allDocs.filter(x => x.attachment_role === 'form');
-  const normalDocs = allDocs.filter(x => x.attachment_role !== 'form');
+  const allDocs = [...(merged.documents || [])].filter(x => x.public !== false);
+  const forms = allDocs.filter(x => x.attachment_role === 'form').sort(sortNameKo);
+  const normalDocs = allDocs.filter(x => x.attachment_role !== 'form').sort(sortDateDesc);
+  const allPhotos = [...(merged.photos || [])].filter(x => x.public !== false).sort(sortDateDesc);
+
+  // 연도별 그룹핑 유틸 함수
+  function groupByYear(items) {
+    const groups = {};
+    for (const item of items) {
+      const year = (item.date || '').slice(0, 4) || '기타';
+      if (!groups[year]) groups[year] = [];
+      groups[year].push(item);
+    }
+    const sortedYears = Object.keys(groups).sort((a, b) => {
+      if (a === '기타') return 1;
+      if (b === '기타') return -1;
+      return b.localeCompare(a);
+    });
+    return sortedYears.map(yr => ({ year: yr, items: groups[yr] }));
+  }
 
   const formsCount = document.getElementById('forms-count');
   const docsCount = document.getElementById('docs-count');
@@ -93,19 +116,36 @@
     </article>`;
   }
 
-  // Render Forms
+  // 1. 서식자료 렌더링 (이름순/가나다순)
   const formsEl = document.getElementById('resource-forms');
   if(formsEl){
-    formsEl.innerHTML = forms.length ? forms.map(x => renderCard(x, true)).join('') : '<div class="empty-state compact-empty">등록된 공개 서식자료가 없습니다.</div>';
+    formsEl.innerHTML = forms.length
+      ? forms.map(x => renderCard(x, true)).join('')
+      : '<div class="empty-state compact-empty">등록된 공개 서식자료가 없습니다.</div>';
   }
 
-  // Render Docs
+  // 2. 일반문서 렌더링 (날짜 최신순 + 연도별 그룹핑)
   const docsEl = document.getElementById('resource-docs');
   if(docsEl){
-    docsEl.innerHTML = normalDocs.length ? normalDocs.map(x => renderCard(x, false)).join('') : '<div class="empty-state compact-empty">등록된 공개 일반문서가 없습니다.</div>';
+    if(!normalDocs.length){
+      docsEl.innerHTML = '<div class="empty-state compact-empty">등록된 공개 일반문서가 없습니다.</div>';
+    } else {
+      const docGroups = groupByYear(normalDocs);
+      docsEl.innerHTML = docGroups.map(g => `
+        <div class="res-year-group">
+          <div class="res-year-header">
+            <span class="res-year-badge">📅 ${g.year === '기타' ? '연도 미입력' : g.year + '년'}</span>
+            <span class="res-year-count">총 ${g.items.length}건</span>
+          </div>
+          <div class="resource-grid">
+            ${g.items.map(x => renderCard(x, false)).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
   }
 
-  // Render Photos
+  // 3. 사진자료 렌더링 (날짜 최신순 + 연도별 그룹핑)
   const photosEl = document.getElementById('resource-photos');
   const photoDialog = document.getElementById('photo-dialog');
   const photoDialogTitle = document.getElementById('photo-dialog-title');
@@ -115,24 +155,39 @@
   const photoDialogDl = document.getElementById('photo-dialog-download');
 
   if(photosEl){
-    photosEl.innerHTML = allPhotos.length ? allPhotos.map((x, idx) => {
-      const url = toMediaUrl(x.url);
-      const title = esc(x.title || x.name || '활동 사진');
-      const date = esc(x.date || '날짜 미입력');
-      return `<button type="button" class="activity-card res-photo-btn" data-idx="${idx}" aria-label="${title} 크게 보기">
-        <div class="activity-thumb">
-          <img src="${url}" alt="${title}" loading="lazy">
+    if(!allPhotos.length){
+      photosEl.innerHTML = '<div class="empty-state compact-empty">등록된 공개 사진이 없습니다.</div>';
+    } else {
+      const photoGroups = groupByYear(allPhotos);
+      photosEl.innerHTML = photoGroups.map(g => `
+        <div class="res-year-group">
+          <div class="res-year-header">
+            <span class="res-year-badge">📷 ${g.year === '기타' ? '연도 미입력' : g.year + '년'}</span>
+            <span class="res-year-count">총 ${g.items.length}장</span>
+          </div>
+          <div class="activity-grid">
+            ${g.items.map(x => {
+              const url = toMediaUrl(x.url);
+              const title = esc(x.title || x.name || '활동 사진');
+              const date = esc(x.date || '날짜 미입력');
+              return `<button type="button" class="activity-card res-photo-btn" data-id="${esc(x.id)}" aria-label="${title} 크게 보기">
+                <div class="activity-thumb">
+                  <img src="${url}" alt="${title}" loading="lazy">
+                </div>
+                <b>${title}</b>
+                <small>${date}</small>
+              </button>`;
+            }).join('')}
+          </div>
         </div>
-        <b>${title}</b>
-        <small>${date}</small>
-      </button>`;
-    }).join('') : '<div class="empty-state compact-empty">등록된 공개 사진이 없습니다.</div>';
+      `).join('');
+    }
 
     photosEl.addEventListener('click', (e) => {
       const btn = e.target.closest('.res-photo-btn');
       if(!btn || !photoDialog) return;
-      const idx = parseInt(btn.dataset.idx, 10);
-      const item = allPhotos[idx];
+      const itemId = btn.dataset.id;
+      const item = allPhotos.find(x => String(x.id) === itemId);
       if(!item) return;
 
       const url = toMediaUrl(item.url);
