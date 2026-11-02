@@ -81,6 +81,7 @@
     try{
       const updated={...data};
       for(const [id,key] of Object.entries(fields))if($(id))updated[key]=$(id).value.trim();
+      updated.link_mode = 'none';
       const response=await fetch('../api/admin/data',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({name:'site',data:updated})});
       const result=await response.json();
       if(!response.ok||result.ok!==true)throw Error(result.error||'저장 실패');
