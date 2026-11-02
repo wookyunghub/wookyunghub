@@ -1,24 +1,50 @@
 {
   "basic": {
     "name": "우경경로당",
-    "address": "충북 진천군 문백면 사양길 2-12",
+    "official_name": "(사)대한노인회 진천군지회(문백면/영동분회)우경경로당",
+    "facility_id": "SOGAREE 12",
+    "unique_number": "301-80-18628",
+    "unique_number_cert": "assets/img/certificates/cert_unique_number.webp",
+    "registered_date": "1975. 03. 01",
+    "registration_no": "제 충북진천-노인-19960315-189 호",
+    "facility_capacity": 20,
+    "facility_cert": "assets/img/certificates/cert_facility_registration.webp",
+    "chairman_name": "조영기",
+    "chairman_term": "2023.11.01 ~ 2027.10.31",
+    "chairman_cert": "assets/img/certificates/cert_chairman_registration.webp",
+    "parent_organization": "(사)대한노인회 진천군지회",
+    "branch_name": "문백면/영동분회",
+    "address": "충북 진천군 문백면 사양1길 2-12",
     "phone": "043-532-5593",
     "members_total": 50,
     "members_male": 21,
     "members_female": 29,
+    "build_date": "2009. 07. 29",
+    "site_area": "335㎡",
+    "site_area_pyeong": "101.52평",
     "building_area": "105.73㎡",
+    "building_area_pyeong": "32.04평",
+    "structure": "블록구조 (지상 1층)",
     "rooms": 3,
     "restrooms": 2,
-    "kitchen": 1
+    "kitchen": 1,
+    "sub_rooms": 1,
+    "heating": "심야전력",
+    "convenience_facilities": "우경정 쉼터, 실외운동기구 외",
+    "property_owner": "리장 이동수",
+    "building_ledger": "유(별첨)"
   },
   "officers_note": "홈페이지에는 직위와 성명만 표시합니다. 상세정보는 관리자와 운영대장 발간에만 사용합니다.",
   "facilities": [
     "방 3개",
     "화장실 2개",
-    "주방 1개"
+    "주방 1개",
+    "보조실 1개",
+    "우경정 쉼터",
+    "실외운동기구"
   ],
   "access": {
-    "address": "충북 진천군 문백면 사양길 2-12",
+    "address": "충북 진천군 문백면 사양1길 2-12",
     "map_note": "지도 연결은 관리자 기본설정에서 공개 URL을 등록해 확장할 수 있습니다."
   },
   "history_source": {

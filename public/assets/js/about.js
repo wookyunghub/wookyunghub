@@ -17,112 +17,75 @@
   const basicCell=(label,value,unit='',badges=[])=>`<div class="fact-card"><small>${esc(label)}</small><div class="fact-main"><strong>${esc(value)}${esc(unit)}</strong>${badges.length?`<span class="fact-badges">${badges.filter(x=>x.value!==undefined&&x.value!==null&&x.value!=='').map(renderBadge).join('')}</span>`:''}</div></div>`;
   const cells=[];
 
-  // 1. 경로당명
-  if(b.name){
-    cells.push(basicCell('경로당명', b.name, '', [
-      { label: 'ID', value: b.facility_id || 'SOGAREE 12' }
-    ]));
-  }
+  // === 1행: 경로당명 | 소속 | 대표자 (회장등록증 연결) ===
+  cells.push(basicCell('경로당명', b.name || '우경경로당', '', [
+    { label: 'ID', value: b.facility_id || 'SOGAREE 12' }
+  ]));
 
-  // 2. 소속 지회/분회
-  const aff = [b.parent_organization, b.branch_name].map(v=>String(v||'').trim()).filter(Boolean).join(' ');
-  if(aff){
-    cells.push(basicCell('소속', b.parent_organization || '(사)대한노인회 진천군지회', '', [
-      { label: '', value: b.branch_name || '문백면/영동분회' }
-    ]));
-  }
+  cells.push(basicCell('소속', b.parent_organization || '(사)대한노인회 진천군지회', '', [
+    { label: '', value: (b.branch_name && b.branch_name !== '문백.영동분회') ? b.branch_name : '문백면/영동분회' }
+  ]));
 
-  // 3. 고유번호 (첨부1: 고유번호증 연결)
-  if(b.unique_number){
-    cells.push(basicCell('고유번호', b.unique_number, '', [
-      { label: '', value: '📄 고유번호증 열람', certKey: 'unique', href: b.unique_number_cert || 'assets/img/certificates/cert_unique_number.webp', title: '고유번호증 원본 열람 (충주세무서장 발급)' }
-    ]));
-  }
-
-  // 4. 설치 신고일자 (첨부2: 노인복지시설 설치신고확인증 연결)
-  if(b.registered_date){
-    cells.push(basicCell('설치 신고일자', b.registered_date, '', [
-      { label: '정원', value: b.facility_capacity || 20, unit: '명' },
-      { label: '', value: '📄 설치신고확인증 열람', certKey: 'facility', href: b.facility_cert || 'assets/img/certificates/cert_facility_registration.webp', title: '노인복지시설 설치신고확인증 원본 열람 (진천군수 발급)' }
-    ]));
-  }
-
-  // 5. 대표자 / 시설장 (첨부3: 회장 등록증 연결)
   cells.push(basicCell('대표자 (회장·시설장)', b.chairman_name || '조영기', '', [
     { label: '임기', value: '2023.11~2027.10' },
     { label: '', value: '📄 회장등록증 열람', certKey: 'chairman', href: b.chairman_cert || 'assets/img/certificates/cert_chairman_registration.webp', title: '대한노인회 우경경로당 회장 등록증 원본 열람' }
   ]));
 
-  // 6. 소재지 (주소)
-  if(b.address){
-    cells.push(basicCell('소재지 (주소)', b.address, '', [
-      { label: '', value: '도로명' }
-    ]));
-  }
+  // === 2행 (전화번호 위 행): 고유번호 (고유번호증 연결) | 설치신고 정보 (설치신고확인증 연결) | 건축년도 ===
+  cells.push(basicCell('고유번호', b.unique_number || '301-80-18628', '', [
+    { label: '', value: '📄 고유번호증 열람', certKey: 'unique', href: b.unique_number_cert || 'assets/img/certificates/cert_unique_number.webp', title: '고유번호증 원본 열람 (충주세무서장 발급)' }
+  ]));
 
-  // 7. 전화번호
-  if(b.phone){
-    cells.push(basicCell('전화번호', b.phone, '', [
-      { label: '', value: '유선' }
-    ]));
-  }
+  cells.push(basicCell('설치 신고일자', b.registered_date || '1975. 03. 01', '', [
+    { label: '정원', value: b.facility_capacity || 20, unit: '명' },
+    { label: '', value: '📄 설치신고확인증 열람', certKey: 'facility', href: b.facility_cert || 'assets/img/certificates/cert_facility_registration.webp', title: '노인복지시설 설치신고확인증 원본 열람 (진천군수 발급)' }
+  ]));
 
-  // 8. 회원수
-  if(b.members_total!==undefined&&b.members_total!==''){
-    cells.push(basicCell('회원수', b.members_total, '명', [
-      { label: '남', value: b.members_male, unit: '명' },
-      { label: '여', value: b.members_female, unit: '명' }
-    ]));
-  }
+  cells.push(basicCell('건축년도 (준공)', b.build_date || '2009. 07. 29', '', [
+    { label: '', value: '단독건물' }
+  ]));
 
-  // 9. 건축년도 (준공)
-  if(b.build_date){
-    cells.push(basicCell('건축년도 (준공)', b.build_date, '', [
-      { label: '', value: '단독건물' }
-    ]));
-  }
+  // === 3행 (전화번호 행): 소재지(주소) | 전화번호 | 회원수 ===
+  cells.push(basicCell('소재지 (주소)', b.address || '충북 진천군 문백면 사양1길 2-12', '', [
+    { label: '', value: '도로명' }
+  ]));
 
-  // 10. 대지면적
-  if(b.site_area){
-    cells.push(basicCell('대지면적', b.site_area, '', [
-      { label: '', value: b.site_area_pyeong || '101.52평' }
-    ]));
-  }
+  cells.push(basicCell('전화번호', b.phone || '043-532-5593', '', [
+    { label: '', value: '유선' }
+  ]));
 
-  // 11. 건물면적 & 구조
-  if(b.building_area){
-    cells.push(basicCell('건물면적', b.building_area, '', [
-      { label: '', value: b.building_area_pyeong || '32.04평' },
-      { label: '', value: b.structure || '블록구조 (1층)' }
-    ]));
-  }
+  cells.push(basicCell('회원수', b.members_total ?? 50, '명', [
+    { label: '남', value: b.members_male ?? 21, unit: '명' },
+    { label: '여', value: b.members_female ?? 29, unit: '명' }
+  ]));
 
-  // 12. 내부 공간 구성
+  // === 4행: 대지면적 | 건물면적·구조 | 내부 공간 구성 ===
+  cells.push(basicCell('대지면적', b.site_area || '335㎡', '', [
+    { label: '', value: b.site_area_pyeong || '101.52평' }
+  ]));
+
+  cells.push(basicCell('건물면적', b.building_area || '105.73㎡', '', [
+    { label: '', value: b.building_area_pyeong || '32.04평' },
+    { label: '', value: b.structure || '블록구조 (1층)' }
+  ]));
+
   cells.push(basicCell('내부 공간 구성', `방 ${b.rooms || 3}개 · 화장실 ${b.restrooms || 2}개`, '', [
     { label: '주방', value: b.kitchen || 1, unit: '개' },
     { label: '보조실', value: b.sub_rooms || 1, unit: '개' }
   ]));
 
-  // 13. 난방방법
-  if(b.heating){
-    cells.push(basicCell('난방방법', b.heating, '', [
-      { label: '', value: '심야전력 보일러' }
-    ]));
-  }
+  // === 5행: 난방방법 | 편의/부대시설 | 소유자(명의) ===
+  cells.push(basicCell('난방방법', b.heating || '심야전력', '', [
+    { label: '', value: '심야전력 보일러' }
+  ]));
 
-  // 14. 편의 및 부대시설
-  if(b.convenience_facilities){
-    cells.push(basicCell('편의/부대시설', b.convenience_facilities, '', [
-      { label: '', value: '비품관리대장 참조' }
-    ]));
-  }
+  cells.push(basicCell('편의/부대시설', b.convenience_facilities || '우경정 쉼터, 실외운동기구 외', '', [
+    { label: '', value: '비품관리대장 참조' }
+  ]));
 
-  // 15. 소유자(명의) 및 대장
-  if(b.property_owner){
-    cells.push(basicCell('소유자(명의)', b.property_owner, '', [
-      { label: '건축물대장', value: b.building_ledger || '유(별첨)' }
-    ]));
-  }
+  cells.push(basicCell('소유자(명의)', b.property_owner || '리장 이동수', '', [
+    { label: '건축물대장', value: b.building_ledger || '유(별첨)' }
+  ]));
 
   basic.innerHTML=cells.join('');
   const historyNote=document.getElementById('history-note');if(historyNote)historyNote.textContent='공지 외 공개 기록 중 최근 10건을 표시합니다.';
@@ -133,7 +96,7 @@
 
   const chart=d.organization_chart||{},officers=(chart.officers||[]).filter(x=>x.public!==false),board=(chart.board||[]).filter(x=>x.public!==false);
   const name=x=>esc(x.name||'공석');
-  const node=(x,cls='',withCert=false)=>`<div class="org-node ${cls} ${x.name?'':'vacant'}"><span>${esc(x.position||'')}</span><strong>${name(x)}</strong>${withCert?`<small class="org-sub-meta">임기 2023.11 ~ 2027.10</small><div class="org-cert-wrap"><a href="assets/img/certificates/cert_chairman_registration.webp" class="fact-badge fact-badge-link org-cert-link" data-cert-key="chairman" title="대한노인회 우경경로당 회장 등록증 원본 열람">📄 회장 등록증 보기</a></div>`:''}</div>`;
+  const node=(x,cls='')=>`<div class="org-node ${cls} ${x.name?'':'vacant'}"><span>${esc(x.position||'')}</span><strong>${name(x)}</strong></div>`;
   const officerEl=document.getElementById('officer-chart');
   if(officerEl){
     if(!officers.length)officerEl.innerHTML='<div class="empty-state compact-empty">공개 가능한 임원 정보가 없습니다.</div>';
@@ -141,7 +104,7 @@
       const chair=officers.filter(x=>x.position==='회장');
       const vice=officers.filter(x=>x.position.startsWith('부회장'));
       const rest=officers.filter(x=>x.position!=='회장'&&!x.position.startsWith('부회장'));
-      officerEl.innerHTML=`<div class="org-level org-level-top">${chair.map(x=>node(x,'org-primary',true)).join('')}</div>${vice.length?`<div class="org-connector"></div><div class="org-level">${vice.map(x=>node(x)).join('')}</div>`:''}${rest.length?`<div class="org-connector"></div><div class="org-level">${rest.map(x=>node(x)).join('')}</div>`:''}`;
+      officerEl.innerHTML=`<div class="org-level org-level-top">${chair.map(x=>node(x,'org-primary')).join('')}</div>${vice.length?`<div class="org-connector"></div><div class="org-level">${vice.map(x=>node(x)).join('')}</div>`:''}${rest.length?`<div class="org-connector"></div><div class="org-level">${rest.map(x=>node(x)).join('')}</div>`:''}`;
     }
   }
   const boardEl=document.getElementById('board-chart');
@@ -149,7 +112,7 @@
     if(!board.length)boardEl.innerHTML='<div class="empty-state compact-empty">공개 가능한 이사회 정보가 없습니다.</div>';
     else{
       const chair=board.filter(x=>x.position==='회장'),vice=board.filter(x=>x.position==='부회장'),directors=board.filter(x=>!['회장','부회장'].includes(x.position));
-      boardEl.innerHTML=`<div class="org-level org-level-top">${chair.map(x=>node(x,'org-primary',false)).join('')}</div>${vice.length?`<div class="org-connector"></div><div class="org-level">${vice.map(x=>node(x)).join('')}</div>`:''}${directors.length?`<div class="org-connector"></div><div class="org-level org-directors">${directors.map(x=>node(x)).join('')}</div>`:''}`;
+      boardEl.innerHTML=`<div class="org-level org-level-top">${chair.map(x=>node(x,'org-primary')).join('')}</div>${vice.length?`<div class="org-connector"></div><div class="org-level">${vice.map(x=>node(x)).join('')}</div>`:''}${directors.length?`<div class="org-connector"></div><div class="org-level org-directors">${directors.map(x=>node(x)).join('')}</div>`:''}`;
     }
   }
   document.getElementById('facility-list').innerHTML=(d.facilities||[]).map(x=>`<span>${esc(x)}</span>`).join('');
@@ -215,11 +178,11 @@
     };
     const closeViewer=()=>{if(typeof floorplanViewer.close==='function')floorplanViewer.close();else floorplanViewer.removeAttribute('open');};
     floorplanThumb?.addEventListener('click',()=>openDocModal('floorplan'));
-    document.querySelectorAll('[data-cert-key]').forEach(el=>{
-      el.addEventListener('click',e=>{
-        e.preventDefault();
-        openDocModal(el.getAttribute('data-cert-key'));
-      });
+    document.addEventListener('click',e=>{
+      const certTrigger = e.target.closest('[data-cert-key]');
+      if(!certTrigger) return;
+      e.preventDefault();
+      openDocModal(certTrigger.getAttribute('data-cert-key'));
     });
     document.getElementById('floorplan-close')?.addEventListener('click',closeViewer);
     document.getElementById('floorplan-zoom-in')?.addEventListener('click',()=>{scale=Math.min(4,Number((scale+0.2).toFixed(2)));applyTransform();});
