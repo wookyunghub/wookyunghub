@@ -241,15 +241,17 @@
     .row-1 .field-id { flex: 0 0 95px; }
     .row-1 .field-name { flex: 1 1 180px; max-width: 320px; }
 
-    .row-2 .field-spec { flex: 1 1 200px; max-width: 330px; }
-    .row-2 .field-qty { flex: 0 0 75px; }
-    .row-2 .field-unit { flex: 0 0 65px; }
+    .row-2 .field-spec { flex: 1 1 160px; max-width: 270px; }
+    .row-2 .field-qty { flex: 0 0 52px; }
+    .row-2 .field-qty input { text-align: center; padding-left: 2px; padding-right: 2px; }
+    .row-2 .field-unit { flex: 0 0 52px; }
+    .row-2 .field-unit input { text-align: center; padding-left: 2px; padding-right: 2px; }
+    .row-2 .field-status { flex: 0 0 108px; }
 
-    .row-3 .field-acquire { flex: 1 1 130px; }
-    .row-3 .field-status { flex: 0 0 115px; }
-    .row-3 .field-group { flex: 1 1 140px; }
+    .row-3 .field-acquire { flex: 1 1 140px; max-width: 220px; }
+    .row-3 .field-group { flex: 1 1 180px; max-width: 288px; }
 
-    .row-4 .field-note { flex: 1 1 100%; width: 100%; }
+    .row-4 .field-note { flex: 1 1 100%; max-width: 516px; }
 
     /* 관리번호 안내 문구 */
     .inv-notice-line {
@@ -449,17 +451,17 @@
       }
       .field-cat { flex: 1 1 calc(50% - 4px); }
       .field-id { flex: 1 1 calc(50% - 4px); }
-      .field-name { flex: 1 1 100%; }
-      .field-spec { flex: 1 1 100%; }
+      .field-name { flex: 1 1 100%; max-width: 100%; }
+      .field-spec { flex: 1 1 100%; max-width: 100%; }
 
-      .field-qty { flex: 1 1 calc(30% - 4px); }
-      .field-unit { flex: 1 1 calc(30% - 4px); }
-      .field-status { flex: 1 1 calc(40% - 4px); }
-      .field-acquire { flex: 1 1 calc(50% - 4px); }
-      .field-group { flex: 1 1 calc(50% - 4px); }
+      .field-qty { flex: 1 1 calc(25% - 6px); }
+      .field-unit { flex: 1 1 calc(25% - 6px); }
+      .field-status { flex: 1 1 calc(50% - 6px); }
+      .field-acquire { flex: 1 1 calc(50% - 4px); max-width: 100%; }
+      .field-group { flex: 1 1 calc(50% - 4px); max-width: 100%; }
 
       .field-photo { flex: 1 1 100%; }
-      .field-note { flex: 1 1 100%; }
+      .field-note { flex: 1 1 100%; max-width: 100%; }
 
       .inv-item-card {
         grid-template-columns: 46px minmax(0, 1fr);
@@ -660,7 +662,7 @@
               </div>
             </div>
 
-            <!-- 2행: 규격 및 모델명, 수량, 단위 -->
+            <!-- 2행: 규격 및 모델명, 수량, 단위, 상태 -->
             <div class="inv-form-row row-2">
               <div class="inv-field field-spec">
                 <label for="inv-spec">규격 및 모델명</label>
@@ -676,14 +678,6 @@
                 <label for="inv-unit">단위</label>
                 <input type="text" id="inv-unit" value="개" placeholder="개/대/조">
               </div>
-            </div>
-
-            <!-- 3행: 취득구분, 상태, 세부 그룹 -->
-            <div class="inv-form-row row-3">
-              <div class="inv-field field-acquire">
-                <label for="inv-acquire">취득구분</label>
-                <input type="text" id="inv-acquire" placeholder="예: 재물조사, 기증">
-              </div>
 
               <div class="inv-field field-status">
                 <label for="inv-status">상태</label>
@@ -694,6 +688,14 @@
                   <option value="수리필요">수리필요</option>
                   <option value="불용예정">불용예정</option>
                 </select>
+              </div>
+            </div>
+
+            <!-- 3행: 취득구분, 세부 그룹 -->
+            <div class="inv-form-row row-3">
+              <div class="inv-field field-acquire">
+                <label for="inv-acquire">취득구분</label>
+                <input type="text" id="inv-acquire" placeholder="예: 재물조사, 기증">
               </div>
 
               <div class="inv-field field-group">
