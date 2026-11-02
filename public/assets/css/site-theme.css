@@ -770,3 +770,40 @@ body .hero-building-badge .hero-photo-slogan{
     font-size: 11.5px !important;
   }
 }
+
+/* ========================================================
+   UNIFIED SHAPE SYSTEM (배지는 둥근 알약형, 버튼/링크는 둥근 네모)
+   1. 정보 전달용 배지 (비클릭/단순 표시): border-radius: 9999px (원형/알약형)
+   2. 기능 실행용 버튼 / 링크: border-radius: 8px (둥근 사각형)
+   ======================================================== */
+body .badge,
+body .admin-badge,
+body .home-news-kind,
+body .tag-list span,
+body .facility-summary > *,
+body .res-badge,
+body .res-ext-badge,
+body .file-meta-chip,
+body .inv-status-badge,
+body .period-chip,
+body .fact-sub-badge {
+  border-radius: 9999px !important;
+  font-weight: 700;
+  cursor: default;
+}
+
+body .btn,
+body button.btn,
+body a.btn,
+body .home-more-btn,
+body .fact-btn-link,
+body .linked-record-chip,
+body .inv-pdf-link,
+body .inv-photo-btn,
+body .res-btn-view,
+body .res-btn-download,
+body .basic-toggle-btn {
+  border-radius: 8px !important;
+  font-weight: 700;
+  cursor: pointer;
+}

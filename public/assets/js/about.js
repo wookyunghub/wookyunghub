@@ -10,7 +10,7 @@
 
   const basicCell=(label,value,sub='',cert=null,extra=false)=>{
     const subHtml=sub?`<span class="fact-sub">${esc(sub)}</span>`:'';
-    const certHtml=cert?`<a href="${esc(cert.href||'#')}" class="fact-badge fact-badge-link" data-cert-key="${esc(cert.certKey)}" title="${esc(cert.title||cert.label)}">${esc(cert.label)}</a>`:'';
+    const certHtml=cert?`<a href="${esc(cert.href||'#')}" class="fact-btn-link" data-cert-key="${esc(cert.certKey)}" title="${esc(cert.title||cert.label)}">${esc(cert.label)} ↗</a>`:'';
     return `<div class="fact-card${extra?' fact-extra':''}"${extra?' hidden':''}><small>${esc(label)}</small><div class="fact-main"><span class="fact-main-text"><strong>${esc(value)}</strong>${subHtml}</span>${certHtml}</div></div>`;
   };
 

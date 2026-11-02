@@ -33,19 +33,46 @@
 .fact-main-text>strong{font-size:16px;line-height:1.35;color:#2c241d;font-weight:800}
 .fact-sub{font-weight:600;font-size:13px;color:#6d5947}
 .fact-badges{display:inline-flex;flex-wrap:wrap;gap:5px;align-items:center}
-.fact-badge{
-  border:1px solid #c9b49e;
-  background:#f9f6f0;
-  border-radius:6px;
-  color:#543f2f;
-  font-size:11.5px;
-  font-weight:700;
-  padding:3px 9px;
+/* 버튼/링크: 테두리가 둥근 사각형 (8px) 및 명확한 버튼 형태 */
+.fact-btn-link{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  border:1px solid #9eae92 !important;
+  background:#f1f5ed !important;
+  border-radius:8px !important;
+  color:#3e5539 !important;
+  font-size:12px !important;
+  font-weight:800 !important;
+  padding:4px 10px !important;
   white-space:nowrap;
-  box-shadow:0 1px 2px rgba(0,0,0,.04);
+  box-shadow:0 1px 3px rgba(62,85,57,.12) !important;
+  text-decoration:none !important;
+  cursor:pointer !important;
   transition:all .15s ease;
 }
-.fact-badge:hover{background:#526c49;border-color:#526c49;color:#ffffff;}
+.fact-btn-link:hover{
+  background:#526c49 !important;
+  border-color:#526c49 !important;
+  color:#ffffff !important;
+  box-shadow:0 2px 6px rgba(0,0,0,.18) !important;
+  transform:translateY(-1px);
+}
+/* 정보 배지: 완전한 알약형/원형 (9999px) */
+.fact-badge,
+.fact-sub-badge{
+  display:inline-flex;
+  align-items:center;
+  border:1px solid #d9cbbe !important;
+  background:#f4ece2 !important;
+  border-radius:9999px !important;
+  color:#634b39 !important;
+  font-size:11.5px !important;
+  font-weight:700 !important;
+  padding:2px 8px !important;
+  white-space:nowrap;
+  cursor:default !important;
+}
 .history-heading{gap:12px;margin-bottom:2px;align-items:center}
 .history-heading h2{font-size:21px;margin-bottom:2px}
 .history-note,.section-help{font-size:12.5px;line-height:1.4}
@@ -128,13 +155,15 @@
 #facilities .facility-summary>*{
   margin:0;
   white-space:nowrap;
-  background:#f6e9da;
-  color:#724c39;
-  border:1px solid #ead1b8;
-  padding:4px 10px;
-  border-radius:6px;
-  font-size:12.5px;
-  font-weight:700;
+  background:#f6e9da !important;
+  color:#724c39 !important;
+  border:1px solid #ead1b8 !important;
+  padding:4px 12px !important;
+  border-radius:9999px !important;
+  font-size:12px !important;
+  font-weight:700 !important;
+  cursor:default !important;
+  box-shadow:none !important;
 }
 @media(max-width:800px){#facilities .facility-plan{flex-direction:column;align-items:flex-start;gap:14px}#facilities .facility-plan-thumb{width:100%;max-width:280px;height:120px}}
 @media(max-width:480px){#facilities .facility-summary{gap:6px}}
