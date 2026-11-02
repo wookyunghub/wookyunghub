@@ -35,6 +35,7 @@ function goToPage(n,behavior='auto'){
    box.appendChild(label);pages.appendChild(box);
  }
  const jump=document.querySelector('#jump'); jump.max=d.page_count;
+ const jumpTotal=document.querySelector('#jump-total'); if(jumpTotal) jumpTotal.textContent=`/ ${d.page_count}쪽`;
  const first=requestedPage(d.page_count);jump.value=first;
  document.querySelector('#jump-btn').onclick=()=>{let n=Math.max(1,Math.min(d.page_count,Number(jump.value)||1));history.replaceState(null,'',`?page=${n}#p${n}`);goToPage(n,'smooth')};
  const printBtn=document.querySelector('#print-btn'); if(printBtn) printBtn.onclick=()=>window.print();

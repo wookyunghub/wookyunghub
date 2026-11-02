@@ -76,10 +76,21 @@ a{color:inherit;text-decoration:none}.wrap{max-width:1180px;margin:0 auto;paddin
 .viewer-title-line h1{font-size:25px;line-height:1.2;margin:0;letter-spacing:-.025em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .viewer-control-line{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;min-height:36px}
 .viewer-desc{margin:0;color:#52606f;font-size:14px;line-height:1.35;flex:1 1 320px;min-width:220px}
-.viewer-source{font-size:12px;color:var(--muted);white-space:nowrap}
-.viewer-head-compact .toolbar{margin:0;margin-left:auto;gap:6px;flex-wrap:nowrap}
-.viewer-head-compact .toolbar label{font-size:13px;white-space:nowrap}.viewer-head-compact .jump{width:68px;padding:6px 7px;font-size:14px}
-.viewer-head-compact .btn{padding:7px 11px;font-size:14px}.viewer-head-compact .badge{padding:5px 8px;font-size:12px;white-space:nowrap}
+.viewer-source{display:inline-flex;align-items:center;gap:5px;background:#f6f3ee;border:1px solid #dcd3c8;border-radius:6px;padding:4px 8px;font-size:12px;color:#5c4738;white-space:nowrap;line-height:1.2}
+.viewer-source .file-icon{opacity:0.75;flex-shrink:0}
+.viewer-source .source-tag{font-weight:700;color:#856345}
+.viewer-source [data-source]{font-weight:600;color:#2e2219}
+
+.viewer-head-compact .toolbar{margin:0;margin-left:auto;gap:7px;align-items:center;flex-wrap:nowrap}
+.viewer-head-compact .jump-box{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid #d4c8bd;border-radius:6px;padding:2px 7px 2px 3px}
+.viewer-head-compact .jump{width:52px;height:28px;padding:2px 4px;font-size:13px;font-weight:700;text-align:center;border:1px solid #ded4cb;border-radius:4px;background:#faf8f5;color:#2b1f17;box-sizing:border-box}
+.viewer-head-compact .jump:focus{border-color:#526c49;background:#fff;outline:none;box-shadow:0 0 0 2px rgba(82,108,73,0.15)}
+.viewer-head-compact .jump-unit{font-size:12px;font-weight:700;color:#524032}
+.viewer-head-compact .jump-total{font-size:11.5px;color:#8c7a6c;white-space:nowrap}
+.viewer-head-compact .btn{padding:4px 11px;font-size:12.5px;height:30px;line-height:22px;border-radius:5px}
+
+.viewer-security-note{font-size:11.5px;color:#75675b;background:#fbf8f4;border:1px dashed #d8cbbe;border-radius:5px;padding:4px 8px;display:inline-flex;align-items:center;gap:3px;user-select:none;cursor:default;white-space:nowrap;line-height:1.2}
+.viewer-security-note .sec-icon{font-size:12px}
 .page-list{gap:12px}.page{padding:8px;border-radius:12px;scroll-margin-top:82px}
 
 @media(max-width:1050px){.nav-main-link{padding:0 13px}.viewer-layout{grid-template-columns:230px 1fr}.viewer-title-line h1{font-size:23px}}

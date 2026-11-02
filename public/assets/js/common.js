@@ -72,7 +72,7 @@
       {key:'about',label:'경로당 소개',href:u('about.html'),items:[['기본현황',u('about.html#basic')],['연혁',u('about.html#history')],['조직도',u('about.html#officers')],['회원명부',u('members.html')],['시설안내',u('about.html#facilities')],['오시는 길',u('about.html#access')]]},
       {key:'guide',label:'운영안내',href:u('guide.html'),items:[['운영지침',u('guide.html#policy')],['노인강령',u('guide.html#elder-code')],['경로헌장',u('guide.html#charter')],['운영규정',u('regulations.html')]]},
       {key:'news',label:'소식·활동',href:u('news-list.html'),items:[['공지사항',u('news-list.html?type=notice')],['회의·행사 기록',u('news-list.html?type=records')]]},
-      {key:'ledger',label:'운영대장',href:u('ledger.html'),items:[['운영대장 전체',u('ledger.html')],['최신 운영대장',u('ledger.html#current')],['지난 운영대장',u('ledger.html#archives')],['이북 보기',u('ebook.html?ledger=2025-2026&doc=summary')]]},
+      {key:'ledger',label:'운영대장',href:u('ledger.html'),items:[['운영대장 보관함',u('ledger.html')],['이북 보기',u('ebook.html?ledger=2025-2026&doc=summary')]]},
       {key:'resources',label:'자료실',href:u('resources.html'),items:[['서식자료',u('resources.html#forms')],['일반문서',u('resources.html#docs')],['사진자료',u('resources.html#photos')]]},
       {key:'admin',label:'관리자',href:admin?u('admin/index.html'):u('admin-login.html'),items:admin?[[ '관리자 홈',u('admin/index.html')],['공지사항 관리',u('admin/announcements.html')],['회의·행사 기록관리',u('admin/records.html')],['시설·비품 관리',u('admin/inventory.html')],['임원·이사회 관리',u('admin/officers.html')],['회원명부 관리',u('admin/members.html')],['첨부자료관리',u('admin/files.html')],...(stat.features?.publication_management===true?[['운영대장·발간',u('admin/ledgers.html')]]:[]),['기본 설정',u('admin/settings.html')],['관리자 PIN',u('admin/security.html')],['로그아웃','#logout']]:[['관리자 로그인',u('admin-login.html')]]}
     ];
