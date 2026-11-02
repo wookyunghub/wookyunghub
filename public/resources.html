@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="assets/css/app.css?v=2.5">
-  <link rel="stylesheet" href="assets/css/site-theme.css?v=5.74">
+  <link rel="stylesheet" href="assets/css/site-theme.css?v=5.75">
   <title>자료실 · 우경경로당</title>
 </head>
 <body>
@@ -79,21 +79,23 @@
   <!-- 사진 상세보기 모달 다이얼로그 -->
   <dialog id="photo-dialog" class="file-dialog">
     <div class="file-dialog-head">
-      <h3 id="photo-dialog-title" style="margin:0;font-size:18px;color:#3f2c1d">사진 미리보기</h3>
-      <div style="display:flex;gap:8px;align-items:center">
+      <h3 id="photo-dialog-title">사진 미리보기</h3>
+      <div style="display:flex;gap:6px;align-items:center">
         <a id="photo-dialog-download" class="btn" href="" download target="_blank" rel="noopener">원본 다운로드</a>
         <button type="button" class="btn" id="photo-dialog-close">닫기</button>
       </div>
     </div>
-    <div style="text-align:center;padding:12px 0">
-      <img id="photo-dialog-img" src="" alt="" style="max-width:100%;max-height:75vh;border-radius:10px;object-fit:contain;box-shadow:0 4px 16px rgba(0,0,0,.15)">
-      <p id="photo-dialog-desc" style="margin:10px 0 0;font-size:14px;color:#55483c"></p>
+    <div class="photo-dialog-stage">
+      <img id="photo-dialog-img" src="" alt="" loading="lazy">
+    </div>
+    <div class="photo-dialog-foot">
+      <span id="photo-dialog-desc"></span>
     </div>
   </dialog>
 </main>
 <footer class="footer"><div class="wrap"><span data-brand>우경경로당</span> · 경로당 홈페이지</div></footer>
 <script src="assets/js/common.js?v=1.6"></script>
 <script src="assets/js/resource-order.js?v=5.66"></script>
-<script src="assets/js/resources.js?v=5.73"></script>
+<script src="assets/js/resources.js?v=5.74"></script>
 </body>
 </html>

@@ -565,23 +565,104 @@ body .hero-building-badge .hero-photo-slogan{
   color:#7e8b98;
 }
 #photo-dialog{
-  border:1px solid #d9cbbe;
+  width:min(960px,calc(100vw - 24px));
+  max-width:960px;
+  border:2px solid #5d4037;
   border-radius:14px;
-  padding:16px 20px;
-  max-width:92vw;
-  width:680px;
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
-  background:#fff;
+  padding:0;
+  background:#ffffff;
+  box-shadow:0 16px 48px rgba(0,0,0,.45);
+  overflow:hidden;
 }
 #photo-dialog::backdrop{
-  background:rgba(0,0,0,0.55);
-  backdrop-filter:blur(2px);
+  background:rgba(20,14,10,.72);
+  backdrop-filter:blur(3px);
 }
 #photo-dialog .file-dialog-head{
   display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  padding:12px 18px;
+  margin-bottom:0;
+  border-bottom:1px solid #d7ccc8;
+  background:#3e2723;
+  color:#ffffff;
+}
+#photo-dialog-title{
+  color:#ffffff !important;
+  font-size:16px !important;
+  font-weight:700 !important;
+  line-height:1.3;
+  margin:0;
+}
+#photo-dialog .file-dialog-head .btn{
+  border-color:#8d6e63 !important;
+  color:#ffffff !important;
+  background:#4e342e !important;
+  font-size:13px;
+  padding:5px 12px;
+  border-radius:6px;
+}
+#photo-dialog .file-dialog-head .btn:hover{
+  background:#5d4037 !important;
+}
+.photo-dialog-stage{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:68vh;
+  max-height:68vh;
+  overflow:auto;
+  padding:16px;
+  background:#2b221c;
+  box-sizing:border-box;
+}
+#photo-dialog-img{
+  max-width:100%;
+  max-height:100%;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  box-shadow:0 6px 20px rgba(0,0,0,.5);
+  background:#ffffff;
+  border-radius:4px;
+  display:block;
+}
+.photo-dialog-foot{
+  padding:8px 18px;
+  background:#f5efe6;
+  border-top:1px solid #e8ded4;
+  display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:12px;
-  padding-bottom:8px;
-  border-bottom:1px solid #eee4db;
+  gap:10px;
+  font-size:12.5px;
+  color:#5d4037;
+}
+@media(max-width:760px){
+  #photo-dialog{
+    width:calc(100vw - 12px);
+    max-height:92vh;
+    border-radius:10px;
+  }
+  #photo-dialog .file-dialog-head{
+    padding:10px 14px;
+  }
+  #photo-dialog-title{
+    font-size:14.5px !important;
+  }
+  #photo-dialog .file-dialog-head .btn{
+    font-size:12px;
+    padding:4px 8px;
+  }
+  .photo-dialog-stage{
+    height:58vh;
+    max-height:58vh;
+    padding:10px;
+  }
+  .photo-dialog-foot{
+    padding:6px 12px;
+    font-size:11.5px;
+  }
 }
