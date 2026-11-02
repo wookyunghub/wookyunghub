@@ -33,7 +33,9 @@
   const photoValInput = document.getElementById('inv-photo-val');
   const previewWrap = document.getElementById('inv-preview-wrap');
   const previewImg = document.getElementById('inv-preview-img');
+  const photoPlaceholder = document.getElementById('inv-photo-placeholder');
   const photoDelBtn = document.getElementById('inv-photo-del');
+  const photoInfoEl = document.getElementById('inv-photo-info');
 
   const photoDialog = document.getElementById('inv-admin-photo-dialog');
   const dialogImg = document.getElementById('inv-admin-photo-img');
@@ -217,9 +219,25 @@
     photoValInput.value = item.photo || '';
     if (item.photo) {
       previewImg.src = getPhotoUrl(item.photo);
-      previewWrap.style.display = 'block';
+      previewImg.style.display = 'block';
+      if (photoPlaceholder) photoPlaceholder.style.display = 'none';
+      if (photoDelBtn) photoDelBtn.style.display = 'inline-block';
+      if (photoInfoEl) {
+        const fn = item.photo.split('/').pop().split('?')[0];
+        photoInfoEl.textContent = '현재 등록: ' + fn;
+        photoInfoEl.className = 'inv-photo-info-text active';
+        photoInfoEl.title = '등록 경로: ' + item.photo;
+      }
     } else {
-      previewWrap.style.display = 'none';
+      previewImg.style.display = 'none';
+      previewImg.src = '';
+      if (photoPlaceholder) photoPlaceholder.style.display = 'flex';
+      if (photoDelBtn) photoDelBtn.style.display = 'none';
+      if (photoInfoEl) {
+        photoInfoEl.textContent = '등록된 사진 없음';
+        photoInfoEl.className = 'inv-photo-info-text';
+        photoInfoEl.title = '';
+      }
     }
 
     if (form.style.display === 'none') {
@@ -244,7 +262,15 @@
 
     photoValInput.value = '';
     photoFileInput.value = '';
-    previewWrap.style.display = 'none';
+    previewImg.style.display = 'none';
+    previewImg.src = '';
+    if (photoPlaceholder) photoPlaceholder.style.display = 'flex';
+    if (photoDelBtn) photoDelBtn.style.display = 'none';
+    if (photoInfoEl) {
+      photoInfoEl.textContent = '등록된 사진 없음';
+      photoInfoEl.className = 'inv-photo-info-text';
+      photoInfoEl.title = '';
+    }
     msgEl.textContent = '';
   }
 
@@ -276,7 +302,14 @@
     reader.onload = ev => {
       photoValInput.value = ev.target.result;
       previewImg.src = ev.target.result;
-      previewWrap.style.display = 'block';
+      previewImg.style.display = 'block';
+      if (photoPlaceholder) photoPlaceholder.style.display = 'none';
+      if (photoDelBtn) photoDelBtn.style.display = 'inline-block';
+      if (photoInfoEl) {
+        photoInfoEl.textContent = `새 선택: ${file.name} (${Math.round(file.size / 1024)}KB)`;
+        photoInfoEl.className = 'inv-photo-info-text new-file';
+        photoInfoEl.title = `파일명: ${file.name} / 크기: ${file.size} bytes`;
+      }
     };
     reader.readAsDataURL(file);
   });
@@ -287,8 +320,15 @@
       e.preventDefault();
       photoValInput.value = '';
       photoFileInput.value = '';
-      previewWrap.style.display = 'none';
+      previewImg.style.display = 'none';
       previewImg.src = '';
+      if (photoPlaceholder) photoPlaceholder.style.display = 'flex';
+      photoDelBtn.style.display = 'none';
+      if (photoInfoEl) {
+        photoInfoEl.textContent = '사진 제거됨 (저장 시 반영)';
+        photoInfoEl.className = 'inv-photo-info-text deleted';
+        photoInfoEl.title = '';
+      }
     });
   }
 
