@@ -48,14 +48,11 @@
       href: b.facility_cert || 'assets/img/certificates/cert_facility_registration.webp',
       title: '노인복지시설 설치신고확인증 원본 열람 (진천군수 발급)'
     }, true),
-    basicCell('건축년도', b.build_date || '2009. 07. 29', '', null, true),
+    basicCell('건축년도', b.build_date || '2009. 07. 29', '(블록구조 1층)', null, true),
 
-    // === 4행 (자세히 보기 영역): 대지면적 | 건물면적 | 내부 공간 구성 ===
-    basicCell('대지면적', b.site_area || '335㎡', `(${b.site_area_pyeong || '101.52평'})`, null, true),
-    basicCell('건물면적', b.building_area || '105.73㎡', `(${b.building_area_pyeong || '32.04평'} · 블록구조 1층)`, null, true),
+    // === 4~5행 (자세히 보기 영역): 대지·건물면적 | 내부 공간 | 난방방법 | 편의시설 | 소유자(명의) ===
+    basicCell('대지 · 건물면적', `대지 ${b.site_area || '335㎡'}(${b.site_area_pyeong || '101.52평'}) · 건물 ${b.building_area || '105.73㎡'}(${b.building_area_pyeong || '32.04평'})`, '', null, true),
     basicCell('내부 공간', `방 ${b.rooms || 3} · 화장실 ${b.restrooms || 2} · 주방 ${b.kitchen || 1} · 보조실 ${b.sub_rooms || 1}`, '', null, true),
-
-    // === 5행 (자세히 보기 영역): 난방방법 | 편의시설 | 소유자(명의) ===
     basicCell('난방방법', b.heating || '심야전력', '', null, true),
     basicCell('편의시설', b.convenience_facilities || '우경정 쉼터, 실외운동기구 외', '', null, true),
     basicCell('소유자(명의)', b.property_owner || '리장 이동수', `(건축물대장 ${b.building_ledger || '유'})`, null, true)

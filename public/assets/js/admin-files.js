@@ -1,6 +1,6 @@
 (async()=>{
   const $=id=>document.getElementById(id);
-  const list=$('file-list'),filter=$('file-filter'),msg=$('file-msg'),uploadBtn=$('file-upload');
+  const list=$('file-list'),filter=$('file-filter'),msg=$('file-msg'),uploadBtn=$('file-upload'),cancelBtn=$('file-cancel');
   const dialog=$('file-detail'),detail=$('file-detail-body');
   const docPills=$('file-doc-pills'),scrollTopBtn=$('file-scroll-top');
   const roles={minutes:'회의록 원본',attendance:'참석명단',report:'보고자료',receipt:'증빙',form:'서식',document:'일반문서',other:'일반문서'};
@@ -13,6 +13,19 @@
     report:{kind:'documents',role:'report'},
     receipt:{kind:'receipts',role:'receipt'}
   };
+
+  function getTodayStr(){
+    const now=new Date();
+    const y=now.getFullYear();
+    const m=String(now.getMonth()+1).padStart(2,'0');
+    const d=String(now.getDate()).padStart(2,'0');
+    return `${y}-${m}-${d}`;
+  }
+
+  if($('file-date')&&!$('file-date').value){
+    $('file-date').value=getTodayStr();
+  }
+
   function fileType(x){
     if(x._kind==='receipts')return 'receipt';
     if(x._kind==='photos')return 'photo';
@@ -44,11 +57,32 @@
     return '';
   };
   const form=$('file-form-body'),toggle=$('file-form-toggle');
-  toggle.onclick=()=>{
-    form.hidden=!form.hidden;
-    toggle.textContent=form.hidden?'등록 양식 펼치기':'등록 양식 접기';
-    toggle.setAttribute('aria-expanded',String(!form.hidden));
-  };
+  function setFormOpen(open){
+    form.hidden=!open;
+    toggle.textContent=open?'등록 양식 접기':'등록 양식 펼치기';
+    toggle.setAttribute('aria-expanded',String(open));
+    if(open&&$('file-date')&&!$('file-date').value){
+      $('file-date').value=getTodayStr();
+    }
+  }
+  toggle.onclick=()=>setFormOpen(form.hidden);
+
+  function resetFormFields(){
+    if($('file-input'))$('file-input').value='';
+    if($('file-pdf'))$('file-pdf').value='';
+    if($('file-title'))$('file-title').value='';
+    if($('file-desc'))$('file-desc').value='';
+    if($('file-date'))$('file-date').value=getTodayStr();
+  }
+
+  if(cancelBtn){
+    cancelBtn.onclick=()=>{
+      resetFormFields();
+      if(msg)msg.textContent='';
+      setFormOpen(false);
+    };
+  }
+
   $('file-detail-close').onclick=()=>dialog.close();
   
   let data={documents:[],photos:[],receipts:[]};
@@ -215,7 +249,14 @@
   }
 
   async function uploadForm(fd){
-    const r=await fetch('../api/admin/files',{method:'POST',credentials:'same-origin',body:fd});
+    if(window.CenterHubUpload&&typeof window.CenterHubUpload.upload==='function'){
+      return await window.CenterHubUpload.upload(fd);
+    }
+    const r=await fetch('../api/admin/upload',{method:'POST',credentials:'same-origin',body:fd});
+    const ct=(r.headers.get('content-type')||'').toLowerCase();
+    if(!ct.includes('application/json')){
+      throw new Error(`서버가 파일 업로드를 처리하지 못했습니다 (HTTP ${r.status}). 로컬 서버 실행 상태를 확인해 주세요.`);
+    }
     const d=await r.json();
     if(!r.ok||!d.ok)throw new Error(d.error||'파일 등록에 실패했습니다.');
     return d;
@@ -225,12 +266,11 @@
     msg.textContent='';
     const files=Array.from($('file-input').files||[]);
     if(!files.length){msg.textContent='업로드할 원본 파일을 선택해 주세요.';return;}
-    if(!$('file-date').value){msg.textContent='자료 날짜를 입력해 주세요.';$('file-date').focus();return;}
+    if(!$('file-date').value){$('file-date').value=getTodayStr();}
     if(files.some(f=>f.size>=60*1024*1024)){msg.textContent='파일 1개당 최대 크기는 60MB 미만이어야 합니다.';return;}
     const pdf=$('file-pdf').files[0];
     if(pdf&&(files.length!==1||!/\.(hwp|hwpx|doc|docx)$/i.test(files[0].name))){alert('PDF 열람본은 HWP·Word 원본 1개와 함께 선택해 주세요.');return;}
     if(pdf&&!/\.pdf$/i.test(pdf.name)){alert('열람본은 PDF 파일만 등록할 수 있습니다.');return;}
-    if(files.some(f=>/\.(hwp|hwpx|doc|docx)$/i.test(f.name))&&!pdf&&!confirm('PDF 열람본이 없습니다. 홈페이지에서는 문서 미리보기 없이 원본 다운로드로 제공됩니다. 등록하시겠습니까?'))return;
 
     const type=types[$('file-role').value];
     if(!type){msg.textContent='자료구분을 확인해 주세요.';return;}
@@ -248,8 +288,8 @@
         await uploadForm(fd);
         completed++;
       }
-      $('file-input').value='';$('file-pdf').value='';$('file-title').value='';$('file-desc').value='';$('file-date').value='';
-      msg.textContent=completed+'건의 자료를 등록했습니다.';
+      resetFormFields();
+      msg.textContent=completed+'건의 자료를 저장했습니다.';
       // Switch to the matching tab
       if(type.kind==='photos') currentTab='photo';
       else if(type.role==='form') currentTab='form';
@@ -262,7 +302,7 @@
       await load();
     }catch(e){
       $('file-input').value='';
-      msg.textContent=completed+'개 등록 후 중단: '+e.message+'. 목록 확인 후 실패한 파일만 다시 선택해 주세요.';
+      msg.textContent=completed+'개 등록 후 중단: '+e.message;
       try{await load();}catch{}
     }finally{
       uploadBtn.disabled=false;
@@ -312,7 +352,7 @@
     const dateInput=document.createElement('input');
     dateInput.type='date';
     dateInput.required=true;
-    dateInput.value=x.date||'';
+    dateInput.value=x.date||getTodayStr();
     field('자료 날짜 (필수)',dateInput);
     const visibility=document.createElement('select');
     visibility.add(new Option('공개','true'));

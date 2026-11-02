@@ -544,7 +544,7 @@ class Handler(SimpleHTTPRequestHandler):
             if name in ('about','organization'):
                 REPO.write('organization',obj);sync_public_organization(obj);return self.json({'ok':True})
             return self.json({'error':'이 데이터는 통합 기록 관리에서 수정해 주세요.'},400)
-        if path=='/api/admin/upload':
+        if path in ('/api/admin/upload','/api/admin/files'):
             if not self.need_admin():return
             return self.handle_upload()
         return self.send_error(404)
