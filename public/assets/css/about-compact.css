@@ -5,15 +5,16 @@
 .page-title p{font-size:14px;line-height:1.4}
 .content-panel{padding:17px 20px;margin:10px 0;border-radius:13px}
 .content-panel>h2,.content-panel .facility-header h2{font-size:21px;margin:0 0 10px;line-height:1.3}
-.facts-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.facts-grid>.fact-card{min-width:0;padding:10px 13px;border-radius:10px}
-.fact-card small{font-size:12px;margin-bottom:3px}
+.facts-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.facts-grid>.fact-card{min-width:0;padding:11px 14px;border-radius:10px;background:#fbf8f3;border:1px solid #e7ded2;box-shadow:0 1px 3px rgba(70,55,40,.04)}
+.fact-card small{font-size:12px;margin-bottom:4px;color:#7a6b5d;font-weight:600}
 .fact-main{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px 8px}
 .fact-main-text{display:inline-flex;align-items:baseline;flex-wrap:wrap;gap:4px;min-width:0}
-.fact-main-text>strong{font-size:15.5px;line-height:1.35;color:#1f2937}
-.fact-sub{font-weight:500;font-size:13.5px;color:#5c6b7a}
+.fact-main-text>strong{font-size:15.5px;line-height:1.35;color:#3c3228}
+.fact-sub{font-weight:500;font-size:13.5px;color:#6b5d4f}
 .fact-badges{display:inline-flex;flex-wrap:wrap;gap:4px;align-items:center}
-.fact-badge{border:1px solid #d6e3ed;background:#eaf2f9;border-radius:999px;color:#315779;font-size:11px;font-weight:700;padding:2px 7px;white-space:nowrap}
+.fact-badge{border:1px solid #cfc2b2;background:#f3ede4;border-radius:999px;color:#524233;font-size:11px;font-weight:700;padding:2px 8px;white-space:nowrap;transition:background .15s}
+.fact-badge:hover{background:#e7ddd1;color:#3b2d20}
 .history-heading{gap:12px;margin-bottom:2px;align-items:center}
 .history-heading h2{font-size:21px;margin-bottom:2px}
 .history-note,.section-help{font-size:12.5px;line-height:1.4}
