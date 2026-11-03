@@ -1,6 +1,19 @@
-(()=>{
+(async()=>{
 'use strict';
-const data=window.CenterHubRegulations||[];
+let data=window.CenterHubRegulations||[];
+try {
+  const r = await fetch('api/public/regulations', {cache:'no-store'});
+  if (r.ok) {
+    const json = await r.json();
+    if (Array.isArray(json) && json.length > 0) data = json;
+  } else {
+    const r2 = await fetch('data/regulations.json', {cache:'no-store'});
+    if (r2.ok) {
+      const json = await r2.json();
+      if (Array.isArray(json) && json.length > 0) data = json;
+    }
+  }
+} catch(e) {}
 const tabs=document.getElementById('reg-tabs');
 const main=document.getElementById('reg-main');
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

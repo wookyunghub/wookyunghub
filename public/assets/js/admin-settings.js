@@ -2,6 +2,8 @@
   const $ = id => document.getElementById(id);
   let siteData = {};
   let orgData = {};
+  let regulationsData = [];
+  let activeRegId = 'operation';
 
   function resolveAdminImg(u){
     if(!u) return '';
@@ -21,15 +23,27 @@
     };
   });
 
-  // 2. 데이터 로드 (site 및 organization)
+  // 2. 데이터 로드 (site 및 organization, regulations)
   try {
-    const [resSite, resOrg] = await Promise.all([
+    const [resSite, resOrg, resReg] = await Promise.all([
       fetch('../api/admin/data?name=site', {credentials:'same-origin', cache:'no-store'}),
-      fetch('../api/admin/data?name=organization', {credentials:'same-origin', cache:'no-store'})
+      fetch('../api/admin/data?name=organization', {credentials:'same-origin', cache:'no-store'}),
+      fetch('../api/admin/data?name=regulations', {credentials:'same-origin', cache:'no-store'})
     ]);
     if(resSite.ok) siteData = await resSite.json();
     if(resOrg.ok) orgData = await resOrg.json();
+    if(resReg.ok) regulationsData = await resReg.json();
   } catch(e){}
+
+  if(!Array.isArray(regulationsData) || regulationsData.length === 0){
+    try {
+      const r = await fetch('../data/regulations.json', {cache:'no-store'});
+      if(r.ok) regulationsData = await r.json();
+    } catch(e){}
+  }
+  if(!Array.isArray(regulationsData) || regulationsData.length === 0){
+    if(window.CenterHubRegulations) regulationsData = JSON.parse(JSON.stringify(window.CenterHubRegulations));
+  }
 
   if(!siteData.organization_name){
     try {
@@ -200,6 +214,174 @@
   if($('b-unique-cert-input')) $('b-unique-cert-input').onchange = () => handleFileSelect($('b-unique-cert-input'), $('b-unique-number-cert'), $('b-unique-cert-preview'), $('b-unique-cert-link'));
   if($('b-facility-cert-input')) $('b-facility-cert-input').onchange = () => handleFileSelect($('b-facility-cert-input'), $('b-facility-cert'), $('b-facility-cert-preview'), $('b-facility-cert-link'));
 
+  // 5-2. 운영규정 관리 로직
+  function getActiveRegulation(){
+    if(!Array.isArray(regulationsData)) regulationsData = [];
+    return regulationsData.find(x => x.id === activeRegId) || regulationsData[0] || null;
+  }
+
+  function esc(s){
+    return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function renderRegulationAdmin(){
+    const reg = getActiveRegulation();
+    if(!reg) return;
+    activeRegId = reg.id;
+
+    // 서브 탭 활성화 상태
+    document.querySelectorAll('.reg-sub-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.reg === activeRegId);
+    });
+
+    // 상단 파일 정보 갱신
+    if($('reg-cur-pdf')) $('reg-cur-pdf').value = reg.pdf || '';
+    if($('reg-cur-pdf-link')){
+      $('reg-cur-pdf-link').href = reg.pdf ? resolveAdminImg(reg.pdf) : '#';
+      $('reg-cur-pdf-link').style.display = reg.pdf ? 'inline-block' : 'none';
+    }
+    if($('reg-cur-hwp')) $('reg-cur-hwp').value = reg.hwp || '';
+    if($('reg-cur-hwp-link')){
+      $('reg-cur-hwp-link').href = reg.hwp ? resolveAdminImg(reg.hwp) : '#';
+      $('reg-cur-hwp-link').style.display = reg.hwp ? 'inline-block' : 'none';
+      if(reg.filename) $('reg-cur-hwp-link').setAttribute('download', reg.filename);
+    }
+
+    if($('reg-section-title')) $('reg-section-title').textContent = `${reg.title} 조문 편집`;
+
+    // 조문 리스트 렌더링
+    const container = $('reg-article-container');
+    if(!container) return;
+    container.innerHTML = '';
+
+    reg.groups = reg.groups || [{title: '본문', items: []}];
+    let totalArticles = 0;
+
+    reg.groups.forEach((group, gIdx) => {
+      const gHeader = document.createElement('div');
+      gHeader.style.cssText = 'font-size:13px;font-weight:800;color:#526c49;margin:8px 0 4px;padding:4px 0;border-bottom:1px solid #e2d9cd;';
+      gHeader.innerHTML = `<span>📑 ${group.title || ('제 ' + (gIdx+1) + ' 장')}</span>`;
+      container.appendChild(gHeader);
+
+      (group.items || []).forEach((item, aIdx) => {
+        totalArticles++;
+        const card = document.createElement('div');
+        card.className = 'reg-article-card';
+        card.innerHTML = `
+          <div class="reg-article-card-head">
+            <input type="text" class="compact-field reg-article-num-input" value="${esc(item.number || '')}" placeholder="조문 번호">
+            <input type="text" class="compact-field reg-article-title-input" value="${esc(item.title || '')}" placeholder="조문 제목">
+            <button type="button" class="btn-del-article" data-g="${gIdx}" data-a="${aIdx}">삭제</button>
+          </div>
+          <div style="margin-bottom:6px;">
+            <input type="text" class="compact-field reg-article-body-input" style="width:100%;font-size:12px;background:#fdfcfb;" value="${esc(item.body || '')}" placeholder="한 줄 요약 설명 (선택)">
+          </div>
+          <div>
+            <textarea class="reg-article-textarea" placeholder="조문 전문(본문)을 입력하세요.">${esc(item.fullText || '')}</textarea>
+          </div>
+        `;
+
+        const numInput = card.querySelector('.reg-article-num-input');
+        const titleInput = card.querySelector('.reg-article-title-input');
+        const bodyInput = card.querySelector('.reg-article-body-input');
+        const textInput = card.querySelector('.reg-article-textarea');
+        const delBtn = card.querySelector('.btn-del-article');
+
+        numInput.oninput = () => { item.number = numInput.value.trim(); };
+        titleInput.oninput = () => { item.title = titleInput.value.trim(); };
+        if(bodyInput) bodyInput.oninput = () => { item.body = bodyInput.value.trim(); };
+        textInput.oninput = () => { item.fullText = textInput.value; };
+
+        delBtn.onclick = () => {
+          if(window.confirm(`'${item.number || ''} ${item.title || ''}' 조문을 삭제하시겠습니까?`)){
+            group.items.splice(aIdx, 1);
+            renderRegulationAdmin();
+          }
+        };
+
+        container.appendChild(card);
+      });
+    });
+
+    if($('reg-article-count')) $('reg-article-count').textContent = `${totalArticles}개 조문`;
+  }
+
+  // 서브탭 클릭 이벤트
+  document.querySelectorAll('.reg-sub-btn').forEach(btn => {
+    btn.onclick = () => {
+      activeRegId = btn.dataset.reg;
+      renderRegulationAdmin();
+    };
+  });
+
+  // 조문 추가 버튼
+  if($('reg-add-article-btn')){
+    $('reg-add-article-btn').onclick = () => {
+      const reg = getActiveRegulation();
+      if(!reg) return;
+      reg.groups = reg.groups || [{title: '본문', items: []}];
+      const lastGroup = reg.groups[reg.groups.length - 1];
+      lastGroup.items = lastGroup.items || [];
+      lastGroup.items.push({
+        number: `제 ${lastGroup.items.length + 1} 조`,
+        title: '신설 조항',
+        body: '',
+        fullText: ''
+      });
+      renderRegulationAdmin();
+    };
+  }
+
+  // 규정 PDF/HWP 업로드 이벤트
+  async function handleRegulationFileSelect(inputEl, isPdf){
+    const file = inputEl.files && inputEl.files[0];
+    if(!file) return;
+    const reg = getActiveRegulation();
+    if(!reg) return;
+
+    const fd = new FormData();
+    fd.append('kind', 'documents');
+    fd.append('attachment_role', 'document');
+    fd.append('title', file.name);
+    fd.append('file', file, file.name);
+
+    try {
+      const res = await fetch('../api/admin/upload', {method:'POST', credentials:'same-origin', body:fd});
+      if(res.ok){
+        const json = await res.json();
+        const savedPath = (json.item && json.item.url) || json.url || '';
+        if(savedPath){
+          if(isPdf) reg.pdf = savedPath;
+          else {
+            reg.hwp = savedPath;
+            reg.filename = file.name;
+          }
+          window.alert(`${file.name} 파일이 성공적으로 교체되었습니다.\n하단의 [기본 설정 저장]을 눌러 저장해 주세요.`);
+          renderRegulationAdmin();
+          return;
+        }
+      }
+    } catch(e){}
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result;
+      if(isPdf) reg.pdf = dataUrl;
+      else {
+        reg.hwp = dataUrl;
+        reg.filename = file.name;
+      }
+      window.alert(`${file.name} 파일이 선택되었습니다.\n하단의 [기본 설정 저장]을 눌러 저장해 주세요.`);
+      renderRegulationAdmin();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  if($('reg-cur-pdf-input')) $('reg-cur-pdf-input').onchange = () => handleRegulationFileSelect($('reg-cur-pdf-input'), true);
+  if($('reg-cur-hwp-input')) $('reg-cur-hwp-input').onchange = () => handleRegulationFileSelect($('reg-cur-hwp-input'), false);
+
+  renderRegulationAdmin();
+
   // 6. 기본 설정 저장
   $('s-save').onclick = async () => {
     const orgName = $('s-org').value.trim();
@@ -258,8 +440,8 @@
         updatedOrg.access.map_url = updatedSite.map_url;
       }
 
-      // 두 API 저장 요청 동시 수행
-      const [resSite, resOrg] = await Promise.all([
+      // 세 API 저장 요청 동시 수행 (site, organization, regulations)
+      const savePromises = [
         fetch('../api/admin/data', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
@@ -272,14 +454,28 @@
           credentials: 'same-origin',
           body: JSON.stringify({name: 'organization', data: updatedOrg})
         })
-      ]);
+      ];
+
+      if(Array.isArray(regulationsData) && regulationsData.length > 0){
+        savePromises.push(
+          fetch('../api/admin/data', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'same-origin',
+            body: JSON.stringify({name: 'regulations', data: regulationsData})
+          })
+        );
+      }
+
+      await Promise.all(savePromises);
 
       siteData = updatedSite;
       orgData = updatedOrg;
 
-      $('s-msg').textContent = '기본 설정과 기본현황 및 원본 파일 정보가 성공적으로 저장되었습니다.';
-      window.alert('기본 설정 및 기본현황/원본 파일 정보를 모두 저장했습니다.\n경로당 소개 페이지에 즉시 반영됩니다.');
+      $('s-msg').textContent = '기본 설정, 기본현황 및 운영규정 정보가 성공적으로 저장되었습니다.';
+      window.alert('기본 설정, 기본현황/원본 파일 및 운영규정 정보를 모두 저장했습니다.\n경로당 소개 및 운영규정 페이지에 즉시 반영됩니다.');
       updatePreviews();
+      renderRegulationAdmin();
     } catch(error){
       $('s-msg').textContent = error.message || '저장 중 오류가 발생했습니다.';
     } finally {

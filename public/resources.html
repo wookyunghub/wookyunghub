@@ -25,20 +25,28 @@
   </section>
 
   <!-- 자료실 탭 메뉴: 전체/서식/문서/사진 -->
-  <nav class="res-nav-tabs" role="tablist" aria-label="자료실 분류 탭">
-    <button type="button" class="res-nav-tab active" data-tab="all" role="tab" aria-selected="true">
-      <span class="tab-label">전체</span>
-    </button>
-    <button type="button" class="res-nav-tab" data-tab="forms" role="tab" aria-selected="false">
-      <span class="tab-label">서식</span>
-    </button>
-    <button type="button" class="res-nav-tab" data-tab="docs" role="tab" aria-selected="false">
-      <span class="tab-label">문서</span>
-    </button>
-    <button type="button" class="res-nav-tab" data-tab="photos" role="tab" aria-selected="false">
-      <span class="tab-label">사진</span>
-    </button>
-  </nav>
+  <!-- 자료실 상단 컨트롤 바: 탭 메뉴 & 실시간 검색창 -->
+  <div class="res-control-bar">
+    <nav class="res-nav-tabs" role="tablist" aria-label="자료실 분류 탭">
+      <button type="button" class="res-nav-tab active" data-tab="all" role="tab" aria-selected="true">
+        <span class="tab-icon">📑</span><span class="tab-label">전체</span>
+      </button>
+      <button type="button" class="res-nav-tab" data-tab="forms" role="tab" aria-selected="false">
+        <span class="tab-icon">📋</span><span class="tab-label">서식</span>
+      </button>
+      <button type="button" class="res-nav-tab" data-tab="docs" role="tab" aria-selected="false">
+        <span class="tab-icon">📄</span><span class="tab-label">문서</span>
+      </button>
+      <button type="button" class="res-nav-tab" data-tab="photos" role="tab" aria-selected="false">
+        <span class="tab-icon">📷</span><span class="tab-label">사진</span>
+      </button>
+    </nav>
+    <div class="res-search-wrap">
+      <span class="res-search-icon">🔍</span>
+      <input type="search" id="res-search-input" class="res-search-input" placeholder="서식명, 문서 제목, 파일명 검색..." aria-label="자료 검색">
+      <button type="button" id="res-search-clear" class="res-search-clear" title="검색 지우기" hidden>✕</button>
+    </div>
+  </div>
 
   <!-- 1. 서식 섹션 -->
   <section id="section-forms" class="content-panel res-section">

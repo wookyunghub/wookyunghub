@@ -225,6 +225,135 @@
       font-weight: 700;
     }
 
+    /* 운영규정 관리 스타일 */
+    .reg-sub-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+      background: #f7f3ee;
+      padding: 6px;
+      border-radius: 8px;
+      border: 1px solid #e5dcce;
+    }
+    .reg-sub-btn {
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #554433;
+      background: #ffffff;
+      border: 1px solid #dcd1c2;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all .15s ease;
+    }
+    .reg-sub-btn:hover {
+      background: #eee6d9;
+    }
+    .reg-sub-btn.active {
+      background: #526c49;
+      color: #ffffff;
+      border-color: #526c49;
+    }
+    .reg-files-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .reg-file-card {
+      background: #faf8f5;
+      border: 1px solid #e3d9cd;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .reg-file-card-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #3b2e22;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .reg-article-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .reg-article-card {
+      background: #faf8f5;
+      border: 1px solid #e4dacd;
+      border-radius: 8px;
+      padding: 12px 14px;
+      transition: border-color .15s ease;
+    }
+    .reg-article-card:hover {
+      border-color: #819a7b;
+    }
+    .reg-article-card-head {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .reg-article-num-input {
+      width: 110px !important;
+      font-weight: 700 !important;
+    }
+    .reg-article-title-input {
+      flex: 1;
+      font-weight: 700 !important;
+    }
+    .reg-article-textarea {
+      width: 100%;
+      min-height: 80px;
+      font-size: 13px;
+      line-height: 1.5;
+      padding: 8px 10px;
+      border: 1px solid #d5c9ba;
+      border-radius: 6px;
+      font-family: inherit;
+      resize: vertical;
+      background: #ffffff;
+      box-sizing: border-box;
+    }
+    .btn-del-article {
+      background: #fff0f0;
+      color: #c93b3b;
+      border: 1px solid #f0c5c5;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-del-article:hover {
+      background: #ffdcdc;
+    }
+    .btn-add-article {
+      width: 100%;
+      padding: 10px;
+      background: #f4eee5;
+      border: 1px dashed #c0b2a2;
+      border-radius: 8px;
+      color: #4a3e33;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all .15s ease;
+    }
+    .btn-add-article:hover {
+      background: #eae2d6;
+      border-color: #819a7b;
+      color: #2b221a;
+    }
+
     @media(max-width: 640px) {
       .compact-form-grid,
       .compact-form-grid-3 {
@@ -263,6 +392,7 @@
     <nav class="settings-tab-nav" role="tablist">
       <button type="button" class="settings-tab-btn active" data-tab="tab-basic">📋 기본현황 & 시설 정보</button>
       <button type="button" class="settings-tab-btn" data-tab="tab-files">📁 원본 서류 & 평면도 관리</button>
+      <button type="button" class="settings-tab-btn" data-tab="tab-regulations">📜 운영규정 관리</button>
       <button type="button" class="settings-tab-btn" data-tab="tab-site">🌐 사이트 & 대표 이미지</button>
     </nav>
 
@@ -484,7 +614,66 @@
       </section>
     </div>
 
-    <!-- [탭 3] 사이트 및 대표 이미지 -->
+    <!-- [탭 3] 운영규정 관리 -->
+    <div id="tab-regulations" class="settings-tab-content" hidden>
+      <section class="settings-group-card">
+        <h2 class="settings-group-title">
+          <span>📜 경로당 운영규정 4종 관리</span>
+          <small>다운로드 원본 파일(HWP/PDF) 교체 및 웹 화면 조문 텍스트 수정</small>
+        </h2>
+
+        <!-- 규정 선택 서브 탭 -->
+        <nav class="reg-sub-nav" role="tablist">
+          <button type="button" class="reg-sub-btn active" data-reg="operation">1. 대한노인회 운영규정</button>
+          <button type="button" class="reg-sub-btn" data-reg="bylaws">2. 경로당운영규정 시행규칙</button>
+          <button type="button" class="reg-sub-btn" data-reg="travel">3. 경로당 여비규정</button>
+          <button type="button" class="reg-sub-btn" data-reg="reference">4. 여비규정 참고자료</button>
+        </nav>
+
+        <!-- 선택된 규정의 원본 파일 관리 -->
+        <div class="reg-files-grid">
+          <!-- PDF 열람본 -->
+          <div class="reg-file-card">
+            <div class="reg-file-card-title">
+              <span>📄 PDF 열람본 파일</span>
+              <a id="reg-cur-pdf-link" href="#" target="_blank" class="small" style="color:#526c49;text-decoration:underline;">열람 테스트 ↗</a>
+            </div>
+            <div class="img-input-wrap" style="width:100%;">
+              <input id="reg-cur-pdf" class="img-path-input" placeholder="assets/docs/regulations/..." readonly>
+              <label class="btn-file-select">PDF 파일 교체<input type="file" id="reg-cur-pdf-input" accept=".pdf,application/pdf" hidden></label>
+            </div>
+            <small style="color:#837262;">공개 규정 페이지 상단 [📄 PDF 열람본 ↗] 버튼 클릭 시 열리는 파일</small>
+          </div>
+
+          <!-- HWP 원본 -->
+          <div class="reg-file-card">
+            <div class="reg-file-card-title">
+              <span>💾 HWP 원본 다운로드 파일</span>
+              <a id="reg-cur-hwp-link" href="#" download class="small" style="color:#526c49;text-decoration:underline;">다운로드 테스트</a>
+            </div>
+            <div class="img-input-wrap" style="width:100%;">
+              <input id="reg-cur-hwp" class="img-path-input" placeholder="assets/docs/regulations/..." readonly>
+              <label class="btn-file-select">HWP 파일 교체<input type="file" id="reg-cur-hwp-input" accept=".hwp,.hwpx,application/x-hwp" hidden></label>
+            </div>
+            <small style="color:#837262;">공개 규정 페이지 상단 [💾 HWP 원본] 버튼 클릭 시 다운로드되는 파일</small>
+          </div>
+        </div>
+
+        <!-- 조문 편집기 -->
+        <div style="margin-top:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;border-bottom:1px dashed #e2d9cd;padding-bottom:6px;">
+            <strong id="reg-section-title" style="font-size:13.5px;color:#3b2e22;">웹 화면 조문 텍스트 목록</strong>
+            <span id="reg-article-count" class="badge" style="background:#526c49;color:#fff;">0개 조문</span>
+          </div>
+          <div id="reg-article-container" class="reg-article-list">
+            <!-- 동적으로 생성되는 조문 카드들 -->
+          </div>
+          <button type="button" id="reg-add-article-btn" class="btn-add-article">➕ 새 조문(조항) 추가하기</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- [탭 4] 사이트 및 대표 이미지 -->
     <div id="tab-site" class="settings-tab-content" hidden>
       <!-- 기관 기본 정보 -->
       <section class="settings-group-card">

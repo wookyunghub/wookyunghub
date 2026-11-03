@@ -375,6 +375,14 @@ class Handler(SimpleHTTPRequestHandler):
             rows=[]
             for m in mods:rows.extend(REPO.list_records(m,public_only=True))
             rows.sort(key=lambda x:x.get('date',''),reverse=True);return self.json({'records':[public_news_record(r) for r in rows]})
+        if path=='/api/public/regulations':
+            data=REPO.read('regulations',None)
+            if data is None:
+                p=PUBLIC/'data'/'regulations.json'
+                if p.exists():
+                    try:data=json.loads(p.read_text(encoding='utf-8'))
+                    except Exception:pass
+            return self.json(data or [])
         if path=='/api/public/resources':
             d=read_json(STORAGE/'resources.json',{'documents':[],'photos':[],'receipts':[]})
             return self.json({
@@ -395,6 +403,14 @@ class Handler(SimpleHTTPRequestHandler):
             if not self.need_admin():return
             name=q.get('name',[''])[0]
             if name=='site':return self.json(REPO.read('site',{}))
+            if name=='regulations':
+                data=REPO.read('regulations',None)
+                if data is None:
+                    p=PUBLIC/'data'/'regulations.json'
+                    if p.exists():
+                        try:data=json.loads(p.read_text(encoding='utf-8'))
+                        except Exception:pass
+                return self.json(data or [])
             if name in ('about','organization'):return self.json(REPO.read('organization',{}))
             if name in ('ledgers','publications'):
                 if not self.need_publication_management():return
@@ -547,6 +563,16 @@ class Handler(SimpleHTTPRequestHandler):
                 REPO.write('site',obj);sync_public_organization(REPO.organization_data());return self.json({'ok':True})
             if name in ('about','organization'):
                 REPO.write('organization',obj);sync_public_organization(obj);return self.json({'ok':True})
+            if name=='regulations':
+                if not isinstance(obj, list): return self.json({'error':'규정 데이터 형식이 올바르지 않습니다.'}, 400)
+                REPO.write('regulations', obj)
+                pub_json = PUBLIC / 'data' / 'regulations.json'
+                pub_json.parent.mkdir(parents=True, exist_ok=True)
+                pub_json.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding='utf-8')
+                pub_js = PUBLIC / 'assets' / 'js' / 'regulations-data.js'
+                pub_js.parent.mkdir(parents=True, exist_ok=True)
+                pub_js.write_text('window.CenterHubRegulations = ' + json.dumps(obj, ensure_ascii=False, indent=2) + ';\n', encoding='utf-8')
+                return self.json({'ok': True})
             return self.json({'error':'이 데이터는 통합 기록 관리에서 수정해 주세요.'},400)
         if path in ('/api/admin/upload','/api/admin/files'):
             if not self.need_admin():return

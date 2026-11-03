@@ -1,7 +1,7 @@
 (async()=>{
   const C = window.CenterHubCommon;
   await C.siteReady;
-  
+
   async function fetchJsonSafe(url){
     try{
       const r = await fetch(url, {cache:'no-store'});
@@ -32,7 +32,7 @@
 
   // 정렬 기준:
   // 1. 서식자료: 이름순 (가나다/한글 자모순)
-  // 2. 일반문서 / 사진: 날짜 최신순 + 연도별 그룹핑
+  // 2. 일반문서 / 사진: 날짜 최신순 + 연도별 그룹
   const sortDateDesc = (a, b) => (b.date || '').localeCompare(a.date || '');
   const sortNameKo = (a, b) => {
     const nameA = a.title || a.name || '';
@@ -45,7 +45,20 @@
   const normalDocs = allDocs.filter(x => x.attachment_role !== 'form').sort(sortDateDesc);
   const allPhotos = [...(merged.photos || [])].filter(x => x.public !== false).sort(sortDateDesc);
 
-  // 연도별 그룹핑 유틸 함수
+  let currentSearch = '';
+
+  function filterBySearch(items, q){
+    if(!q) return items;
+    return items.filter(x => {
+      const t = (x.title || '').toLowerCase();
+      const n = (x.name || '').toLowerCase();
+      const d = (x.description || '').toLowerCase();
+      const dt = (x.date || '');
+      return t.includes(q) || n.includes(q) || d.includes(q) || dt.includes(q);
+    });
+  }
+
+  // 연도별 그룹핑 헬퍼 함수
   function groupByYear(items) {
     const groups = {};
     for (const item of items) {
@@ -64,9 +77,6 @@
   const formsCount = document.getElementById('forms-count');
   const docsCount = document.getElementById('docs-count');
   const photosCount = document.getElementById('photos-count');
-  if(formsCount) formsCount.textContent = forms.length + '건';
-  if(docsCount) docsCount.textContent = normalDocs.length + '건';
-  if(photosCount) photosCount.textContent = allPhotos.length + '건';
 
   function toMediaUrl(url){
     if(!url) return '#';
@@ -88,213 +98,283 @@
 
   function renderCard(x, isForm){
     const fileUrl = toMediaUrl(x.url);
-    const ext = (x.url || x.name || '').split('?')[0].split('.').pop().toUpperCase().slice(0, 5) || '문서';
+    const ext = (x.url || x.name || '').split('?')[0].split('.').pop().toUpperCase().slice(0, 5) || '파일';
     const isPdf = ext === 'PDF';
     const rawPdf = x.pdf ? (typeof x.pdf === 'object' ? x.pdf.url : x.pdf) : '';
     const pdfUrl = rawPdf ? toMediaUrl(rawPdf) : (isPdf ? fileUrl : '');
-    const title = esc(x.title || x.name || '자료');
+    const title = esc(x.title || x.name || '자료명');
     const filename = esc(x.name || (isForm ? '서식자료.' + ext.toLowerCase() : '문서.' + ext.toLowerCase()));
     const date = esc(x.date || '날짜 미입력');
     const desc = esc(x.description || '');
 
+    const badgeClass = ext === 'HWP' ? 'badge-hwp' : (ext === 'PDF' ? 'badge-pdf' : 'badge-etc');
+
     return `<article class="res-item-card ${isForm ? 'form-card' : ''}">
       <div class="res-card-top">
-        <span class="res-badge ${isForm ? 'res-badge-form' : ''}">${isForm ? '📋 서식' : '📄 문서'}</span>
-        <span class="res-ext-badge ext-${ext.toLowerCase()}">${ext}</span>
+        <span class="res-file-badge ${badgeClass}">${ext}</span>
+        <div class="res-card-content">
+          <h3 class="res-card-title">${title}</h3>
+          <div class="res-card-filename">
+            <span>${filename}</span>
+            ${!isForm && x.date ? `<span style="margin-left:8px;color:#8a796b;">📅 ${date}</span>` : ''}
+          </div>
+          ${desc ? `<p style="font-size:12px;color:#7a6859;margin:2px 0 0;">${desc}</p>` : ''}
+        </div>
       </div>
-      <h3 class="res-card-title">${title}</h3>
-      <span class="res-card-date">${date}</span>
-      ${desc ? `<p class="res-card-desc">${desc}</p>` : ''}
       <div class="res-card-actions">
-        ${pdfUrl && !isPdf ? `<a class="btn res-btn-view" href="${pdfUrl}" target="_blank" rel="noopener">열람본(PDF)</a>` : ''}
-        ${isPdf ? `<a class="btn res-btn-view" href="${fileUrl}" target="_blank" rel="noopener">열람</a>` : ''}
-        <a class="btn primary res-btn-download" href="${fileUrl}" download="${filename}" data-file-download="true" target="_blank" rel="noopener">
+        ${pdfUrl ? `
+          <a class="btn res-btn-view" href="${pdfUrl}" target="_blank" rel="noopener" title="${title} 열람">
+            <span>열람 ↗</span>
+          </a>
+        ` : ''}
+        <a class="btn primary res-btn-download" href="${fileUrl}" download="${filename}" data-file-download="true" title="${title} 다운로드">
           <span>다운로드</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         </a>
       </div>
     </article>`;
   }
 
-  // 1. 서식자료 렌더링 (이름순/가나다순)
-  const formsEl = document.getElementById('resource-forms');
-  if(formsEl){
-    formsEl.innerHTML = forms.length
-      ? forms.map(x => renderCard(x, true)).join('')
-      : '<div class="empty-state compact-empty">등록된 공개 서식자료가 없습니다.</div>';
+  function renderForms(list){
+    const formsEl = document.getElementById('resource-forms');
+    if(!formsEl) return;
+    if(!list.length){
+      formsEl.innerHTML = currentSearch
+        ? `<div class="empty-state compact-empty">'${esc(currentSearch)}' 검색어와 일치하는 서식이 없습니다.</div>`
+        : '<div class="empty-state compact-empty">등록된 공개 서식자료가 없습니다.</div>';
+      return;
+    }
+    formsEl.innerHTML = list.map(x => renderCard(x, true)).join('');
   }
 
-  // 2. 일반문서 렌더링 (날짜 최신순 + 연도별 그룹핑)
-  const docsEl = document.getElementById('resource-docs');
-  if(docsEl){
-    if(!normalDocs.length){
-      docsEl.innerHTML = '<div class="empty-state compact-empty">등록된 공개 일반문서가 없습니다.</div>';
-    } else {
-      const docGroups = groupByYear(normalDocs);
-      docsEl.innerHTML = docGroups.map(g => `
-        <div class="res-year-group">
-          <div class="res-year-header">
-            <span class="res-year-badge">📅 ${g.year === '기타' ? '연도 미입력' : g.year + '년'}</span>
-            <span class="res-year-count">총 ${g.items.length}건</span>
-          </div>
-          <div class="resource-grid">
-            ${g.items.map(x => renderCard(x, false)).join('')}
-          </div>
+  function renderDocs(list){
+    const docsEl = document.getElementById('resource-docs');
+    if(!docsEl) return;
+    if(!list.length){
+      docsEl.innerHTML = currentSearch
+        ? `<div class="empty-state compact-empty">'${esc(currentSearch)}' 검색어와 일치하는 일반문서가 없습니다.</div>`
+        : '<div class="empty-state compact-empty">등록된 공개 일반문서가 없습니다.</div>';
+      return;
+    }
+    const docGroups = groupByYear(list);
+    docsEl.innerHTML = docGroups.map(g => `
+      <div class="res-year-group">
+        <div class="res-year-header">
+          <span class="res-year-badge">📁 ${esc(g.year)}년</span>
+          <span class="res-year-count">${g.items.length}건</span>
         </div>
-      `).join('');
-    }
-  }
-
-  // 3. 사진자료 렌더링 (날짜 최신순 + 연도별 그룹핑)
-  const photosEl = document.getElementById('resource-photos');
-  const photoDialog = document.getElementById('photo-dialog');
-  const photoDialogTitle = document.getElementById('photo-dialog-title');
-  const photoDialogImg = document.getElementById('photo-dialog-img');
-  const photoDialogDesc = document.getElementById('photo-dialog-desc');
-  const photoDialogClose = document.getElementById('photo-dialog-close');
-  const photoDialogDl = document.getElementById('photo-dialog-download');
-
-  if(photosEl){
-    if(!allPhotos.length){
-      photosEl.innerHTML = '<div class="empty-state compact-empty">등록된 공개 사진이 없습니다.</div>';
-    } else {
-      const photoGroups = groupByYear(allPhotos);
-      photosEl.innerHTML = photoGroups.map(g => `
-        <div class="res-year-group">
-          <div class="res-year-header">
-            <span class="res-year-badge">📷 ${g.year === '기타' ? '연도 미입력' : g.year + '년'}</span>
-            <span class="res-year-count">총 ${g.items.length}장</span>
-          </div>
-          <div class="activity-grid">
-            ${g.items.map(x => {
-              const url = toMediaUrl(x.url);
-              const title = esc(x.title || x.name || '활동 사진');
-              const date = esc(x.date || '날짜 미입력');
-              return `<button type="button" class="activity-card res-photo-btn" data-id="${esc(x.id)}" aria-label="${title} 크게 보기">
-                <div class="activity-thumb">
-                  <img src="${url}" alt="${title}" loading="lazy">
-                </div>
-                <b>${title}</b>
-                <small>${date}</small>
-              </button>`;
-            }).join('')}
-          </div>
+        <div class="resource-grid">
+          ${g.items.map(x => renderCard(x, false)).join('')}
         </div>
-      `).join('');
+      </div>
+    `).join('');
+  }
+
+  function renderPhotos(list){
+    const photosEl = document.getElementById('resource-photos');
+    if(!photosEl) return;
+    if(!list.length){
+      photosEl.innerHTML = currentSearch
+        ? `<div class="empty-state compact-empty">'${esc(currentSearch)}' 검색어와 일치하는 사진이 없습니다.</div>`
+        : '<div class="empty-state compact-empty">등록된 공개 사진자료가 없습니다.</div>';
+      return;
+    }
+    const photoGroups = groupByYear(list);
+    photosEl.innerHTML = photoGroups.map(g => `
+      <div class="res-year-group">
+        <div class="res-year-header">
+          <span class="res-year-badge">📷 ${esc(g.year)}년</span>
+          <span class="res-year-count">${g.items.length}건</span>
+        </div>
+        <div class="res-photo-grid">
+          ${g.items.map((x, idx) => {
+            const fileUrl = toMediaUrl(x.url);
+            const thumbUrl = x.thumb ? toMediaUrl(x.thumb) : fileUrl;
+            const title = esc(x.title || x.name || '활동 사진');
+            const date = esc(x.date || '날짜 미입력');
+            const desc = esc(x.description || '');
+            return `<article class="res-photo-card" data-photo-id="${esc(x.id || idx)}" data-photo-url="${fileUrl}" data-photo-title="${title}" data-photo-date="${date}" data-photo-desc="${desc}">
+              <div class="res-photo-thumb-wrap">
+                <img src="${thumbUrl}" alt="${title}" loading="lazy" class="res-photo-img" onerror="this.src='assets/img/building.jpg'">
+              </div>
+              <div class="res-photo-info">
+                <div class="res-photo-title">${title}</div>
+                <div class="res-photo-date">📅 ${date}</div>
+              </div>
+            </article>`;
+          }).join('')}
+        </div>
+      </div>
+    `).join('');
+
+    bindPhotoClick();
+  }
+
+  function renderAll(){
+    const q = currentSearch.toLowerCase().trim();
+    const filteredForms = filterBySearch(forms, q);
+    const filteredDocs = filterBySearch(normalDocs, q);
+    const filteredPhotos = filterBySearch(allPhotos, q);
+
+    if(formsCount){
+      formsCount.textContent = q ? `${filteredForms.length}건 / ${forms.length}건` : `${forms.length}건`;
+    }
+    if(docsCount){
+      docsCount.textContent = q ? `${filteredDocs.length}건 / ${normalDocs.length}건` : `${normalDocs.length}건`;
+    }
+    if(photosCount){
+      photosCount.textContent = q ? `${filteredPhotos.length}건 / ${allPhotos.length}건` : `${allPhotos.length}건`;
     }
 
-    photosEl.addEventListener('click', (e) => {
-      const btn = e.target.closest('.res-photo-btn');
-      if(!btn || !photoDialog) return;
-      const itemId = btn.dataset.id;
-      const item = allPhotos.find(x => String(x.id) === itemId);
-      if(!item) return;
+    renderForms(filteredForms);
+    renderDocs(filteredDocs);
+    renderPhotos(filteredPhotos);
+  }
 
-      const url = toMediaUrl(item.url);
-      const title = item.title || item.name || '활동 사진';
-      const date = item.date || '';
-      const desc = item.description || '';
+  // 검색창 바인딩
+  const searchInput = document.getElementById('res-search-input');
+  const searchClear = document.getElementById('res-search-clear');
 
-      if(photoDialogTitle) photoDialogTitle.textContent = title;
-      if(photoDialogImg){
-        photoDialogImg.src = url;
-        photoDialogImg.alt = title;
-      }
-      if(photoDialogDesc){
-        photoDialogDesc.textContent = [date, desc].filter(Boolean).join(' · ');
-      }
-      if(photoDialogDl){
-        photoDialogDl.href = url;
-        photoDialogDl.download = item.name || '사진.jpg';
-      }
-      resetPhotoTransform();
-      photoDialog.showModal();
+  if(searchInput){
+    searchInput.addEventListener('input', e => {
+      currentSearch = e.target.value;
+      if(searchClear) searchClear.hidden = !currentSearch;
+      renderAll();
     });
   }
 
-  let photoScale = 1, photoRotate = 0;
-  function applyPhotoTransform(){
-    if(photoDialogImg) photoDialogImg.style.transform = `translateZ(0) scale(${photoScale}) rotate(${photoRotate}deg)`;
-  }
-  function resetPhotoTransform(){
-    photoScale = 1; photoRotate = 0; applyPhotoTransform();
-  }
-
-  document.getElementById('photo-zoom-in')?.addEventListener('click', () => {
-    photoScale = Math.min(4, Number((photoScale + 0.2).toFixed(2)));
-    applyPhotoTransform();
-  });
-  document.getElementById('photo-zoom-out')?.addEventListener('click', () => {
-    photoScale = Math.max(0.4, Number((photoScale - 0.2).toFixed(2)));
-    applyPhotoTransform();
-  });
-  document.getElementById('photo-rotate-left')?.addEventListener('click', () => {
-    photoRotate -= 90;
-    applyPhotoTransform();
-  });
-  document.getElementById('photo-rotate-right')?.addEventListener('click', () => {
-    photoRotate += 90;
-    applyPhotoTransform();
-  });
-  document.getElementById('photo-reset')?.addEventListener('click', resetPhotoTransform);
-
-  if(photoDialogImg){
-    photoDialogImg.addEventListener('wheel', e => {
-      e.preventDefault();
-      const delta = e.deltaY < 0 ? 0.1 : -0.1;
-      photoScale = Math.max(0.4, Math.min(4, Number((photoScale + delta).toFixed(2))));
-      applyPhotoTransform();
-    }, { passive: false });
-  }
-
-  if(photoDialog){
-    if(photoDialogClose){
-      photoDialogClose.onclick = () => { resetPhotoTransform(); photoDialog.close(); };
-    }
-    photoDialog.addEventListener('click', (e) => {
-      if(e.target === photoDialog) { resetPhotoTransform(); photoDialog.close(); }
-    });
-    photoDialog.addEventListener('close', resetPhotoTransform);
-    document.addEventListener('keydown', e => {
-      if(!photoDialog.hasAttribute('open')) return;
-      if(e.key === 'Escape') { resetPhotoTransform(); photoDialog.close(); }
-      else if(e.key === '+' || e.key === '=') { photoScale = Math.min(4, Number((photoScale + 0.2).toFixed(2))); applyPhotoTransform(); }
-      else if(e.key === '-') { photoScale = Math.max(0.4, Number((photoScale - 0.2).toFixed(2))); applyPhotoTransform(); }
-      else if(e.key === '[') { photoRotate -= 90; applyPhotoTransform(); }
-      else if(e.key === ']') { photoRotate += 90; applyPhotoTransform(); }
+  if(searchClear){
+    searchClear.addEventListener('click', () => {
+      currentSearch = '';
+      if(searchInput){
+        searchInput.value = '';
+        searchInput.focus();
+      }
+      searchClear.hidden = true;
+      renderAll();
     });
   }
 
-  // Tab switching logic
-  const secForms = document.getElementById('section-forms');
-  const secDocs = document.getElementById('section-docs');
-  const secPhotos = document.getElementById('section-photos');
+  // 4. 분류 탭 전환 로직 (전체 / 서식 / 문서 / 사진)
+  const navTabs = document.querySelectorAll('.res-nav-tab');
+  const sections = {
+    forms: document.getElementById('section-forms'),
+    docs: document.getElementById('section-docs'),
+    photos: document.getElementById('section-photos')
+  };
 
-  function applyTab(tab){
-    document.querySelectorAll('.res-nav-tab').forEach(t => {
-      const active = t.dataset.tab === tab;
+  function switchTab(tabKey) {
+    navTabs.forEach(t => {
+      const active = t.dataset.tab === tabKey;
       t.classList.toggle('active', active);
       t.setAttribute('aria-selected', String(active));
     });
-    if(secForms) secForms.hidden = (tab !== 'all' && tab !== 'forms');
-    if(secDocs) secDocs.hidden = (tab !== 'all' && tab !== 'docs');
-    if(secPhotos) secPhotos.hidden = (tab !== 'all' && tab !== 'photos');
+
+    if(tabKey === 'all') {
+      Object.values(sections).forEach(sec => { if(sec) sec.style.display = ''; });
+    } else {
+      Object.entries(sections).forEach(([key, sec]) => {
+        if(!sec) return;
+        sec.style.display = (key === tabKey) ? '' : 'none';
+      });
+    }
   }
 
-  const initialTab = ['forms','docs','photos','all'].includes(location.hash.replace('#','')) ? location.hash.replace('#','') : 'all';
-  applyTab(initialTab);
-
-  window.addEventListener('hashchange', () => {
-    const hash = location.hash.replace('#','');
-    const tab = ['forms','docs','photos','all'].includes(hash) ? hash : 'all';
-    applyTab(tab);
+  navTabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab;
+      switchTab(target);
+      if(location.hash !== '#' + target) {
+        history.replaceState(null, '', '#' + target);
+      }
+    });
   });
 
-  document.querySelectorAll('.res-nav-tab').forEach(t => {
-    t.onclick = () => {
-      const tab = t.dataset.tab;
-      try { history.replaceState(null, '', '#' + tab); } catch(e){}
-      applyTab(tab);
-    };
-  });
+  const initialHash = (location.hash || '').replace('#', '');
+  if (['forms', 'docs', 'photos', 'all'].includes(initialHash)) {
+    switchTab(initialHash);
+  } else {
+    switchTab('all');
+  }
+
+  // 5. 사진 상세보기 모달 다이얼로그 바인딩
+  const dialog = document.getElementById('photo-dialog');
+  const dialogImg = document.getElementById('photo-dialog-img');
+  const dialogTitle = document.getElementById('photo-dialog-title');
+  const dialogMeta = document.getElementById('photo-dialog-meta');
+  const dialogDesc = document.getElementById('photo-dialog-desc');
+  const dialogDownload = document.getElementById('photo-dialog-download');
+  const dialogClose = document.getElementById('photo-dialog-close');
+
+  let currentScale = 1;
+  let currentRotation = 0;
+
+  function updateTransform() {
+    if(!dialogImg) return;
+    dialogImg.style.transform = `scale(${currentScale}) rotate(${currentRotation}deg)`;
+  }
+
+  function resetTransform() {
+    currentScale = 1;
+    currentRotation = 0;
+    updateTransform();
+  }
+
+  function bindPhotoClick(){
+    document.querySelectorAll('.res-photo-card').forEach(card => {
+      card.onclick = () => {
+        if(!dialog || !dialogImg) return;
+        const url = card.dataset.photoUrl;
+        const title = card.dataset.photoTitle || '사진 미리보기';
+        const date = card.dataset.photoDate || '';
+        const desc = card.dataset.photoDesc || '';
+
+        dialogImg.src = url;
+        dialogImg.alt = title;
+        if(dialogTitle) dialogTitle.textContent = title;
+        if(dialogMeta) dialogMeta.textContent = date ? `촬영·등록일: ${date}` : '';
+        if(dialogDesc) {
+          dialogDesc.textContent = desc;
+          dialogDesc.style.display = desc ? 'block' : 'none';
+        }
+        if(dialogDownload) {
+          dialogDownload.href = url;
+          dialogDownload.download = title + '.jpg';
+        }
+        resetTransform();
+        if(typeof dialog.showModal === 'function') {
+          dialog.showModal();
+        } else {
+          dialog.setAttribute('open', '');
+        }
+      };
+    });
+  }
+
+  if(dialogClose && dialog) {
+    dialogClose.addEventListener('click', () => {
+      if(typeof dialog.close === 'function') dialog.close();
+      else dialog.removeAttribute('open');
+    });
+    dialog.addEventListener('click', e => {
+      if(e.target === dialog) {
+        if(typeof dialog.close === 'function') dialog.close();
+        else dialog.removeAttribute('open');
+      }
+    });
+  }
+
+  const btnZoomIn = document.getElementById('photo-zoom-in');
+  const btnZoomOut = document.getElementById('photo-zoom-out');
+  const btnRotLeft = document.getElementById('photo-rotate-left');
+  const btnRotRight = document.getElementById('photo-rotate-right');
+  const btnReset = document.getElementById('photo-reset');
+
+  if(btnZoomIn) btnZoomIn.onclick = () => { currentScale = Math.min(3, currentScale + 0.25); updateTransform(); };
+  if(btnZoomOut) btnZoomOut.onclick = () => { currentScale = Math.max(0.5, currentScale - 0.25); updateTransform(); };
+  if(btnRotLeft) btnRotLeft.onclick = () => { currentRotation = (currentRotation - 90) % 360; updateTransform(); };
+  if(btnRotRight) btnRotRight.onclick = () => { currentRotation = (currentRotation + 90) % 360; updateTransform(); };
+  if(btnReset) btnReset.onclick = resetTransform;
+
+  // 초기 전체 렌더링
+  renderAll();
 })();

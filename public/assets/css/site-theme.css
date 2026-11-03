@@ -846,3 +846,158 @@ body .basic-toggle-btn {
   color: #7d6b5c;
   font-weight: 700;
 }
+
+/* ========================================================
+   자료실 상단 컨트롤 바 (탭 & 실시간 검색창) & 관리자 스타일 컴팩트 레이아웃
+   ======================================================== */
+.res-control-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 14px 0 18px;
+  border-bottom: 2px solid #dfd2c4;
+  padding-bottom: 8px;
+}
+.res-control-bar .res-nav-tabs {
+  margin: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.res-search-wrap {
+  display: inline-flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1.5px solid #d3c4b5;
+  border-radius: 8px;
+  padding: 4px 10px;
+  gap: 8px;
+  box-shadow: 0 1px 4px rgba(70,50,30,0.06);
+  min-width: 260px;
+  max-width: 100%;
+}
+.res-search-wrap:focus-within {
+  border-color: #526c49;
+  box-shadow: 0 0 0 2px rgba(82,108,73,0.15);
+}
+.res-search-input {
+  border: none;
+  outline: none;
+  font-size: 13.5px;
+  color: #3b2e22;
+  flex: 1;
+  background: transparent;
+  padding: 4px 0;
+  font-family: inherit;
+}
+.res-search-clear {
+  background: none;
+  border: none;
+  color: #9d8d80;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+}
+.res-search-clear:hover {
+  color: #3b2e22;
+}
+
+/* 관리자 첨부자료 관리 스타일의 깔끔한 가로 행 카드 */
+.resource-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+.res-item-card {
+  background: #ffffff;
+  border: 1px solid #e2d9cd;
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px;
+  box-shadow: 0 1px 4px rgba(70,50,30,0.03);
+  transition: all .15s ease;
+}
+.res-item-card:hover {
+  border-color: #819a7b;
+  box-shadow: 0 3px 8px rgba(82,108,73,0.1);
+  transform: translateY(-1px);
+}
+.res-item-card.form-card {
+  border-left: 5px solid #526c49 !important;
+  background: #fdfcf9;
+}
+.res-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+.res-card-top .res-badge {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.res-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.res-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #312317;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.res-card-filename {
+  font-size: 12px;
+  color: #837262;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.res-card-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+}
+.res-card-actions .btn {
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+@media(max-width: 640px) {
+  .res-control-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .res-search-wrap {
+    width: 100%;
+  }
+  .res-item-card {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px;
+    padding: 12px 14px;
+  }
+  .res-card-actions {
+    justify-content: flex-end;
+    border-top: 1px solid #f0e9df;
+    padding-top: 8px;
+  }
+}

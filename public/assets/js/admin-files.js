@@ -206,9 +206,36 @@
     return `<article class="file-item"><button type="button" class="file-preview" data-view="${esc(x.id)}" data-kind="${x._kind}" aria-label="상세보기: ${esc(x.title||x.name)}">${thumb(x)}</button><div class="file-item-body"><button type="button" class="file-item-title" data-view="${esc(x.id)}" data-kind="${x._kind}">${esc(x.title||x.name)}</button><small>${esc(roles[x.attachment_role]||labels[x._kind])} · <strong>${esc(x.date||'날짜 미입력')}</strong> · ${x.public?'공개':'비공개'}</small><p>${esc(x.description||'')}</p><small>연결 기록: ${esc(linksText(x)||'없음 · 독립 자료')}</small></div><div class="file-item-actions"><button class="btn" data-view="${esc(x.id)}" data-kind="${x._kind}">상세</button><button class="btn" data-edit="${esc(x.id)}" data-kind="${x._kind}">수정</button><button class="btn danger" data-del="${esc(x.id)}" data-kind="${x._kind}">삭제</button></div></article>`;
   }
 
-  function groupHtml(title, icon, items){
-    if(!items.length) return '';
-    return `<div class="file-group-heading"><span class="file-group-title">${icon} ${title}</span><span class="file-group-count">${items.length}건 · 날짜순(최신순) 정렬</span></div><div class="file-cards">${items.map(card).join('')}</div>`;
+  let adminFileSearch = '';
+
+  function groupHtml(title, icon, rawItems){
+    if(!rawItems.length && !adminFileSearch) return '';
+    const q = adminFileSearch.toLowerCase().trim();
+    const items = q ? rawItems.filter(x => {
+      const t = (x.title || '').toLowerCase();
+      const n = (x.name || '').toLowerCase();
+      const d = (x.description || '').toLowerCase();
+      const dt = (x.date || '');
+      return t.includes(q) || n.includes(q) || d.includes(q) || dt.includes(q);
+    }) : rawItems;
+
+    const countHtml = q
+      ? `<span class="file-group-count"><strong style="color:#8e583c;">${items.length}건 검색됨</strong> (전체 ${rawItems.length}건)</span>`
+      : `<span class="file-group-count">${rawItems.length}건</span>`;
+
+    const searchHtml = `
+      <div class="file-group-search-wrap">
+        <span style="font-size:12px;opacity:0.7;">🔍</span>
+        <input type="search" class="file-group-search-input" placeholder="${esc(title)} 검색..." value="${esc(adminFileSearch)}">
+        ${adminFileSearch ? '<button type="button" class="btn-clear-search" title="검색 지우기">✕</button>' : ''}
+      </div>
+    `;
+
+    const contentHtml = items.length
+      ? `<div class="file-cards">${items.map(card).join('')}</div>`
+      : `<div class="empty-state compact-empty" style="padding:18px 12px;color:#8c6853;">'${esc(adminFileSearch)}'에 일치하는 ${esc(title)} 자료가 없습니다.</div>`;
+
+    return `<div class="file-group-heading"><div class="file-group-title">${icon} <span>${title}</span> ${countHtml}</div>${searchHtml}</div>${contentHtml}`;
   }
 
   function render(){
@@ -485,6 +512,28 @@
     document.body.append(editDialog);
     editDialog.showModal();
   };
+
+  list.addEventListener('input', e => {
+    if(e.target.classList.contains('file-group-search-input')){
+      adminFileSearch = e.target.value;
+      const pos = e.target.selectionStart;
+      render();
+      const nextInput = list.querySelector('.file-group-search-input');
+      if(nextInput){
+        nextInput.focus();
+        try{ nextInput.setSelectionRange(pos, pos); }catch(err){}
+      }
+    }
+  });
+
+  list.addEventListener('click', e => {
+    if(e.target.classList.contains('btn-clear-search') || e.target.closest('.btn-clear-search')){
+      adminFileSearch = '';
+      render();
+      const nextInput = list.querySelector('.file-group-search-input');
+      if(nextInput) nextInput.focus();
+    }
+  });
 
   try{await load();}catch(e){msg.textContent=e.message;}
 })();

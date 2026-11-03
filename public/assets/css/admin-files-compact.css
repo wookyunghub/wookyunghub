@@ -70,10 +70,16 @@
 #file-filter,#file-role-filter{font-size:14px;height:34px;padding:5px 8px;max-width:170px}
 
 /* Grouped by Documents and Photos, sorted by date */
-.file-group-heading{display:flex;align-items:center;justify-content:space-between;background:#fdf8f4;border-left:5px solid #8e583c;border-top:1px solid #ebd8c8;border-right:1px solid #ebd8c8;border-bottom:1px solid #ebd8c8;padding:10px 14px;margin:22px 0 10px;border-radius:8px;font-size:15px;font-weight:700;color:#3f271a}
+.file-group-heading{display:flex;align-items:center;justify-content:space-between;background:#fdf8f4;border-left:5px solid #8e583c;border-top:1px solid #ebd8c8;border-right:1px solid #ebd8c8;border-bottom:1px solid #ebd8c8;padding:10px 14px;margin:22px 0 10px;border-radius:8px;font-size:15px;font-weight:700;color:#3f271a;gap:12px;flex-wrap:wrap;}
 .file-group-heading:first-child{margin-top:4px}
 .file-group-title{display:flex;align-items:center;gap:6px}
 .file-group-count{font-size:13px;font-weight:500;color:#8c6853}
+.file-group-search-wrap{display:inline-flex;align-items:center;background:#ffffff;border:1px solid #d5c3b4;border-radius:6px;padding:2px 8px;gap:6px;box-shadow:0 1px 3px rgba(0,0,0,0.04);margin-left:auto;}
+.file-group-search-wrap:focus-within{border-color:#8e583c;box-shadow:0 0 0 2px rgba(142,88,60,0.15);}
+.file-group-search-input{border:none;outline:none;font-size:13px;color:#3b2e22;width:180px;background:transparent;padding:4px 0;font-family:inherit;}
+.file-group-search-input::placeholder{color:#a49487;font-size:12px;}
+.btn-clear-search{background:none;border:none;color:#9b8c80;font-size:13px;cursor:pointer;padding:0 2px;line-height:1;}
+.btn-clear-search:hover{color:#3b2e22;}
 
 /* 5-Column Clean Tab Switcher (사진/서식/문서/증빙/전체) & 5-Column Document Sub-pills */
 .file-category-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:12px 0 10px;border-bottom:2px solid #dfd2c4;padding-bottom:1px}
