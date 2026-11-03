@@ -234,19 +234,19 @@
   "inventory_files": {
     "energy": {
       "pdf": "assets/docs/inventory/inv_energy.pdf",
-      "hwp": "assets/docs/inventory/inv_energy.hwp"
+      "hwp": ""
     },
     "comm": {
       "pdf": "assets/docs/inventory/inv_comm.pdf",
-      "hwp": "assets/docs/inventory/inv_comm.hwp"
+      "hwp": ""
     },
     "kitchen": {
       "pdf": "assets/docs/inventory/inv_kitchen.pdf",
-      "hwp": "assets/docs/inventory/inv_kitchen.hwp"
+      "hwp": ""
     },
     "health": {
       "pdf": "assets/docs/inventory/inv_health.pdf",
-      "hwp": "assets/docs/inventory/inv_health.hwp"
+      "hwp": ""
     },
     "safety": {
       "pdf": "assets/docs/inventory/inv_safety.pdf",

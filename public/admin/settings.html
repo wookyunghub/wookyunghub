@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="../assets/css/app.css?v=9.50">
+  <link rel="stylesheet" href="../assets/css/app.css?v=9.60">
   <title>기본 설정 · 관리자</title>
   <style>
     /* 큰 카드 테두리: 버튼과 동일한 파란계열 색상 */
@@ -438,23 +438,22 @@
 
     <!-- [탭 1] 경로당 기본현황 & 시설 정보 -->
         <!-- [탭 1] 경로당 기본현황 & 시설 정보 -->
-        <!-- [탭 1] 경로당 기본현황 & 시설 정보 -->
     <div id="tab-basic" class="settings-tab-content">
-      <!-- 1-1. 사이트 소속 및 대표자 · 회원 현황 (하나의 카드로 완벽 통합) -->
+      <!-- 1. 사이트 소속 및 대표자 · 회원 현황 (1개 카드로 완전 통합) -->
       <section class="settings-group-card">
         <h2 class="settings-group-title">
           <span>🏛️ 사이트 소속 및 대표자 · 회원 현황</span>
-          <small>상단 브랜드, 소속 기관 및 대표자·회원 기본 정보</small>
+          <small>상단 브랜드, 헤더 및 경로당 소개 기본현황에 표시되는 기관 기본 정보</small>
         </h2>
-        <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;flex-direction:column;gap:10px;">
           <!-- 1행: 소속 정보 4개 필드 -->
-          <div class="compact-row-4">
+          <div style="display:grid;grid-template-columns:1.2fr 1.8fr 1.2fr 1fr;gap:8px 12px;">
             <div class="compact-field">
               <label for="s-org">조직명 (경로당명)</label>
               <input id="s-org" maxlength="100" placeholder="예) 우경경로당">
             </div>
             <div class="compact-field">
-              <label for="s-parent">소속 기관</label>
+              <label for="s-parent">소속 기관 (연합회/지회)</label>
               <input id="s-parent" maxlength="200" placeholder="예) (사)대한노인회 진천군지회">
             </div>
             <div class="compact-field">
@@ -466,8 +465,9 @@
               <input id="s-period" placeholder="예) 2025-2026">
             </div>
           </div>
+
           <!-- 2행: 대표자 및 회원 현황 5개 필드 -->
-          <div class="compact-row-5">
+          <div style="display:grid;grid-template-columns:1.2fr 1.2fr 1fr 1fr 1fr;gap:8px 12px;">
             <div class="compact-field">
               <label for="b-chairman-name">대표자 (회장 성명)</label>
               <input id="b-chairman-name" placeholder="예) 조영기">
@@ -489,25 +489,24 @@
               <input type="number" id="b-members-female" placeholder="29">
             </div>
           </div>
+
           <!-- 3행: 소재지 주소 1줄 전체 -->
-          <div class="compact-row-1">
-            <div class="compact-field">
-              <label for="b-address">소재지 (주소)</label>
-              <input id="b-address" placeholder="예) 충북 진천군 문백면 사양1길 2-12">
-            </div>
+          <div class="compact-field" style="width:100%;">
+            <label for="b-address">소재지 (주소)</label>
+            <input id="b-address" placeholder="예) 충북 진천군 문백면 사양1길 2-12">
           </div>
         </div>
       </section>
 
-      <!-- 1-2. 등록 · 신고 및 건축 정보 (2줄 컴팩트) -->
+      <!-- 2. 등록 · 신고 및 건축 정보 (2줄 구성) -->
       <section class="settings-group-card">
         <h2 class="settings-group-title">
           <span>📑 등록 · 신고 및 건축 정보</span>
           <small>고유번호, 신고일자, 건축년도 및 구조</small>
         </h2>
-        <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;flex-direction:column;gap:10px;">
           <!-- 1행: 4개 필드 -->
-          <div class="compact-row-4">
+          <div style="display:grid;grid-template-columns:1.3fr 1.2fr 1fr 1.2fr;gap:8px 12px;">
             <div class="compact-field">
               <label for="b-unique-number">고유번호</label>
               <input id="b-unique-number" placeholder="예) 301-80-18628">
@@ -525,37 +524,35 @@
               <input id="b-build-date" placeholder="예) 2009. 07. 29">
             </div>
           </div>
-          <!-- 2행: 건물 구조 전체 1줄 -->
-          <div class="compact-row-1">
-            <div class="compact-field">
-              <label for="b-structure">건물 구조</label>
-              <input id="b-structure" placeholder="예) 블록구조 (지상 1층)">
-            </div>
+          <!-- 2행: 건물 구조 1줄 -->
+          <div class="compact-field" style="width:100%;">
+            <label for="b-structure">건물 구조</label>
+            <input id="b-structure" placeholder="예) 블록구조 (지상 1층)">
           </div>
         </div>
       </section>
 
-      <!-- 1-3. 면적 및 내부 시설 공간 (사용자 요청: 정확히 2줄로 압축) -->
+      <!-- 3. 면적 및 내부 시설 공간 (사용자 요청: 정확히 2줄 구성) -->
       <section class="settings-group-card">
         <h2 class="settings-group-title">
           <span>📐 면적 및 내부 시설 공간</span>
-          <small>대지/건물 면적(㎡·평)과 내부 구성, 난방 및 편의시설</small>
+          <small>대지/건물 면적과 방·화장실·주방 구성</small>
         </h2>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <!-- 1번째 줄: 대지면적, 건물면적, 방, 화장실, 주방, 보조실 모두 1줄에 표시 -->
-          <div style="display:grid;grid-template-columns:1.6fr 1.6fr 0.8fr 0.8fr 0.8fr 0.8fr;gap:8px 10px;">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <!-- 1번째 줄 (모두 1줄에 표시): 대지면적, 건물면적, 방, 화장실, 주방, 보조실 -->
+          <div style="display:grid;grid-template-columns:1.5fr 1.5fr 0.8fr 0.8fr 0.8fr 0.8fr;gap:8px 10px;align-items:end;">
             <div class="compact-field">
               <label for="b-site-area">대지면적 (㎡ / 평)</label>
               <div style="display:flex;gap:4px;">
-                <input id="b-site-area" placeholder="335㎡" style="flex:1;">
-                <input id="b-site-pyeong" placeholder="101.52평" style="width:72px;">
+                <input id="b-site-area" placeholder="335㎡" style="flex:1;min-width:0;">
+                <input id="b-site-pyeong" placeholder="101.52평" style="width:82px;flex:0 0 82px;">
               </div>
             </div>
             <div class="compact-field">
               <label for="b-building-area">건물면적 (㎡ / 평)</label>
               <div style="display:flex;gap:4px;">
-                <input id="b-building-area" placeholder="105.73㎡" style="flex:1;">
-                <input id="b-building-pyeong" placeholder="32.04평" style="width:72px;">
+                <input id="b-building-area" placeholder="105.73㎡" style="flex:1;min-width:0;">
+                <input id="b-building-pyeong" placeholder="32.04평" style="width:82px;flex:0 0 82px;">
               </div>
             </div>
             <div class="compact-field">
@@ -576,8 +573,8 @@
             </div>
           </div>
 
-          <!-- 2번째 줄: 소유자, 건축물대장, 난방방법 창 크기 줄여서 + 편의시설 창 크기 유지(넓게) -->
-          <div style="display:grid;grid-template-columns:1.1fr 1fr 1.1fr 2.6fr;gap:8px 10px;">
+          <!-- 2번째 줄: 소유자, 건축물대장, 난방방법 창 크기 줄이고 + 편의시설 창 크기 넓게 유지 -->
+          <div style="display:grid;grid-template-columns:1.1fr 0.9fr 1.1fr 2.5fr;gap:8px 12px;align-items:end;">
             <div class="compact-field">
               <label for="b-property-owner">소유자 (명의)</label>
               <input id="b-property-owner" placeholder="예) 리장 이동수">
@@ -599,7 +596,6 @@
       </section>
     </div>
 
-    <!-- [탭 2] 원본 서류 & 평면도 파일 관리 -->
     <div id="tab-files" class="settings-tab-content" hidden>
       <section class="settings-group-card">
         <h2 class="settings-group-title">
@@ -702,7 +698,7 @@
                 <div style="display:flex;gap:6px;align-items:center;">
                   <input id="inv-file-energy-pdf" class="img-path-input" placeholder="assets/docs/inventory/inv_energy.pdf">
                   <label class="btn-file-select">선택<input type="file" id="inv-file-energy-pdf-file" accept=".pdf,application/pdf" hidden></label>
-                  <button type="button" id="inv-file-energy-pdf-link" class="btn-file-view">열람 ↗</button>
+                  <a id="inv-file-energy-pdf-link" href="javascript:void(0);" class="btn-file-view">열람 ↗</a>
                 </div>
               </div>
               <div class="compact-field">
@@ -710,7 +706,7 @@
                 <div style="display:flex;gap:6px;align-items:center;">
                   <input id="inv-file-energy-hwp" class="img-path-input" placeholder="assets/docs/inventory/inv_energy.hwp">
                   <label class="btn-file-select">선택<input type="file" id="inv-file-energy-hwp-file" accept=".hwp,.hwpx" hidden></label>
-                  <button type="button" id="inv-file-energy-hwp-link" class="btn-file-view">다운 ↗</button>
+                  <a id="inv-file-energy-hwp-link" href="javascript:void(0);" class="btn-file-view">다운 ↗</a>
                 </div>
               </div>
             </div>
@@ -725,7 +721,7 @@
                 <div style="display:flex;gap:6px;align-items:center;">
                   <input id="inv-file-comm-pdf" class="img-path-input" placeholder="assets/docs/inventory/inv_comm.pdf">
                   <label class="btn-file-select">선택<input type="file" id="inv-file-comm-pdf-file" accept=".pdf,application/pdf" hidden></label>
-                  <button type="button" id="inv-file-comm-pdf-link" class="btn-file-view">열람 ↗</button>
+                  <a id="inv-file-comm-pdf-link" href="javascript:void(0);" class="btn-file-view">열람 ↗</a>
                 </div>
               </div>
               <div class="compact-field">
@@ -733,7 +729,7 @@
                 <div style="display:flex;gap:6px;align-items:center;">
                   <input id="inv-file-comm-hwp" class="img-path-input" placeholder="assets/docs/inventory/inv_comm.hwp">
                   <label class="btn-file-select">선택<input type="file" id="inv-file-comm-hwp-file" accept=".hwp,.hwpx" hidden></label>
-                  <button type="button" id="inv-file-comm-hwp-link" class="btn-file-view">다운 ↗</button>
+                  <a id="inv-file-comm-hwp-link" href="javascript:void(0);" class="btn-file-view">다운 ↗</a>
                 </div>
               </div>
             </div>
@@ -748,7 +744,7 @@
                 <div style="display:flex;gap:6px;align-items:center;">
                   <input id="inv-file-kitchen-pdf" class="img-path-input" placeholder="assets/docs/inventory/inv_kitchen.pdf">
                   <label class="btn-file-select">선택<input type="file" id="inv-file-kitchen-pdf-file" accept=".pdf,application/pdf" hidden></label>
-                  <button type="button" id="inv-file-kitchen-pdf-link" class="btn-file-view">열람 ↗</button>
+                  <a id="inv-file-kitchen-pdf-link" href="javascript:void(0);" class="btn-file-view">열람 ↗</a>
                 </div>
               </div>
               <div class="compact-field">
@@ -756,7 +752,7 @@
                 <div style="display:flex;gap:6px;align-items:center;">
                   <input id="inv-file-kitchen-hwp" class="img-path-input" placeholder="assets/docs/inventory/inv_kitchen.hwp">
                   <label class="btn-file-select">선택<input type="file" id="inv-file-kitchen-hwp-file" accept=".hwp,.hwpx" hidden></label>
-                  <button type="button" id="inv-file-kitchen-hwp-link" class="btn-file-view">다운 ↗</button>
+                  <a id="inv-file-kitchen-hwp-link" href="javascript:void(0);" class="btn-file-view">다운 ↗</a>
                 </div>
               </div>
             </div>
@@ -771,7 +767,7 @@
                 <div style="display:flex;gap:6px;align-items:center;">
                   <input id="inv-file-health-pdf" class="img-path-input" placeholder="assets/docs/inventory/inv_health.pdf">
                   <label class="btn-file-select">선택<input type="file" id="inv-file-health-pdf-file" accept=".pdf,application/pdf" hidden></label>
-                  <button type="button" id="inv-file-health-pdf-link" class="btn-file-view">열람 ↗</button>
+                  <a id="inv-file-health-pdf-link" href="javascript:void(0);" class="btn-file-view">열람 ↗</a>
                 </div>
               </div>
               <div class="compact-field">
@@ -779,7 +775,7 @@
                 <div style="display:flex;gap:6px;align-items:center;">
                   <input id="inv-file-health-hwp" class="img-path-input" placeholder="assets/docs/inventory/inv_health.hwp">
                   <label class="btn-file-select">선택<input type="file" id="inv-file-health-hwp-file" accept=".hwp,.hwpx" hidden></label>
-                  <button type="button" id="inv-file-health-hwp-link" class="btn-file-view">다운 ↗</button>
+                  <a id="inv-file-health-hwp-link" href="javascript:void(0);" class="btn-file-view">다운 ↗</a>
                 </div>
               </div>
             </div>
@@ -794,7 +790,7 @@
                 <div style="display:flex;gap:6px;align-items:center;">
                   <input id="inv-file-safety-pdf" class="img-path-input" placeholder="assets/docs/inventory/inv_safety.pdf">
                   <label class="btn-file-select">선택<input type="file" id="inv-file-safety-pdf-file" accept=".pdf,application/pdf" hidden></label>
-                  <button type="button" id="inv-file-safety-pdf-link" class="btn-file-view">열람 ↗</button>
+                  <a id="inv-file-safety-pdf-link" href="javascript:void(0);" class="btn-file-view">열람 ↗</a>
                 </div>
               </div>
               <div class="compact-field">
@@ -802,7 +798,7 @@
                 <div style="display:flex;gap:6px;align-items:center;">
                   <input id="inv-file-safety-hwp" class="img-path-input" placeholder="assets/docs/inventory/inv_safety.hwp">
                   <label class="btn-file-select">선택<input type="file" id="inv-file-safety-hwp-file" accept=".hwp,.hwpx" hidden></label>
-                  <button type="button" id="inv-file-safety-hwp-link" class="btn-file-view">다운 ↗</button>
+                  <a id="inv-file-safety-hwp-link" href="javascript:void(0);" class="btn-file-view">다운 ↗</a>
                 </div>
               </div>
             </div>
@@ -817,7 +813,7 @@
                 <div style="display:flex;gap:6px;align-items:center;">
                   <input id="inv-file-storage-pdf" class="img-path-input" placeholder="assets/docs/inventory/inv_storage.pdf">
                   <label class="btn-file-select">선택<input type="file" id="inv-file-storage-pdf-file" accept=".pdf,application/pdf" hidden></label>
-                  <button type="button" id="inv-file-storage-pdf-link" class="btn-file-view">열람 ↗</button>
+                  <a id="inv-file-storage-pdf-link" href="javascript:void(0);" class="btn-file-view">열람 ↗</a>
                 </div>
               </div>
               <div class="compact-field">
@@ -825,7 +821,7 @@
                 <div style="display:flex;gap:6px;align-items:center;">
                   <input id="inv-file-storage-hwp" class="img-path-input" placeholder="assets/docs/inventory/inv_storage.hwp">
                   <label class="btn-file-select">선택<input type="file" id="inv-file-storage-hwp-file" accept=".hwp,.hwpx" hidden></label>
-                  <button type="button" id="inv-file-storage-hwp-link" class="btn-file-view">다운 ↗</button>
+                  <a id="inv-file-storage-hwp-link" href="javascript:void(0);" class="btn-file-view">다운 ↗</a>
                 </div>
               </div>
             </div>
@@ -968,8 +964,8 @@
   </div>
 </footer>
 
-<script src="../assets/js/common.js?v=9.50"></script>
+<script src="../assets/js/common.js?v=9.60"></script>
 <script src="../assets/js/admin-auth.js?v=1.3"></script>
-<script src="../assets/js/admin-settings.js?v=9.50"></script>
+<script src="../assets/js/admin-settings.js?v=9.60"></script>
 </body>
 </html>

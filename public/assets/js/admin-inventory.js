@@ -2,10 +2,10 @@
   
   
   const DEFAULT_INV_FILES = {
-    energy: { pdf: 'assets/docs/inventory/inv_energy.pdf', hwp: 'assets/docs/inventory/inv_energy.hwp', name: '1_에너지-시설비품대장' },
-    comm: { pdf: 'assets/docs/inventory/inv_comm.pdf', hwp: 'assets/docs/inventory/inv_comm.hwp', name: '2_통신-시설비품대장' },
-    kitchen: { pdf: 'assets/docs/inventory/inv_kitchen.pdf', hwp: 'assets/docs/inventory/inv_kitchen.hwp', name: '3_주방급수-시설비품대장' },
-    health: { pdf: 'assets/docs/inventory/inv_health.pdf', hwp: 'assets/docs/inventory/inv_health.hwp', name: '4_건강의료-시설비품대장' },
+    energy: { pdf: 'assets/docs/inventory/inv_energy.pdf', hwp: '', name: '1_에너지-시설비품대장' },
+    comm: { pdf: 'assets/docs/inventory/inv_comm.pdf', hwp: '', name: '2_통신-시설비품대장' },
+    kitchen: { pdf: 'assets/docs/inventory/inv_kitchen.pdf', hwp: '', name: '3_주방급수-시설비품대장' },
+    health: { pdf: 'assets/docs/inventory/inv_health.pdf', hwp: '', name: '4_건강의료-시설비품대장' },
     safety: { pdf: 'assets/docs/inventory/inv_safety.pdf', hwp: 'assets/docs/inventory/inv_safety.hwp', name: '5_소방기구-시설비품대장' },
     storage: { pdf: 'assets/docs/inventory/inv_storage.pdf', hwp: 'assets/docs/inventory/inv_storage.hwp', name: '6_기타가구-시설비품대장' }
   };

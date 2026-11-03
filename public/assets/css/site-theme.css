@@ -1138,3 +1138,41 @@ body .basic-toggle-btn {
     gap: 10px !important;
   }
 }
+
+
+/* 자료실 및 모든 사진 영역 반응형 안전장치 (화면/카드 벗어남 방지) */
+.res-photo-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
+  gap: 14px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.res-photo-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+.res-photo-thumb-wrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  aspect-ratio: 4 / 3 !important;
+  overflow: hidden !important;
+}
+.res-photo-img,
+.res-photo-thumb-wrap img {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+#resource-photos,
+.res-year-group {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}

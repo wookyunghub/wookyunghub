@@ -323,50 +323,60 @@ body{background:var(--bg);color:var(--text)}
 .admin-unlocked-badge.ebook-admin-badge{position:absolute;top:8px;left:8px;z-index:5;background:rgba(238,246,237,0.95);box-shadow:0 2px 6px rgba(0,0,0,0.12);margin-bottom:0}
 
 /* ========================================================
-   관리자 전용 컬러 테마 (일반화면과 명확히 구분되는 슬레이트 & 블루 테마)
+   CenterHub Modern Slate-Blue Admin Dashboard Theme
+   촌스럽지 않은 세련된 슬레이트 블루 & 쿨 화이트 테마
    ======================================================== */
 body.admin-page {
   background: #f8fafc !important;
   color: #1e293b !important;
 }
 
-/* 관리자 상단 탑바 */
+/* 관리자 상단 헤더 */
 body.admin-page .topbar {
   background: #ffffff !important;
   border-bottom: 1px solid #e2e8f0 !important;
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
 }
+body.admin-page .brand-block .small {
+  display: none !important;
+}
 
-/* 관리자 상단 타이틀 체계:
-   1. 상위메뉴: 파란색 관리자 (.eyebrow)
+/* 관리자 타이틀 체계:
+   1. 상위메뉴: 슬레이트 블루 (.eyebrow)
    2. 해당메뉴: h1
    3. 부연설명: p */
-body.admin-page .page-title {
+body.admin-page .page-title,
+body.admin-page .admin-compact-heading {
   display: flex !important;
   flex-wrap: wrap !important;
   align-items: baseline !important;
   gap: 4px 14px !important;
-  margin-bottom: 14px !important;
+  margin: 0 0 16px !important;
   padding: 6px 0 !important;
 }
-body.admin-page .page-title .eyebrow {
+body.admin-page .page-title .eyebrow,
+body.admin-page .admin-compact-heading .eyebrow {
   width: 100% !important;
+  flex: 0 0 100% !important;
   display: block !important;
   font-size: 13.5px !important;
   font-weight: 800 !important;
   color: #2563eb !important;
-  margin-bottom: 3px !important;
+  margin: 0 0 2px 0 !important;
   letter-spacing: 0.04em !important;
+  order: -1 !important;
 }
-body.admin-page .page-title h1 {
-  font-size: 26px !important;
+body.admin-page .page-title h1,
+body.admin-page .admin-compact-heading h1 {
+  font-size: 25px !important;
   font-weight: 800 !important;
   color: #0f172a !important;
   margin: 0 !important;
   display: inline-block !important;
   line-height: 1.25 !important;
 }
-body.admin-page .page-title p {
+body.admin-page .page-title p,
+body.admin-page .admin-compact-heading .admin-heading-description {
   color: #64748b !important;
   font-size: 13.5px !important;
   margin: 0 !important;
@@ -374,23 +384,25 @@ body.admin-page .page-title p {
   line-height: 1.4 !important;
 }
 
-/* 관리자 메인 큰 카드 테두리: 세련되고 산뜻한 상단 3px 블루 포인트 바 + 1px 슬레이트 보더 */
+/* 관리자 모든 메뉴의 가장 바깥쪽 큰 카드 테두리:
+   버튼과 동일한 블루 계열 색상으로 명확하고 산뜻하게 표시 */
 body.admin-page .settings-panel,
 body.admin-page .settings-group-card,
 body.admin-page .inv-panel-card,
 body.admin-page .file-upload-panel,
 body.admin-page .content-panel,
-body.admin-page .compact-panel {
+body.admin-page .compact-panel,
+body.admin-page .admin-card-grid > a,
+body.admin-page .admin-card-grid > div {
   background: #ffffff !important;
-  border: 1px solid #cbd5e1 !important;
-  border-top: 3px solid #2563eb !important;
+  border: 1.5px solid #3b82f6 !important;
   border-radius: 12px !important;
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(37, 99, 235, 0.04) !important;
+  box-shadow: 0 3px 12px rgba(37, 99, 235, 0.08) !important;
 }
 
-/* 관리자 탭 네비게이션: 갈색/웜베이지 전면 제거, 산뜻한 블루 탭 */
+/* 탭 네비게이션 */
 body.admin-page .settings-tab-nav {
-  border-bottom: 2px solid #2563eb !important;
+  border-bottom: 2px solid #3b82f6 !important;
 }
 body.admin-page .settings-tab-btn,
 body.admin-page .file-tab,
@@ -421,7 +433,7 @@ body.admin-page .reg-sub-btn.active {
   box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25) !important;
 }
 
-/* 관리자 입력 폼 (Inputs, Select, Textarea): 일반화면의 웜베이지/갈색 테두리 전면 교체 */
+/* 폼 입력창: 컴팩트 & 모던 */
 body.admin-page input:not([type=file]):not([type=checkbox]):not([type=radio]),
 body.admin-page select,
 body.admin-page textarea {
@@ -430,6 +442,7 @@ body.admin-page textarea {
   border-radius: 6px !important;
   color: #0f172a !important;
   font-size: 13px !important;
+  padding: 6px 9px !important;
   box-sizing: border-box !important;
   transition: border-color .15s ease, box-shadow .15s ease !important;
 }
@@ -442,41 +455,44 @@ body.admin-page textarea:focus {
   background: #ffffff !important;
 }
 
-/* 관리자 폼 라벨 */
+/* 라벨 스타일 */
 body.admin-page label {
   color: #334155 !important;
   font-weight: 700 !important;
   font-size: 12px !important;
+  margin-bottom: 3px !important;
 }
 
-/* 관리자 주요 버튼 (Primary & Save) */
+/* 주요 액션 버튼 (Primary & Save) */
 body.admin-page .btn.primary,
 body.admin-page .btn-save,
-body.admin-page #file-upload {
+body.admin-page #file-upload,
+body.admin-page .btn-primary {
   background: #2563eb !important;
   color: #ffffff !important;
   border: 1px solid #1d4ed8 !important;
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25) !important;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.22) !important;
   font-weight: 700 !important;
   border-radius: 6px !important;
 }
 body.admin-page .btn.primary:hover,
 body.admin-page .btn-save:hover,
-body.admin-page #file-upload:hover {
+body.admin-page #file-upload:hover,
+body.admin-page .btn-primary:hover {
   background: #1d4ed8 !important;
   border-color: #1e40af !important;
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35) !important;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.32) !important;
 }
 
 /* 일반 버튼 */
-body.admin-page .btn:not(.primary) {
+body.admin-page .btn:not(.primary):not(.btn-save):not(#file-upload) {
   background: #ffffff !important;
   color: #334155 !important;
   border: 1px solid #cbd5e1 !important;
   border-radius: 6px !important;
   font-weight: 600 !important;
 }
-body.admin-page .btn:not(.primary):hover {
+body.admin-page .btn:not(.primary):not(.btn-save):not(#file-upload):hover {
   background: #f1f5f9 !important;
   color: #0f172a !important;
   border-color: #94a3b8 !important;

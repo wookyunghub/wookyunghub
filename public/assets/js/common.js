@@ -190,7 +190,12 @@
     const main=document.querySelector('main');if(!main)return;
     const heading=main.querySelector(':scope > .page-title,:scope > .compact-heading');if(!heading)return;
     const title=heading.querySelector('h1');if(!title)return;
-    const eyebrow=heading.querySelector('.eyebrow');
+    let eyebrow=heading.querySelector('.eyebrow');
+    if(!eyebrow){
+      eyebrow=document.createElement('span');
+      eyebrow.className='eyebrow';
+      eyebrow.textContent='관리자';
+    }
     const description=heading.querySelector('p');const existing=heading.querySelector('.toolbar');
     const actions=document.createElement('div');actions.className='admin-heading-actions';
     if(existing)while(existing.firstChild)actions.appendChild(existing.firstChild);
