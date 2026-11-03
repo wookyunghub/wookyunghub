@@ -1,5 +1,15 @@
 (function() {
   
+  
+  const DEFAULT_INV_FILES = {
+    energy: { pdf: 'assets/docs/inventory/inv_energy.pdf', hwp: 'assets/docs/inventory/inv_energy.hwp', name: '1_에너지-시설비품대장' },
+    comm: { pdf: 'assets/docs/inventory/inv_comm.pdf', hwp: 'assets/docs/inventory/inv_comm.hwp', name: '2_통신-시설비품대장' },
+    kitchen: { pdf: 'assets/docs/inventory/inv_kitchen.pdf', hwp: 'assets/docs/inventory/inv_kitchen.hwp', name: '3_주방급수-시설비품대장' },
+    health: { pdf: 'assets/docs/inventory/inv_health.pdf', hwp: 'assets/docs/inventory/inv_health.hwp', name: '4_건강의료-시설비품대장' },
+    safety: { pdf: 'assets/docs/inventory/inv_safety.pdf', hwp: 'assets/docs/inventory/inv_safety.hwp', name: '5_소방기구-시설비품대장' },
+    storage: { pdf: 'assets/docs/inventory/inv_storage.pdf', hwp: 'assets/docs/inventory/inv_storage.hwp', name: '6_기타가구-시설비품대장' }
+  };
+
   let inventoryFiles = {};
 
   const CAT_META = {
@@ -173,15 +183,18 @@
           <a href="settings.html" class="inv-origin-link-btn btn-setting">⚙️ 기본설정 원본 관리 ↗</a>
         `;
       } else {
-        const catFiles = inventoryFiles[activeCat] || {};
+        const catFiles = inventoryFiles[activeCat] || DEFAULT_INV_FILES[activeCat] || {};
+        const pdfPath = catFiles.pdf || (DEFAULT_INV_FILES[activeCat] && DEFAULT_INV_FILES[activeCat].pdf) || '';
+        const hwpPath = catFiles.hwp || (DEFAULT_INV_FILES[activeCat] && DEFAULT_INV_FILES[activeCat].hwp) || '';
+        const korName = (DEFAULT_INV_FILES[activeCat] && DEFAULT_INV_FILES[activeCat].name) || meta.name;
         let actionsHtml = '';
-        if(catFiles.pdf) {
-          actionsHtml += `<a href="${resolveAdminImg(catFiles.pdf)}" target="_blank" class="inv-origin-link-btn btn-pdf">📄 ${meta.name} PDF 열람 ↗</a>`;
+        if(pdfPath) {
+          actionsHtml += `<a href="${resolveAdminImg(pdfPath)}" target="_blank" class="inv-origin-link-btn btn-pdf" title="${korName}.pdf 열람">📄 ${meta.name} PDF 열람 ↗</a>`;
         }
-        if(catFiles.hwp) {
-          actionsHtml += `<a href="${resolveAdminImg(catFiles.hwp)}" download class="inv-origin-link-btn btn-hwp">💾 HWP 원본 다운로드 ↗</a>`;
+        if(hwpPath) {
+          actionsHtml += `<a href="${resolveAdminImg(hwpPath)}" download="${korName}.hwp" class="inv-origin-link-btn btn-hwp" title="${korName}.hwp 다운로드">💾 HWP 원본 다운로드 ↗</a>`;
         }
-        if(!catFiles.pdf && !catFiles.hwp) {
+        if(!pdfPath && !hwpPath) {
           actionsHtml += `<a href="settings.html" class="inv-origin-link-btn btn-setting" title="기본설정에서 원본 HWP 및 PDF 파일을 등록할 수 있습니다.">⚙️ 기본설정에서 ${meta.name} 원본 등록 ↗</a>`;
         }
         originActionsEl.innerHTML = actionsHtml;

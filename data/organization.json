@@ -233,28 +233,28 @@
   },
   "inventory_files": {
     "energy": {
-      "pdf": "assets/docs/inventory/1_energy.pdf",
-      "hwp": ""
+      "pdf": "assets/docs/inventory/inv_energy.pdf",
+      "hwp": "assets/docs/inventory/inv_energy.hwp"
     },
     "comm": {
-      "pdf": "assets/docs/inventory/2_telecom.pdf",
-      "hwp": ""
+      "pdf": "assets/docs/inventory/inv_comm.pdf",
+      "hwp": "assets/docs/inventory/inv_comm.hwp"
     },
     "kitchen": {
-      "pdf": "assets/docs/inventory/3_kitchen.pdf",
-      "hwp": ""
+      "pdf": "assets/docs/inventory/inv_kitchen.pdf",
+      "hwp": "assets/docs/inventory/inv_kitchen.hwp"
     },
     "health": {
-      "pdf": "assets/docs/inventory/4_health.pdf",
-      "hwp": ""
+      "pdf": "assets/docs/inventory/inv_health.pdf",
+      "hwp": "assets/docs/inventory/inv_health.hwp"
     },
     "safety": {
-      "pdf": "assets/docs/inventory/5_outdoor_fire.pdf",
-      "hwp": ""
+      "pdf": "assets/docs/inventory/inv_safety.pdf",
+      "hwp": "assets/docs/inventory/inv_safety.hwp"
     },
     "storage": {
-      "pdf": "assets/docs/inventory/6_storage.pdf",
-      "hwp": ""
+      "pdf": "assets/docs/inventory/inv_storage.pdf",
+      "hwp": "assets/docs/inventory/inv_storage.hwp"
     }
   }
 }

@@ -124,12 +124,75 @@
     if($(id)) $(id).value = basic[key] !== undefined ? basic[key] : def;
   }
 
-  // 시설·비품 카테고리별 원본 파일 초기값 바인딩
+  // 시설·비품 카테고리 6종 기본 파일 및 초기값 바인딩
+  const defaultInvFiles = {
+    energy: { pdf: 'assets/docs/inventory/inv_energy.pdf', hwp: 'assets/docs/inventory/inv_energy.hwp', name: '1_에너지-시설비품대장' },
+    comm: { pdf: 'assets/docs/inventory/inv_comm.pdf', hwp: 'assets/docs/inventory/inv_comm.hwp', name: '2_통신-시설비품대장' },
+    kitchen: { pdf: 'assets/docs/inventory/inv_kitchen.pdf', hwp: 'assets/docs/inventory/inv_kitchen.hwp', name: '3_주방급수-시설비품대장' },
+    health: { pdf: 'assets/docs/inventory/inv_health.pdf', hwp: 'assets/docs/inventory/inv_health.hwp', name: '4_건강의료-시설비품대장' },
+    safety: { pdf: 'assets/docs/inventory/inv_safety.pdf', hwp: 'assets/docs/inventory/inv_safety.hwp', name: '5_소방기구-시설비품대장' },
+    storage: { pdf: 'assets/docs/inventory/inv_storage.pdf', hwp: 'assets/docs/inventory/inv_storage.hwp', name: '6_기타가구-시설비품대장' }
+  };
+
   const invFiles = orgData.inventory_files || {};
   invCatList.forEach(cat => {
     const cData = invFiles[cat] || {};
-    if($(`inv-file-${cat}-pdf`)) $(`inv-file-${cat}-pdf`).value = cData.pdf || '';
-    if($(`inv-file-${cat}-hwp`)) $(`inv-file-${cat}-hwp`).value = cData.hwp || '';
+    const dData = defaultInvFiles[cat] || {};
+    const pdfVal = cData.pdf || dData.pdf || '';
+    const hwpVal = cData.hwp || dData.hwp || '';
+    if($(`inv-file-${cat}-pdf`)) $(`inv-file-${cat}-pdf`).value = pdfVal;
+    if($(`inv-file-${cat}-hwp`)) $(`inv-file-${cat}-hwp`).value = hwpVal;
+
+    // 열람 버튼 (PDF) - 클릭 시 새 탭에서 즉시 열람
+    const pLink = $(`inv-file-${cat}-pdf-link`);
+    if(pLink) {
+      pLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const url = ($(`inv-file-${cat}-pdf`) && $(`inv-file-${cat}-pdf`).value.trim()) || '';
+        if(!url) {
+          window.alert('등록된 PDF 파일이 없습니다. [선택] 버튼으로 파일을 먼저 등록해 주세요.');
+          return;
+        }
+        window.open(resolveAdminImg(url), '_blank');
+      });
+    }
+
+    // 다운로드 버튼 (HWP) - 실제 HWP 파일 다운로드
+    const hLink = $(`inv-file-${cat}-hwp-link`);
+    if(hLink) {
+      hLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const url = ($(`inv-file-${cat}-hwp`) && $(`inv-file-${cat}-hwp`).value.trim()) || '';
+        if(!url) {
+          window.alert('등록된 HWP 파일이 없습니다. [선택] 버튼으로 파일을 먼저 등록해 주세요.');
+          return;
+        }
+        const resolved = resolveAdminImg(url);
+        const fileName = (dData.name || '시설비품대장') + '.hwp';
+        const a = document.createElement('a');
+        a.href = resolved;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    }
+
+    // 파일 선택(업로드) 이벤트
+    const pFileInput = $(`inv-file-${cat}-pdf-file`);
+    if(pFileInput) {
+      pFileInput.addEventListener('change', () => {
+        handleFileSelect(pFileInput, $(`inv-file-${cat}-pdf`), null, pLink);
+      });
+    }
+    const hFileInput = $(`inv-file-${cat}-hwp-file`);
+    if(hFileInput) {
+      hFileInput.addEventListener('change', () => {
+        handleFileSelect(hFileInput, $(`inv-file-${cat}-hwp`), null, hLink);
+      });
+    }
   });
 
   // 4. 미리보기 및 바로보기 링크 동기화
