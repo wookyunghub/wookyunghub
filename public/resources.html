@@ -41,11 +41,13 @@
         <span class="tab-icon">📷</span><span class="tab-label">사진</span>
       </button>
     </nav>
-    <div class="res-search-wrap">
-      <span class="res-search-icon">🔍</span>
+    <form class="res-search-form" id="res-search-form" onsubmit="return false;">
       <input type="search" id="res-search-input" class="res-search-input" placeholder="서식명, 문서 제목, 파일명 검색..." aria-label="자료 검색">
       <button type="button" id="res-search-clear" class="res-search-clear" title="검색 지우기" hidden>✕</button>
-    </div>
+      <button type="button" id="res-search-submit" class="res-search-btn" title="검색 실행">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+    </form>
   </div>
 
   <!-- 1. 서식 섹션 -->

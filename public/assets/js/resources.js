@@ -107,18 +107,20 @@
     const date = esc(x.date || '날짜 미입력');
     const desc = esc(x.description || '');
 
-    const badgeClass = ext === 'HWP' ? 'badge-hwp' : (ext === 'PDF' ? 'badge-pdf' : 'badge-etc');
+    const badgeClass = ext === 'HWP' ? 'hwp' : (ext === 'PDF' ? 'pdf' : 'etc');
 
     return `<article class="res-item-card ${isForm ? 'form-card' : ''}">
-      <div class="res-card-top">
-        <span class="res-file-badge ${badgeClass}">${ext}</span>
-        <div class="res-card-content">
-          <h3 class="res-card-title">${title}</h3>
-          <div class="res-card-filename">
+      <div class="res-card-main">
+        <div class="res-file-icon-box ${badgeClass}">
+          <span>${ext}</span>
+        </div>
+        <div class="res-card-info">
+          <h3>${title}</h3>
+          <div class="res-card-meta">
             <span>${filename}</span>
-            ${!isForm && x.date ? `<span style="margin-left:8px;color:#8a796b;">📅 ${date}</span>` : ''}
+            ${!isForm && x.date ? `<span>📅 ${date}</span>` : ''}
           </div>
-          ${desc ? `<p style="font-size:12px;color:#7a6859;margin:2px 0 0;">${desc}</p>` : ''}
+          ${desc ? `<p class="res-card-desc">${desc}</p>` : ''}
         </div>
       </div>
       <div class="res-card-actions">
@@ -230,15 +232,41 @@
     renderPhotos(filteredPhotos);
   }
 
-  // 검색창 바인딩
+  // 검색창 바인딩 (버튼 클릭 또는 엔터 키로 검색 실행)
   const searchInput = document.getElementById('res-search-input');
   const searchClear = document.getElementById('res-search-clear');
+  const searchSubmit = document.getElementById('res-search-submit');
+
+  function doSearch(){
+    if(!searchInput) return;
+    currentSearch = searchInput.value.trim();
+    if(searchClear) searchClear.hidden = !currentSearch;
+    renderAll();
+  }
 
   if(searchInput){
+    searchInput.addEventListener('keydown', e => {
+      if(e.key === 'Enter'){
+        e.preventDefault();
+        doSearch();
+      }
+    });
+    // 검색창 비웠을 때 자동으로 초기화
     searchInput.addEventListener('input', e => {
-      currentSearch = e.target.value;
-      if(searchClear) searchClear.hidden = !currentSearch;
-      renderAll();
+      if(!e.target.value.trim() && currentSearch){
+        currentSearch = '';
+        if(searchClear) searchClear.hidden = true;
+        renderAll();
+      } else if(searchClear){
+        searchClear.hidden = !e.target.value.trim();
+      }
+    });
+  }
+
+  if(searchSubmit){
+    searchSubmit.addEventListener('click', e => {
+      e.preventDefault();
+      doSearch();
     });
   }
 

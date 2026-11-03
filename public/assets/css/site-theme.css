@@ -848,7 +848,7 @@ body .basic-toggle-btn {
 }
 
 /* ========================================================
-   자료실 상단 컨트롤 바 (탭 & 실시간 검색창) & 관리자 스타일 컴팩트 레이아웃
+   자료실 상단 컨트롤 바 (탭 & 산뜻한 실시간/버튼 검색창) & 서식/문서 카드 & 사진 반응형 그리드
    ======================================================== */
 .res-control-bar {
   display: flex;
@@ -865,21 +865,22 @@ body .basic-toggle-btn {
   border-bottom: none;
   padding-bottom: 0;
 }
-.res-search-wrap {
+.res-search-form {
   display: inline-flex;
   align-items: center;
   background: #ffffff;
-  border: 1.5px solid #d3c4b5;
-  border-radius: 8px;
-  padding: 4px 10px;
-  gap: 8px;
-  box-shadow: 0 1px 4px rgba(70,50,30,0.06);
-  min-width: 260px;
+  border: 1.5px solid #c9b8a8;
+  border-radius: 9999px;
+  padding: 3px 4px 3px 14px;
+  gap: 6px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.03), 0 1px 4px rgba(70,50,30,0.06);
+  min-width: 270px;
   max-width: 100%;
+  transition: all .15s ease;
 }
-.res-search-wrap:focus-within {
+.res-search-form:focus-within {
   border-color: #526c49;
-  box-shadow: 0 0 0 2px rgba(82,108,73,0.15);
+  box-shadow: 0 0 0 3px rgba(82,108,73,0.15);
 }
 .res-search-input {
   border: none;
@@ -891,80 +892,147 @@ body .basic-toggle-btn {
   padding: 4px 0;
   font-family: inherit;
 }
-.res-search-clear {
-  background: none;
+.res-search-input::placeholder {
+  color: #a49487;
+  font-size: 12.5px;
+}
+.res-search-input::-webkit-search-cancel-button {
+  display: none;
+  -webkit-appearance: none;
+}
+.res-search-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: #526c49;
+  color: #ffffff;
   border: none;
-  color: #9d8d80;
-  font-size: 14px;
+  border-radius: 50%;
   cursor: pointer;
-  padding: 0 2px;
+  transition: all .15s ease;
+  flex-shrink: 0;
+}
+.res-search-btn:hover {
+  background: #41573a;
+  transform: scale(1.05);
+}
+.res-search-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: #ffffff;
+  stroke-width: 2.4;
+  fill: none;
+}
+.res-search-clear {
+  background: #e8ded4;
+  border: none;
+  color: #6d5848;
+  font-size: 11px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1;
+  padding: 0;
+  transition: background .15s;
 }
 .res-search-clear:hover {
-  color: #3b2e22;
+  background: #d4c2b2;
+  color: #312317;
 }
 
-/* 관리자 첨부자료 관리 스타일의 깔끔한 가로 행 카드 */
+/* 서식 및 일반문서 카드 - 입력창처럼 보이지 않도록 카드형 음영 및 뚜렷한 아이콘 부여 */
 .resource-grid {
   display: flex !important;
   flex-direction: column !important;
-  gap: 8px !important;
+  gap: 10px !important;
 }
 .res-item-card {
-  background: #ffffff;
-  border: 1px solid #e2d9cd;
-  border-radius: 10px;
-  padding: 12px 16px;
+  background: #ffffff !important;
+  border: 1px solid #dfd5ca !important;
+  border-left: 5px solid #526c49 !important;
+  border-radius: 10px !important;
+  padding: 13px 16px !important;
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
   justify-content: space-between !important;
-  gap: 14px;
-  box-shadow: 0 1px 4px rgba(70,50,30,0.03);
-  transition: all .15s ease;
+  gap: 14px !important;
+  box-shadow: 0 2px 7px rgba(70,50,30,0.04) !important;
+  transition: all .15s ease !important;
 }
 .res-item-card:hover {
-  border-color: #819a7b;
-  box-shadow: 0 3px 8px rgba(82,108,73,0.1);
-  transform: translateY(-1px);
+  border-color: #819a7b !important;
+  box-shadow: 0 5px 15px rgba(82,108,73,0.12) !important;
+  transform: translateY(-2px) !important;
 }
-.res-item-card.form-card {
-  border-left: 5px solid #526c49 !important;
-  background: #fdfcf9;
-}
-.res-card-top {
+.res-card-main {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex: 1;
   min-width: 0;
 }
-.res-card-top .res-badge {
+.res-file-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  font-size: 11px;
   font-weight: 800;
-  padding: 4px 8px;
-  border-radius: 6px;
+  font-size: 12.5px;
+  letter-spacing: -0.5px;
 }
-.res-card-content {
+.res-file-icon-box.hwp {
+  background: #eef5fc;
+  color: #195ab4;
+  border: 1.5px solid #cadcf5;
+}
+.res-file-icon-box.pdf {
+  background: #fdf0f0;
+  color: #c93b3b;
+  border: 1.5px solid #f8cdcd;
+}
+.res-file-icon-box.etc {
+  background: #f4eee7;
+  color: #695747;
+  border: 1.5px solid #ded3c6;
+}
+.res-card-info {
   display: flex;
   flex-direction: column;
   gap: 2px;
   flex: 1;
   min-width: 0;
 }
-.res-card-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: #312317;
+.res-card-info h3 {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: #2c1e13;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.res-card-filename {
-  font-size: 12px;
-  color: #837262;
+.res-card-meta {
+  font-size: 12.5px;
+  color: #7d6b5c;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.res-card-desc {
+  font-size: 12.5px;
+  color: #635345;
+  margin: 2px 0 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -976,9 +1044,74 @@ body .basic-toggle-btn {
   flex-shrink: 0;
 }
 .res-card-actions .btn {
-  padding: 6px 12px;
-  font-size: 12.5px;
+  padding: 7px 14px;
+  font-size: 13px;
   font-weight: 700;
+  border-radius: 7px;
+}
+
+/* 사진 자료실 반응형 그리드 - 화면 절대 벗어나지 않도록 통제 */
+.res-photo-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+  gap: 16px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.res-photo-card {
+  background: #ffffff !important;
+  border: 1px solid #ded5cb !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 6px rgba(70,50,30,0.04) !important;
+  cursor: pointer !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  transition: all .15s ease !important;
+}
+.res-photo-card:hover {
+  border-color: #526c49 !important;
+  box-shadow: 0 6px 16px rgba(82,108,73,0.15) !important;
+  transform: translateY(-2px) !important;
+}
+.res-photo-thumb-wrap {
+  width: 100% !important;
+  aspect-ratio: 4 / 3 !important;
+  overflow: hidden !important;
+  background: #f0eae1 !important;
+  position: relative !important;
+}
+.res-photo-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+  transition: transform .25s ease !important;
+}
+.res-photo-card:hover .res-photo-img {
+  transform: scale(1.04) !important;
+}
+.res-photo-info {
+  padding: 10px 12px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+}
+.res-photo-title {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #2e2015 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.res-photo-date {
+  font-size: 12px !important;
+  color: #857262 !important;
 }
 
 @media(max-width: 640px) {
@@ -986,18 +1119,22 @@ body .basic-toggle-btn {
     flex-direction: column;
     align-items: stretch;
   }
-  .res-search-wrap {
+  .res-search-form {
     width: 100%;
   }
   .res-item-card {
     flex-direction: column !important;
     align-items: stretch !important;
-    gap: 10px;
-    padding: 12px 14px;
+    gap: 10px !important;
+    padding: 12px 14px !important;
   }
   .res-card-actions {
     justify-content: flex-end;
     border-top: 1px solid #f0e9df;
     padding-top: 8px;
+  }
+  .res-photo-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+    gap: 10px !important;
   }
 }

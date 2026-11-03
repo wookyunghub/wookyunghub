@@ -6,8 +6,8 @@
    2행: 원본파일 | PDF열람본
    3행: 설명(좌) | 자료날짜 + 저장/취소 위아래 배치(우) */
 #file-form-body{margin-top:14px;padding-top:14px;border-top:1px solid #e6ddd3}
-#file-form-body .file-field{display:flex;flex-direction:column;gap:5px;min-width:0;font-size:13.5px;font-weight:700;color:#3d2c1e;margin:0}
-#file-form-body .file-field>span{line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#file-form-body .file-field{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:5px;min-width:0;font-size:13.5px;font-weight:700;color:#3d2c1e;margin:0}
+#file-form-body .file-field>span{line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left;align-self:flex-start}
 #file-form-body input:not([type=file]),
 #file-form-body select{width:100%;min-width:0;height:38px;padding:6px 10px;font-size:14px;border:1px solid #cbbba9;border-radius:8px;background:#fff;box-sizing:border-box;color:#261c14}
 #file-form-body input[type=file]{width:100%;min-width:0;height:38px;padding:4px 8px;font-size:13px;border:1px solid #cbbba9;border-radius:8px;background:#fcfaf7;box-sizing:border-box;color:#3d2c1e}
@@ -39,7 +39,20 @@
   #file-form-body .file-description-field textarea{min-height:84px}
 }
 
-.file-cards{display:grid;gap:7px;margin-top:10px}.file-item{border:1px solid #dce4ee;background:#fff;border-radius:10px;display:grid;grid-template-columns:86px minmax(0,1fr) auto;gap:11px;padding:8px;align-items:center}.file-preview{width:86px;height:66px;padding:0;background:#f2f5f8;border:1px solid #e4e8ee;border-radius:7px;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center}.file-preview img{width:100%;height:100%;object-fit:cover}.file-type-icon{font-size:14px;color:#52667e;font-weight:800}.file-type-icon.pdf{color:#ab302f}.file-item-body{min-width:0}.file-item-title{background:transparent;border:0;padding:0;text-align:left;font-weight:700;font-size:14px;cursor:pointer;color:#1c3451}.file-item-body small{display:block;font-size:12px;color:#6c7c90;margin-top:2px}.file-item-body p{font-size:12px;color:#657587;margin:3px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.file-item-actions{display:flex;gap:5px}.file-item-actions .btn{padding:6px 9px;font-size:12px}
+.file-cards{display:grid;gap:10px;margin-top:10px}
+.file-item{border:1px solid #e2d7cb;background:#ffffff;border-radius:10px;display:grid;grid-template-columns:86px minmax(0,1fr) auto;gap:14px;padding:12px 14px;align-items:center;box-shadow:0 2px 6px rgba(70,50,30,0.04);transition:all .15s ease}
+.file-item:hover{border-color:#8e583c;box-shadow:0 4px 12px rgba(142,88,60,0.1);transform:translateY(-1px)}
+.file-preview{width:86px;height:66px;padding:0;background:#f8f4ee;border:1px solid #e2d6c8;border-radius:8px;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s}
+.file-preview img{width:100%;height:100%;object-fit:cover}
+.file-type-icon{font-size:14px;color:#52667e;font-weight:800;letter-spacing:-0.5px}
+.file-type-icon.pdf{color:#ab302f}
+.file-item-body{min-width:0}
+.file-item-title{background:transparent;border:0;padding:0;text-align:left;font-weight:700;font-size:15px;cursor:pointer;color:#2c1f16;display:block}
+.file-item-title:hover{color:#8e583c;text-decoration:underline}
+.file-item-body small{display:block;font-size:12px;color:#7a6858;margin-top:3px}
+.file-item-body p{font-size:12.5px;color:#6b5a4d;margin:4px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-item-actions{display:flex;gap:6px}
+.file-item-actions .btn{padding:6px 11px;font-size:12.5px;font-weight:700}
 
 /* 자료 상세보기 모달: 화면 맞춤 이미지 + 심플하고 가독성 높은 하단 정보 */
 .file-dialog{width:min(760px,94vw);max-height:92vh;overflow-x:hidden;overflow-y:auto;border:1px solid #d8ccbe;border-radius:14px;padding:16px 20px;background:#fff;color:#261c14;box-shadow:0 20px 50px rgba(0,0,0,.28)}
@@ -70,16 +83,20 @@
 #file-filter,#file-role-filter{font-size:14px;height:34px;padding:5px 8px;max-width:170px}
 
 /* Grouped by Documents and Photos, sorted by date */
-.file-group-heading{display:flex;align-items:center;justify-content:space-between;background:#fdf8f4;border-left:5px solid #8e583c;border-top:1px solid #ebd8c8;border-right:1px solid #ebd8c8;border-bottom:1px solid #ebd8c8;padding:10px 14px;margin:22px 0 10px;border-radius:8px;font-size:15px;font-weight:700;color:#3f271a;gap:12px;flex-wrap:wrap;}
+.file-group-heading{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(to right, #fbf7f2, #f5ede4);border-left:5px solid #8e583c;border-top:1px solid #ebd8c8;border-right:1px solid #ebd8c8;border-bottom:1px solid #ebd8c8;padding:8px 14px;margin:20px 0 10px;border-radius:8px;font-size:15px;font-weight:700;color:#3f271a;gap:12px;flex-wrap:wrap;}
 .file-group-heading:first-child{margin-top:4px}
 .file-group-title{display:flex;align-items:center;gap:6px}
 .file-group-count{font-size:13px;font-weight:500;color:#8c6853}
-.file-group-search-wrap{display:inline-flex;align-items:center;background:#ffffff;border:1px solid #d5c3b4;border-radius:6px;padding:2px 8px;gap:6px;box-shadow:0 1px 3px rgba(0,0,0,0.04);margin-left:auto;}
-.file-group-search-wrap:focus-within{border-color:#8e583c;box-shadow:0 0 0 2px rgba(142,88,60,0.15);}
-.file-group-search-input{border:none;outline:none;font-size:13px;color:#3b2e22;width:180px;background:transparent;padding:4px 0;font-family:inherit;}
+.file-group-search-form{display:inline-flex;align-items:center;background:#ffffff;border:1.5px solid #c9b8a8;border-radius:9999px;padding:2px 4px 2px 12px;gap:6px;box-shadow:inset 0 1px 2px rgba(0,0,0,0.03), 0 1px 3px rgba(0,0,0,0.04);margin-left:auto;transition:all .15s ease;}
+.file-group-search-form:focus-within{border-color:#8e583c;box-shadow:0 0 0 3px rgba(142,88,60,0.15);}
+.file-group-search-input{border:none;outline:none;font-size:13px;color:#3b2e22;width:170px;background:transparent;padding:4px 0;font-family:inherit;}
 .file-group-search-input::placeholder{color:#a49487;font-size:12px;}
-.btn-clear-search{background:none;border:none;color:#9b8c80;font-size:13px;cursor:pointer;padding:0 2px;line-height:1;}
-.btn-clear-search:hover{color:#3b2e22;}
+.file-group-search-input::-webkit-search-cancel-button{display:none;-webkit-appearance:none;}
+.btn-search-submit{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:#8e583c;color:#ffffff;border:none;border-radius:50%;cursor:pointer;transition:all .15s ease;flex-shrink:0;}
+.btn-search-submit:hover{background:#73442c;transform:scale(1.05);}
+.btn-search-submit svg{width:13px;height:13px;stroke:#ffffff;stroke-width:2.4;fill:none;}
+.btn-clear-search{background:#e8ded4;border:none;color:#6d5848;font-size:11px;width:18px;height:18px;border-radius:50%;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;padding:0;transition:background .15s;margin-right:2px;}
+.btn-clear-search:hover{background:#d4c2b2;color:#312317;}
 
 /* 5-Column Clean Tab Switcher (사진/서식/문서/증빙/전체) & 5-Column Document Sub-pills */
 .file-category-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:12px 0 10px;border-bottom:2px solid #dfd2c4;padding-bottom:1px}

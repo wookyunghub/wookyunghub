@@ -224,11 +224,13 @@
       : `<span class="file-group-count">${rawItems.length}건</span>`;
 
     const searchHtml = `
-      <div class="file-group-search-wrap">
-        <span style="font-size:12px;opacity:0.7;">🔍</span>
-        <input type="search" class="file-group-search-input" placeholder="${esc(title)} 검색..." value="${esc(adminFileSearch)}">
+      <form class="file-group-search-form" onsubmit="return false;">
+        <input type="search" class="file-group-search-input" placeholder="${esc(title)} 검색어 입력 후 검색..." value="${esc(adminFileSearch)}">
         ${adminFileSearch ? '<button type="button" class="btn-clear-search" title="검색 지우기">✕</button>' : ''}
-      </div>
+        <button type="button" class="btn-search-submit" title="검색 실행">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+        </button>
+      </form>
     `;
 
     const contentHtml = items.length
@@ -513,21 +515,36 @@
     editDialog.showModal();
   };
 
-  list.addEventListener('input', e => {
-    if(e.target.classList.contains('file-group-search-input')){
-      adminFileSearch = e.target.value;
-      const pos = e.target.selectionStart;
-      render();
-      const nextInput = list.querySelector('.file-group-search-input');
-      if(nextInput){
-        nextInput.focus();
-        try{ nextInput.setSelectionRange(pos, pos); }catch(err){}
-      }
+  function executeAdminSearch(form){
+    if(!form) return;
+    const input = form.querySelector('.file-group-search-input');
+    if(!input) return;
+    adminFileSearch = input.value.trim();
+    render();
+    const nextInput = list.querySelector('.file-group-search-input');
+    if(nextInput){
+      nextInput.focus();
+      try{ nextInput.setSelectionRange(nextInput.value.length, nextInput.value.length); }catch(err){}
+    }
+  }
+
+  list.addEventListener('keydown', e => {
+    if(e.key === 'Enter' && e.target.classList.contains('file-group-search-input')){
+      e.preventDefault();
+      executeAdminSearch(e.target.closest('form'));
     }
   });
 
   list.addEventListener('click', e => {
-    if(e.target.classList.contains('btn-clear-search') || e.target.closest('.btn-clear-search')){
+    const submitBtn = e.target.closest('.btn-search-submit');
+    if(submitBtn){
+      e.preventDefault();
+      executeAdminSearch(submitBtn.closest('form'));
+      return;
+    }
+    const clearBtn = e.target.closest('.btn-clear-search');
+    if(clearBtn){
+      e.preventDefault();
       adminFileSearch = '';
       render();
       const nextInput = list.querySelector('.file-group-search-input');
