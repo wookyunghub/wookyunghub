@@ -4,18 +4,51 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="../assets/css/app.css?v=1.3">
-  <title>기본 설정</title>
+  <title>기본 설정 · 관리자</title>
   <style>
     .settings-container {
-      max-width: 820px;
-      margin: 0 auto;
+      max-width: 860px;
+      margin: 0 auto 40px;
     }
+    
+    /* 서브 탭 네비게이션 */
+    .settings-tab-nav {
+      display: flex;
+      gap: 6px;
+      border-bottom: 2px solid #819a7b;
+      margin-bottom: 18px;
+    }
+    .settings-tab-btn {
+      padding: 9px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #635343;
+      background: #f7f4ee;
+      border: 1px solid #dfd5c8;
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      transition: all .15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .settings-tab-btn:hover {
+      background: #eee7db;
+      color: #3b2e22;
+    }
+    .settings-tab-btn.active {
+      background: #819a7b;
+      color: #ffffff;
+      border-color: #819a7b;
+    }
+
     .settings-group-card {
       background: #ffffff;
       border: 1px solid #e2d9cd;
       border-radius: 12px;
       padding: 16px 20px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       box-shadow: 0 2px 7px rgba(70,50,30,0.04);
     }
     .settings-group-title {
@@ -35,12 +68,19 @@
       font-weight: 500;
       margin-left: 4px;
     }
+
     .compact-form-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px 16px;
     }
-    .compact-form-grid .full-col {
+    .compact-form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px 14px;
+    }
+    .compact-form-grid .full-col,
+    .compact-form-grid-3 .full-col {
       grid-column: 1 / -1;
     }
     .compact-field {
@@ -55,6 +95,7 @@
       margin: 0;
     }
     .compact-field input[type="text"],
+    .compact-field input[type="number"],
     .compact-field input:not([type]) {
       width: 100%;
       height: 36px;
@@ -78,7 +119,7 @@
       color: #a89a8b;
     }
 
-    /* 이미지 업로드 1줄 가로형 컴팩트 */
+    /* 이미지/서류 업로드 1줄 가로형 컴팩트 */
     .img-upload-row {
       display: flex;
       align-items: center;
@@ -108,9 +149,11 @@
       display: flex;
       gap: 6px;
       align-items: center;
+      min-width: 0;
     }
     .img-path-input {
       flex: 1;
+      min-width: 0;
       height: 34px !important;
       font-size: 12.5px !important;
       padding: 5px 9px !important;
@@ -135,31 +178,56 @@
     .btn-file-select:hover {
       background: #e9e0d4;
     }
+    .btn-file-view {
+      height: 34px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #2e5926;
+      background: #eef6ec;
+      border: 1px solid #b6d8af;
+      border-radius: 6px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-file-view:hover {
+      background: #ddead7;
+    }
     .img-help-text {
       font-size: 11.5px;
       color: #857464;
       margin: 3px 0 0;
     }
 
-    /* 하단 저장 바 */
+    /* 하단 고정 저장 바 */
     .compact-save-bar {
+      position: sticky;
+      bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 18px;
+      margin-top: 20px;
       padding: 12px 18px;
-      background: #fcfaf6;
-      border: 1px solid #e4dacd;
-      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(4px);
+      border: 1px solid #dfd3c5;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(50,30,10,0.12);
+      z-index: 10;
     }
     .compact-save-bar .btn-save {
       font-size: 14px;
-      padding: 8px 26px;
+      padding: 9px 28px;
       border-radius: 8px;
       font-weight: 700;
     }
+
     @media(max-width: 640px) {
-      .compact-form-grid {
+      .compact-form-grid,
+      .compact-form-grid-3 {
         grid-template-columns: 1fr;
       }
       .img-upload-row {
@@ -187,94 +255,322 @@
   <section class="page-title">
     <span class="badge admin-badge">관리자</span>
     <h1>기본 설정</h1>
-    <p>경로당 기본 정보, 홈페이지 설정, 오시는 길 및 대표 이미지를 관리합니다.</p>
+    <p>경로당 기본 정보, 시설 현황, 원본 서류/평면도 파일 및 대표 이미지를 관리합니다.</p>
   </section>
 
   <div class="settings-container">
-    <!-- 1. 기관 기본 정보 -->
-    <section class="settings-group-card">
-      <h2 class="settings-group-title">
-        <span>🏛️ 기관 기본 정보</span>
-        <small>조직명과 상위 소속 정보</small>
-      </h2>
-      <div class="compact-form-grid">
-        <div class="compact-field">
-          <label for="s-org">조직명</label>
-          <input id="s-org" maxlength="100" placeholder="예시) 우경경로당">
-        </div>
-        <div class="compact-field">
-          <label for="s-period">최신 운영대장 기간</label>
-          <input id="s-period" placeholder="예시) 2025-2026">
-        </div>
-        <div class="compact-field">
-          <label for="s-parent">소속 기관</label>
-          <input id="s-parent" maxlength="200" placeholder="예시) (사)대한노인회 진천군지회">
-        </div>
-        <div class="compact-field">
-          <label for="s-branch">소속 분회</label>
-          <input id="s-branch" maxlength="100" placeholder="예시) 문백·영동분회">
-        </div>
-      </div>
-    </section>
+    <!-- 서브 탭 -->
+    <nav class="settings-tab-nav" role="tablist">
+      <button type="button" class="settings-tab-btn active" data-tab="tab-basic">📋 기본현황 & 시설 정보</button>
+      <button type="button" class="settings-tab-btn" data-tab="tab-files">📁 원본 서류 & 평면도 관리</button>
+      <button type="button" class="settings-tab-btn" data-tab="tab-site">🌐 사이트 & 대표 이미지</button>
+    </nav>
 
-    <!-- 2. 홈페이지 & 오시는 길 -->
-    <section class="settings-group-card">
-      <h2 class="settings-group-title">
-        <span>🌐 홈페이지 및 오시는 길</span>
-        <small>사이트 제목과 지도 연결</small>
-      </h2>
-      <div class="compact-form-grid">
-        <div class="compact-field">
-          <label for="s-title">사이트 제목</label>
-          <input id="s-title" placeholder="예시) 우경경로당 홈페이지">
-        </div>
-        <div class="compact-field">
-          <label for="s-public">공개 홈페이지 URL <small style="font-weight:400;color:#888;">(선택)</small></label>
-          <input id="s-public" placeholder="예시) https://wookyung.pages.dev">
-        </div>
-        <div class="compact-field full-col">
-          <label for="s-map">오시는 길 지도 연결 URL <small style="font-weight:400;color:#888;">(네이버/카카오/티맵 공유 링크, 미입력 시 기본 지도 자동 연결)</small></label>
-          <input id="s-map" placeholder="예시) https://map.naver.com/... 또는 https://kko.to/...">
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. 대표 이미지 관리 (로고 및 건물 사진) -->
-    <section class="settings-group-card">
-      <h2 class="settings-group-title">
-        <span>🖼️ 대표 이미지 관리</span>
-        <small>로고 및 첫 화면 전경 사진</small>
-      </h2>
-      <div class="compact-form-grid">
-        <!-- 로고 -->
-        <div class="compact-field full-col">
-          <label>경로당 로고 이미지</label>
-          <div class="img-upload-row">
-            <img id="s-logo-preview" class="img-thumb-preview" src="../assets/img/logo.png" alt="로고 미리보기">
-            <div class="img-input-wrap">
-              <input id="s-logo" class="img-path-input" placeholder="assets/img/logo.png">
-              <label class="btn-file-select">파일 선택<input type="file" id="s-logo-file" accept="image/*" hidden></label>
+    <!-- [탭 1] 경로당 기본현황 & 시설 정보 -->
+    <div id="tab-basic" class="settings-tab-content">
+      <!-- 1-1. 대표 기본정보 -->
+      <section class="settings-group-card">
+        <h2 class="settings-group-title">
+          <span>🏛️ 대표자 및 회원 현황</span>
+          <small>경로당 소개 기본현황에 표시되는 핵심 항목</small>
+        </h2>
+        <div class="compact-form-grid">
+          <div class="compact-field">
+            <label for="b-chairman-name">대표자 (회장 성명)</label>
+            <input id="b-chairman-name" placeholder="예시) 조영기">
+          </div>
+          <div class="compact-field">
+            <label for="b-phone">전화번호</label>
+            <input id="b-phone" placeholder="예시) 043-532-5593">
+          </div>
+          <div class="compact-field full-col">
+            <label for="b-address">소재지 (주소)</label>
+            <input id="b-address" placeholder="예시) 충북 진천군 문백면 사양1길 2-12">
+          </div>
+          <div class="compact-field">
+            <label for="b-members-total">총 회원수 (명)</label>
+            <input type="number" id="b-members-total" placeholder="50">
+          </div>
+          <div class="compact-field">
+            <div style="display:flex;gap:8px;">
+              <div style="flex:1;">
+                <label for="b-members-male">남성 회원</label>
+                <input type="number" id="b-members-male" placeholder="21">
+              </div>
+              <div style="flex:1;">
+                <label for="b-members-female">여성 회원</label>
+                <input type="number" id="b-members-female" placeholder="29">
+              </div>
             </div>
           </div>
-          <div class="img-help-text">홈페이지 상단 브랜드 및 슬로건 옆에 표시되는 대표 로고</div>
         </div>
+      </section>
 
-        <!-- 건물 사진 -->
-        <div class="compact-field full-col" style="margin-top:6px;">
-          <label>건물 전경 사진</label>
-          <div class="img-upload-row">
-            <img id="s-building-preview" class="img-thumb-preview img-thumb-bld" src="../assets/img/building.jpg" alt="건물사진 미리보기">
-            <div class="img-input-wrap">
-              <input id="s-building" class="img-path-input" placeholder="assets/img/building.jpg">
-              <label class="btn-file-select">파일 선택<input type="file" id="s-building-file" accept="image/*" hidden></label>
+      <!-- 1-2. 등록 및 신고 정보 -->
+      <section class="settings-group-card">
+        <h2 class="settings-group-title">
+          <span>📑 등록 · 신고 및 건축 정보</span>
+          <small>고유번호, 신고일자, 건축년도 및 구조</small>
+        </h2>
+        <div class="compact-form-grid">
+          <div class="compact-field">
+            <label for="b-unique-number">고유번호</label>
+            <input id="b-unique-number" placeholder="예시) 301-80-18628">
+          </div>
+          <div class="compact-field">
+            <label for="b-registered-date">설치 신고일자</label>
+            <input id="b-registered-date" placeholder="예시) 1975. 03. 01">
+          </div>
+          <div class="compact-field">
+            <label for="b-capacity">시설 정원 (명)</label>
+            <input type="number" id="b-capacity" placeholder="20">
+          </div>
+          <div class="compact-field">
+            <label for="b-build-date">건축년도</label>
+            <input id="b-build-date" placeholder="예시) 2009. 07. 29">
+          </div>
+          <div class="compact-field full-col">
+            <label for="b-structure">건물 구조</label>
+            <input id="b-structure" placeholder="예시) 블록구조 1층">
+          </div>
+        </div>
+      </section>
+
+      <!-- 1-3. 면적 및 시설 공간 -->
+      <section class="settings-group-card">
+        <h2 class="settings-group-title">
+          <span>📐 면적 및 내부 시설 공간</span>
+          <small>대지/건물 면적과 방·화장실·주방 구성</small>
+        </h2>
+        <div class="compact-form-grid">
+          <div class="compact-field">
+            <label for="b-site-area">대지면적</label>
+            <div style="display:flex;gap:6px;">
+              <input id="b-site-area" placeholder="예시) 335㎡" style="flex:1;">
+              <input id="b-site-pyeong" placeholder="101.52평" style="width:90px;">
             </div>
           </div>
-          <div class="img-help-text">홈페이지 첫 화면 상단(Hero) 배경으로 은은하게 적용되는 전경 사진</div>
+          <div class="compact-field">
+            <label for="b-building-area">건물면적</label>
+            <div style="display:flex;gap:6px;">
+              <input id="b-building-area" placeholder="예시) 105.73㎡" style="flex:1;">
+              <input id="b-building-pyeong" placeholder="32.04평" style="width:90px;">
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+        <div class="compact-form-grid-3" style="margin-top:10px;">
+          <div class="compact-field">
+            <label for="b-rooms">방 개수</label>
+            <input type="number" id="b-rooms" placeholder="3">
+          </div>
+          <div class="compact-field">
+            <label for="b-restrooms">화장실 개수</label>
+            <input type="number" id="b-restrooms" placeholder="2">
+          </div>
+          <div class="compact-field">
+            <label for="b-kitchen">주방 개수</label>
+            <input type="number" id="b-kitchen" placeholder="1">
+          </div>
+        </div>
+        <div class="compact-form-grid" style="margin-top:10px;">
+          <div class="compact-field">
+            <label for="b-sub-rooms">보조실 개수</label>
+            <input type="number" id="b-sub-rooms" placeholder="1">
+          </div>
+          <div class="compact-field">
+            <label for="b-heating">난방방법</label>
+            <input id="b-heating" placeholder="예시) 심야전력">
+          </div>
+          <div class="compact-field full-col">
+            <label for="b-convenience">편의시설</label>
+            <input id="b-convenience" placeholder="예시) 우경정 쉼터, 실외운동기구 외">
+          </div>
+          <div class="compact-field">
+            <label for="b-property-owner">소유자 (명의)</label>
+            <input id="b-property-owner" placeholder="예시) 리장 이동수">
+          </div>
+          <div class="compact-field">
+            <label for="b-building-ledger">건축물대장 유무</label>
+            <input id="b-building-ledger" placeholder="예시) 유">
+          </div>
+        </div>
+      </section>
+    </div>
 
-    <!-- 하단 저장 바 -->
+    <!-- [탭 2] 원본 서류 & 평면도 파일 관리 -->
+    <div id="tab-files" class="settings-tab-content" hidden>
+      <section class="settings-group-card">
+        <h2 class="settings-group-title">
+          <span>📄 경로당 카드 & 평면도 원본 파일</span>
+          <small>소개 페이지 원본 열람 버튼에 직접 연결되는 파일</small>
+        </h2>
+        <div class="compact-form-grid">
+          <!-- 1. 경로당 카드 원본 파일 -->
+          <div class="compact-field full-col">
+            <label>경로당 카드 원본 파일 (PDF 또는 이미지)</label>
+            <div class="img-upload-row">
+              <img id="b-card-file-preview" class="img-thumb-preview" src="../assets/docs/book1/p005.webp" alt="카드 미리보기">
+              <div class="img-input-wrap">
+                <input id="b-card-file" class="img-path-input" placeholder="assets/docs/book1/p005.webp">
+                <label class="btn-file-select">파일 선택<input type="file" id="b-card-file-input" accept=".pdf,image/*" hidden></label>
+                <a id="b-card-file-link" href="../assets/docs/book1/p005.webp" target="_blank" rel="noopener" class="btn-file-view">열람 ↗</a>
+              </div>
+            </div>
+            <div class="img-help-text">경로당 소개 '기본현황' 상단의 <b>[📄 경로당 카드 원본 열람]</b> 버튼을 누르면 이 파일로 직접 연결됩니다.</div>
+          </div>
+
+          <!-- 2. 평면도 원본 파일 -->
+          <div class="compact-field full-col" style="margin-top:6px;">
+            <label>경로당 평면도 원본 파일 / 이미지</label>
+            <div class="img-upload-row">
+              <img id="b-floorplan-file-preview" class="img-thumb-preview img-thumb-bld" src="../assets/img/floorplan-book1-p28.webp" alt="평면도 미리보기">
+              <div class="img-input-wrap">
+                <input id="b-floorplan-file" class="img-path-input" placeholder="assets/img/floorplan-book1-p28.webp">
+                <label class="btn-file-select">파일 선택<input type="file" id="b-floorplan-file-input" accept=".pdf,image/*" hidden></label>
+                <a id="b-floorplan-file-link" href="../assets/img/floorplan-book1-p28.webp" target="_blank" rel="noopener" class="btn-file-view">열람 ↗</a>
+              </div>
+            </div>
+            <div class="img-help-text">시설안내의 <b>평면도 썸네일/사진 뷰어 및 [📄 평면도 원본 열람]</b> 버튼에 연결되는 원본 파일입니다.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 증명서 원본 파일들 -->
+      <section class="settings-group-card">
+        <h2 class="settings-group-title">
+          <span>📜 증명서 원본 파일 관리</span>
+          <small>기본현황의 각 ↗ 링크 클릭 시 열리는 원본 증명서 파일</small>
+        </h2>
+        <div class="compact-form-grid">
+          <!-- 회장 등록증 -->
+          <div class="compact-field full-col">
+            <label>회장 등록증 원본 파일</label>
+            <div class="img-upload-row">
+              <img id="b-chairman-cert-preview" class="img-thumb-preview" src="../assets/img/certificates/cert_chairman_registration.webp" alt="회장등록증">
+              <div class="img-input-wrap">
+                <input id="b-chairman-cert" class="img-path-input" placeholder="assets/img/certificates/cert_chairman_registration.webp">
+                <label class="btn-file-select">파일 선택<input type="file" id="b-chairman-cert-input" accept=".pdf,image/*" hidden></label>
+                <a id="b-chairman-cert-link" href="../assets/img/certificates/cert_chairman_registration.webp" target="_blank" rel="noopener" class="btn-file-view">열람 ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 고유번호증 -->
+          <div class="compact-field full-col" style="margin-top:4px;">
+            <label>고유번호증 원본 파일</label>
+            <div class="img-upload-row">
+              <img id="b-unique-cert-preview" class="img-thumb-preview" src="../assets/img/certificates/cert_unique_number.webp" alt="고유번호증">
+              <div class="img-input-wrap">
+                <input id="b-unique-number-cert" class="img-path-input" placeholder="assets/img/certificates/cert_unique_number.webp">
+                <label class="btn-file-select">파일 선택<input type="file" id="b-unique-cert-input" accept=".pdf,image/*" hidden></label>
+                <a id="b-unique-cert-link" href="../assets/img/certificates/cert_unique_number.webp" target="_blank" rel="noopener" class="btn-file-view">열람 ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 시설 설치신고확인증 -->
+          <div class="compact-field full-col" style="margin-top:4px;">
+            <label>노인복지시설 설치신고확인증 원본 파일</label>
+            <div class="img-upload-row">
+              <img id="b-facility-cert-preview" class="img-thumb-preview" src="../assets/img/certificates/cert_facility_registration.webp" alt="설치신고확인증">
+              <div class="img-input-wrap">
+                <input id="b-facility-cert" class="img-path-input" placeholder="assets/img/certificates/cert_facility_registration.webp">
+                <label class="btn-file-select">파일 선택<input type="file" id="b-facility-cert-input" accept=".pdf,image/*" hidden></label>
+                <a id="b-facility-cert-link" href="../assets/img/certificates/cert_facility_registration.webp" target="_blank" rel="noopener" class="btn-file-view">열람 ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- [탭 3] 사이트 및 대표 이미지 -->
+    <div id="tab-site" class="settings-tab-content" hidden>
+      <!-- 기관 기본 정보 -->
+      <section class="settings-group-card">
+        <h2 class="settings-group-title">
+          <span>🏛️ 사이트 소속 정보</span>
+          <small>상단 브랜드 및 헤더에 표시되는 기관명</small>
+        </h2>
+        <div class="compact-form-grid">
+          <div class="compact-field">
+            <label for="s-org">조직명</label>
+            <input id="s-org" maxlength="100" placeholder="예시) 우경경로당">
+          </div>
+          <div class="compact-field">
+            <label for="s-period">최신 운영대장 기간</label>
+            <input id="s-period" placeholder="예시) 2025-2026">
+          </div>
+          <div class="compact-field">
+            <label for="s-parent">소속 기관</label>
+            <input id="s-parent" maxlength="200" placeholder="예시) (사)대한노인회 진천군지회">
+          </div>
+          <div class="compact-field">
+            <label for="s-branch">소속 분회</label>
+            <input id="s-branch" maxlength="100" placeholder="예시) 문백·영동분회">
+          </div>
+        </div>
+      </section>
+
+      <!-- 홈페이지 & 오시는 길 -->
+      <section class="settings-group-card">
+        <h2 class="settings-group-title">
+          <span>🌐 홈페이지 및 오시는 길</span>
+          <small>사이트 제목과 지도 연결</small>
+        </h2>
+        <div class="compact-form-grid">
+          <div class="compact-field">
+            <label for="s-title">사이트 제목</label>
+            <input id="s-title" placeholder="예시) 우경경로당 홈페이지">
+          </div>
+          <div class="compact-field">
+            <label for="s-public">공개 홈페이지 URL <small style="font-weight:400;color:#888;">(선택)</small></label>
+            <input id="s-public" placeholder="예시) https://wookyung.pages.dev">
+          </div>
+          <div class="compact-field full-col">
+            <label for="s-map">오시는 길 지도 연결 URL <small style="font-weight:400;color:#888;">(네이버/카카오/티맵 공유 링크, 미입력 시 기본 지도 자동 연결)</small></label>
+            <input id="s-map" placeholder="예시) https://map.naver.com/... 또는 https://kko.to/...">
+          </div>
+        </div>
+      </section>
+
+      <!-- 대표 이미지 관리 -->
+      <section class="settings-group-card">
+        <h2 class="settings-group-title">
+          <span>🖼️ 대표 이미지 관리</span>
+          <small>로고 및 첫 화면 전경 사진</small>
+        </h2>
+        <div class="compact-form-grid">
+          <!-- 로고 -->
+          <div class="compact-field full-col">
+            <label>경로당 로고 이미지</label>
+            <div class="img-upload-row">
+              <img id="s-logo-preview" class="img-thumb-preview" src="../assets/img/logo.png" alt="로고 미리보기">
+              <div class="img-input-wrap">
+                <input id="s-logo" class="img-path-input" placeholder="assets/img/logo.png">
+                <label class="btn-file-select">파일 선택<input type="file" id="s-logo-file" accept="image/*" hidden></label>
+              </div>
+            </div>
+            <div class="img-help-text">홈페이지 상단 브랜드 및 슬로건 옆에 표시되는 대표 로고</div>
+          </div>
+
+          <!-- 건물 사진 -->
+          <div class="compact-field full-col" style="margin-top:6px;">
+            <label>건물 전경 사진</label>
+            <div class="img-upload-row">
+              <img id="s-building-preview" class="img-thumb-preview img-thumb-bld" src="../assets/img/building.jpg" alt="건물사진 미리보기">
+              <div class="img-input-wrap">
+                <input id="s-building" class="img-path-input" placeholder="assets/img/building.jpg">
+                <label class="btn-file-select">파일 선택<input type="file" id="s-building-file" accept="image/*" hidden></label>
+              </div>
+            </div>
+            <div class="img-help-text">홈페이지 첫 화면 상단(Hero) 배경으로 은은하게 적용되는 전경 사진</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 하단 스티키 저장 바 -->
     <div class="compact-save-bar">
       <span id="s-msg" class="small" style="font-weight:600;color:#526c49;"></span>
       <button id="s-save" class="btn primary btn-save">기본 설정 저장</button>
@@ -290,6 +586,6 @@
 
 <script src="../assets/js/common.js?v=1.8"></script>
 <script src="../assets/js/admin-auth.js?v=1.3"></script>
-<script src="../assets/js/admin-settings.js?v=5.70"></script>
+<script src="../assets/js/admin-settings.js?v=6.00"></script>
 </body>
 </html>

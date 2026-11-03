@@ -32,7 +32,9 @@
     "heating": "심야전력",
     "convenience_facilities": "우경정 쉼터, 실외운동기구 외",
     "property_owner": "리장 이동수",
-    "building_ledger": "유(별첨)"
+    "building_ledger": "유(별첨)",
+    "card_file": "assets/docs/book1/p005.webp",
+    "floorplan_file": "assets/img/floorplan-book1-p28.webp"
   },
   "officers_note": "홈페이지에는 직위와 성명만 표시합니다. 상세정보는 관리자와 운영대장 발간에만 사용합니다.",
   "facilities": [

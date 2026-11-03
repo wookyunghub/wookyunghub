@@ -7,6 +7,24 @@
   ]);
   const b={...(d.basic||{}),name:site.organization_name||(d.basic||{}).name,parent_organization:site.parent_organization??(d.basic||{}).parent_organization,branch_name:site.branch_name??(d.basic||{}).branch_name},esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const basic=document.getElementById('about-basic');
+  // 경로당 카드 원본 파일 및 평면도 원본 파일 동적 바인딩 (관리자 기본설정 기준)
+  const cardFileBtn = document.getElementById('btn-card-file');
+  const cardFileUrl = b.card_file || 'assets/docs/book1/p005.webp';
+  if(cardFileBtn){
+    cardFileBtn.href = cardFileUrl;
+    cardFileBtn.title = '경로당 카드 원본 파일 열람';
+  }
+
+  const floorplanFileBtn = document.getElementById('btn-floorplan-file');
+  const floorplanFileUrl = b.floorplan_file || 'assets/img/floorplan-book1-p28.webp';
+  if(floorplanFileBtn){
+    floorplanFileBtn.href = floorplanFileUrl;
+    floorplanFileBtn.title = '경로당 평면도 원본 파일 열람';
+  }
+  const floorplanThumbImg = document.querySelector('#floorplan-thumb img');
+  if(floorplanThumbImg){
+    floorplanThumbImg.src = floorplanFileUrl;
+  }
 
   const basicCell=(label,value,sub='',cert=null,extra=false)=>{
     const subHtml=sub?`<span class="fact-sub">${esc(sub)}</span>`:'';
@@ -178,26 +196,22 @@
     floorplan: {
       title: '경로당 평면도',
       sub: '',
-      src: 'assets/img/floorplan-book1-p28.webp?v=2.8',
-      ebook: 'ebook.html?ledger=2025-2026&doc=book1&page=28'
+      src: b.floorplan_file || 'assets/img/floorplan-book1-p28.webp'
     },
     unique: {
       title: '고유번호증',
       sub: '',
-      src: 'assets/img/certificates/cert_unique_number.webp?v=1.0',
-      ebook: 'ebook.html?ledger=2025-2026&doc=book1&page=11'
+      src: b.unique_number_cert || 'assets/img/certificates/cert_unique_number.webp'
     },
     facility: {
       title: '노인복지시설 설치신고확인증',
       sub: '',
-      src: 'assets/img/certificates/cert_facility_registration.webp?v=1.0',
-      ebook: 'ebook.html?ledger=2025-2026&doc=book1&page=9'
+      src: b.facility_cert || 'assets/img/certificates/cert_facility_registration.webp'
     },
     chairman: {
       title: '대한노인회 우경경로당 회장 등록증',
       sub: '',
-      src: 'assets/img/certificates/cert_chairman_registration.webp?v=1.0',
-      ebook: 'ebook.html?ledger=2025-2026&doc=book1&page=19'
+      src: b.chairman_cert || 'assets/img/certificates/cert_chairman_registration.webp'
     }
   };
 
@@ -208,6 +222,7 @@
   const docViewerSub=document.getElementById("doc-viewer-sub");
   const docViewerNewtab=document.getElementById("doc-viewer-newtab");
   const docViewerEbook=document.getElementById("doc-viewer-ebook");
+  const docViewerDownload=document.getElementById("doc-viewer-download");
 
   if(floorplanViewer&&floorplanImage){
     let scale=1,rotate=0;
@@ -223,6 +238,11 @@
       floorplanImage.src = info.src;
       floorplanImage.alt = info.title + ' 크게 보기';
       if(docViewerNewtab) docViewerNewtab.href = info.src;
+      if(docViewerDownload) {
+        docViewerDownload.href = info.src;
+        const ext = info.src.split('?')[0].split('.').pop() || 'webp';
+        docViewerDownload.download = (info.title || '원본파일') + '.' + ext;
+      }
       if(docViewerEbook) {
         if(info.ebook) {
           docViewerEbook.href = info.ebook;
