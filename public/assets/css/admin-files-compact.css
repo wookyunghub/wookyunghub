@@ -13,7 +13,7 @@
 #file-form-body input[type=file]{width:100%;min-width:0;height:38px;padding:4px 8px;font-size:13px;border:1px solid #cbbba9;border-radius:8px;background:#fcfaf7;box-sizing:border-box;color:#3d2c1e}
 #file-form-body input:focus,
 #file-form-body select:focus,
-#file-form-body textarea:focus{outline:none;border-color:#526c49;box-shadow:0 0 0 2px rgba(82,108,73,.15)}
+#file-form-body textarea:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 2px rgba(82,108,73,.15)}
 
 .file-form-row1{display:grid;grid-template-columns:185px 130px minmax(0,1fr);gap:10px;align-items:end}
 .file-form-row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:end;margin-top:10px}

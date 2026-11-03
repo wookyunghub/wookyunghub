@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="../assets/css/app.css?v=8.0">
+  <link rel="stylesheet" href="../assets/css/app.css?v=9.0">
   <title>시설·비품 관리 · 관리자</title>
   <link rel="stylesheet" href="../assets/css/file-edit.css?v=5.72">
   <link rel="stylesheet" href="../assets/css/admin-files-compact.css?v=5.23">
@@ -27,7 +27,7 @@
       margin: 8px 0;
       border-radius: 8px;
       background: #fff;
-      border: 1px solid #e5ded6;
+      border: 1px solid #cbd5e1;
       box-shadow: 0 1px 3px rgba(0,0,0,0.03);
     }
 
@@ -38,12 +38,12 @@
       justify-content: space-between;
       gap: 8px;
       padding-bottom: 8px;
-      border-bottom: 1px solid #f0ebe4;
+      border-bottom: 1px solid #e2e8f0;
     }
     .inv-panel-head h2 {
       font-size: 15px;
       font-weight: 700;
-      color: #3d2a1d;
+      color: #0f172a;
       margin: 0;
       display: flex;
       align-items: center;
@@ -53,9 +53,9 @@
       padding: 3px 9px;
       font-size: 12px;
       border-radius: 4px;
-      background: #f7f3ee;
-      border: 1px solid #dcd4cb;
-      color: #5d4a3b;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #475569;
       cursor: pointer;
     }
 
@@ -65,9 +65,9 @@
       margin: 0 auto 16px;
       box-sizing: border-box;
       box-shadow: 0 4px 16px rgba(78, 52, 34, 0.08);
-      border: 1px solid #ded3c8;
+      border: 1px solid #cbd5e1;
       border-radius: 12px;
-      background: #fdfbf9;
+      background: #ffffff;
     }
 
     /* 좌우 2분할 폼 레이아웃 */
@@ -95,8 +95,8 @@
       width: 100%;
       height: 190px;
       border-radius: 8px;
-      border: 1.5px solid #d4c8bd;
-      background: #f4eee7;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
       overflow: hidden;
       position: relative;
       display: flex;
@@ -108,7 +108,7 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      background: #faf7f2;
+      background: #f8fafc;
       display: none;
     }
     .inv-photo-placeholder {
@@ -116,7 +116,7 @@
       flex-direction: column;
       align-items: center;
       gap: 4px;
-      color: #9c8a7b;
+      color: #64748b;
       font-size: 11.5px;
       font-weight: 600;
       user-select: none;
@@ -151,8 +151,8 @@
     }
     .inv-photo-info-text {
       font-size: 11px;
-      color: #7a6859;
-      background: #eee6dc;
+      color: #475569;
+      background: #f1f5f9;
       padding: 4px 7px;
       border-radius: 4px;
       white-space: nowrap;
@@ -179,7 +179,7 @@
       width: 100%;
       font-size: 11px;
       padding: 4px;
-      border: 1px solid #d4c8bd;
+      border: 1px solid #cbd5e1;
       border-radius: 5px;
       background: #fff;
       box-sizing: border-box;
@@ -209,7 +209,7 @@
     .inv-field label {
       font-size: 11.5px;
       font-weight: 700;
-      color: #554133;
+      color: #334155;
       white-space: nowrap;
     }
     .inv-field label .req {
@@ -220,20 +220,20 @@
     .inv-field select {
       height: 33px;
       padding: 4px 8px;
-      border: 1px solid #d4c8bd;
+      border: 1px solid #cbd5e1;
       border-radius: 5px;
       font-size: 12.5px;
-      background: #faf8f5;
-      color: #2b1f17;
+      background: #ffffff;
+      color: #0f172a;
       box-sizing: border-box;
       width: 100%;
       transition: border-color .15s, background .15s, box-shadow .15s;
     }
     .inv-field input:focus,
     .inv-field select:focus {
-      border-color: #526c49;
+      border-color: #2563eb;
       background: #fff;
-      box-shadow: 0 0 0 2px rgba(82, 108, 73, 0.15);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
       outline: none;
     }
 
@@ -256,14 +256,15 @@
 
     /* 관리번호 안내 문구 */
     .inv-notice-line {
-      font-size: 11px;
-      color: #855c38;
-      background: #fbf5ee;
-      padding: 5px 9px;
-      border-radius: 4px;
-      border-left: 3px solid #b58d67;
-      margin: 2px 0 0;
-      line-height: 1.35;
+      font-size: 11.5px;
+      color: #0369a1;
+      background: #f0f9ff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #bae6fd;
+      border-left: 3.5px solid #0284c7;
+      margin: 4px 0 0;
+      line-height: 1.4;
       width: 100%;
       box-sizing: border-box;
     }
@@ -276,7 +277,7 @@
       gap: 10px;
       margin-top: 6px;
       padding-top: 10px;
-      border-top: 1px dashed #efe7de;
+      border-top: 1px dashed #cbd5e1;
       width: 100%;
       box-sizing: border-box;
     }
@@ -320,7 +321,7 @@
       border-radius: 12px;
       font-size: 12px;
       cursor: pointer;
-      color: #554133;
+      color: #334155;
       font-weight: 600;
       transition: all .15s;
     }
@@ -332,7 +333,7 @@
     .inv-search-input {
       height: 28px;
       padding: 0 10px;
-      border: 1px solid #d4c8bd;
+      border: 1px solid #cbd5e1;
       border-radius: 14px;
       font-size: 12px;
       width: 180px;
@@ -364,7 +365,7 @@
     .inv-thumb {
       width: 52px;
       height: 40px;
-      background: #f7f3ee;
+      background: #f1f5f9;
       border: 1px solid #e4ddd5;
       border-radius: 4px;
       overflow: hidden;
@@ -536,7 +537,7 @@
       .inv-actions {
         grid-column: 1 / -1;
         justify-content: flex-end;
-        border-top: 1px dashed #efe7de;
+        border-top: 1px dashed #cbd5e1;
         padding-top: 4px;
         margin-top: 2px;
       }
@@ -704,7 +705,7 @@
 
               <div class="inv-field field-id">
                 <label for="inv-id">관리번호 <small style="color:#734f31;font-weight:normal">(자동)</small></label>
-                <input type="text" id="inv-id" readonly style="background:#ede6de;color:#554133;cursor:not-allowed;font-weight:700;" title="대분류에 따라 번호가 자동 부여되며 직접 입력할 수 없습니다.">
+                <input type="text" id="inv-id" readonly style="background:#f1f5f9;color:#475569;border-color:#cbd5e1;cursor:not-allowed;font-weight:700;" title="대분류에 따라 번호가 자동 부여되며 직접 입력할 수 없습니다.">
               </div>
 
               <div class="inv-field field-name">
@@ -836,7 +837,7 @@
     </div>
   </footer>
 
-  <script src="../assets/js/common.js?v=2.0"></script>
+  <script src="../assets/js/common.js?v=9.0"></script>
   <script src="../assets/js/admin-auth.js?v=1.3"></script>
   <script src="../assets/js/admin-inventory.js?v=2.0"></script>
 </body>

@@ -2,7 +2,7 @@
 .admin-page .page-wrap{max-width:1180px;width:calc(100% - 36px);box-sizing:border-box;padding-top:14px}
 .admin-page .admin-compact-heading{display:flex!important;align-items:center;gap:10px 18px;flex-wrap:wrap;margin:0 0 14px!important;padding:0!important;min-width:0}
 .admin-page .admin-compact-heading h1{font-size:25px!important;line-height:1.25;margin:0!important;flex:0 0 auto}
-.admin-page .admin-compact-heading .admin-heading-description{flex:1 1 180px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px!important;line-height:1.5;margin:0!important;color:#8c7462}
+.admin-page .admin-compact-heading .admin-heading-description{flex:1 1 180px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px!important;line-height:1.5;margin:0!important;color:#64748b}
 .admin-heading-actions{display:flex;align-items:center;gap:7px;flex:0 0 auto;margin-left:auto;flex-wrap:wrap}
 .admin-page .admin-heading-actions .btn{padding:7px 11px;font-size:13px;white-space:nowrap}
 .admin-page .settings-panel{padding:16px;margin-bottom:12px}
