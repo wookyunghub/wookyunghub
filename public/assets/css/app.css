@@ -321,3 +321,107 @@ body{background:var(--bg);color:var(--text)}
 .admin-unlocked-badge{display:flex;align-items:center;gap:6px;background:#eef6ed;border:1px solid #c2e2bf;color:#1e6b27;font-size:12px;font-weight:600;padding:5px 10px;border-radius:6px;margin-bottom:8px;box-sizing:border-box}
 .admin-unlocked-badge .icon{font-size:13px}
 .admin-unlocked-badge.ebook-admin-badge{position:absolute;top:8px;left:8px;z-index:5;background:rgba(238,246,237,0.95);box-shadow:0 2px 6px rgba(0,0,0,0.12);margin-bottom:0}
+
+/* ========================================================
+   관리자 전용 컬러 테마 (일반화면과 완벽히 구별되는 슬레이트 & 로열 블루 테마)
+   ======================================================== */
+body.admin-page {
+  background: #f1f5f9 !important;
+  color: #1e293b !important;
+}
+
+/* 관리자 상단 헤더 탑바 */
+body.admin-page .topbar {
+  background: #ffffff !important;
+  border-top: 3.5px solid #2563eb !important;
+  border-bottom: 1px solid #cbd5e1 !important;
+  box-shadow: 0 2px 8px rgba(15,23,42,0.06) !important;
+}
+body.admin-page .topbar .brand-block .small {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
+  display: inline-block !important;
+}
+
+/* 일반화면 타이틀 기준 통일: page-title & eyebrow */
+body.admin-page .page-title {
+  margin-bottom: 16px !important;
+  padding: 4px 0 !important;
+}
+body.admin-page .page-title .eyebrow {
+  display: inline-block !important;
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  color: #2563eb !important;
+  letter-spacing: 0.05em !important;
+  margin-bottom: 4px !important;
+}
+body.admin-page .page-title h1 {
+  font-size: 26px !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+  margin: 0 0 4px !important;
+}
+body.admin-page .page-title p {
+  color: #475569 !important;
+  font-size: 13.5px !important;
+  margin: 0 !important;
+}
+
+/* 관리자 패널 및 컨테이너 */
+body.admin-page .settings-panel,
+body.admin-page .settings-group-card {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 7px rgba(15,23,42,0.04) !important;
+}
+
+/* 관리자 탭 네비게이션 */
+body.admin-page .settings-tab-nav {
+  border-bottom: 2px solid #2563eb !important;
+}
+body.admin-page .settings-tab-btn.active,
+body.admin-page .file-tab.active {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  border-color: #2563eb !important;
+}
+body.admin-page .settings-tab-btn:hover,
+body.admin-page .file-tab:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+body.admin-page .reg-sub-btn.active {
+  background: #1e40af !important;
+  color: #ffffff !important;
+  border-color: #1e40af !important;
+}
+
+/* 관리자 주요 버튼 (Primary & Save) */
+body.admin-page .btn.primary,
+body.admin-page .btn-save,
+body.admin-page #file-upload {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  border-color: #1d4ed8 !important;
+  box-shadow: 0 2px 5px rgba(37,99,235,0.2) !important;
+}
+body.admin-page .btn.primary:hover,
+body.admin-page .btn-save:hover,
+body.admin-page #file-upload:hover {
+  background: #1d4ed8 !important;
+  border-color: #1e40af !important;
+}
+
+/* 관리자 푸터 */
+body.admin-page .footer {
+  background: #e2e8f0 !important;
+  color: #475569 !important;
+  border-top: 1px solid #cbd5e1 !important;
+}
