@@ -323,54 +323,55 @@ body{background:var(--bg);color:var(--text)}
 .admin-unlocked-badge.ebook-admin-badge{position:absolute;top:8px;left:8px;z-index:5;background:rgba(238,246,237,0.95);box-shadow:0 2px 6px rgba(0,0,0,0.12);margin-bottom:0}
 
 /* ========================================================
-   관리자 전용 컬러 테마 (일반화면과 완벽히 구별되는 슬레이트 & 로열 블루 테마)
+   관리자 전용 컬러 테마 (일반화면과 명확히 구분되는 슬레이트 & 블루 테마)
    ======================================================== */
 body.admin-page {
   background: #f1f5f9 !important;
   color: #1e293b !important;
 }
 
-/* 관리자 상단 헤더 탑바 */
+/* 관리자 상단 헤더 탑바 - 우경경로당 옆 파란라벨 관리자는 제거 */
 body.admin-page .topbar {
   background: #ffffff !important;
-  border-top: 3.5px solid #2563eb !important;
   border-bottom: 1px solid #cbd5e1 !important;
-  box-shadow: 0 2px 8px rgba(15,23,42,0.06) !important;
-}
-body.admin-page .topbar .brand-block .small {
-  background: #2563eb !important;
-  color: #ffffff !important;
-  padding: 2px 8px !important;
-  border-radius: 4px !important;
-  font-size: 11.5px !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.05em !important;
-  display: inline-block !important;
+  box-shadow: 0 1px 4px rgba(15,23,42,0.05) !important;
 }
 
-/* 일반화면 타이틀 기준 통일: page-title & eyebrow */
+/* 관리자 페이지 타이틀 체계:
+   1. 메인메뉴명(위): 관리자 (.eyebrow)
+   2. 해당메뉴명(아래 좌측): h1
+   3. 부연설명(아래 우측): p (공지사항 우측에 나란히 표시 유지) */
 body.admin-page .page-title {
-  margin-bottom: 16px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: baseline !important;
+  gap: 4px 14px !important;
+  margin-bottom: 14px !important;
   padding: 4px 0 !important;
 }
 body.admin-page .page-title .eyebrow {
-  display: inline-block !important;
+  width: 100% !important;
+  display: block !important;
   font-size: 13.5px !important;
-  font-weight: 800 !important;
-  color: #2563eb !important;
-  letter-spacing: 0.05em !important;
-  margin-bottom: 4px !important;
+  font-weight: 700 !important;
+  color: #7a6859 !important; /* 일반화면 자료실 eyebrow와 동일한 자연스러운 메인메뉴명 톤 */
+  margin-bottom: 2px !important;
+  letter-spacing: 0.02em !important;
 }
 body.admin-page .page-title h1 {
   font-size: 26px !important;
   font-weight: 800 !important;
   color: #0f172a !important;
-  margin: 0 0 4px !important;
+  margin: 0 !important;
+  display: inline-block !important;
+  line-height: 1.25 !important;
 }
 body.admin-page .page-title p {
-  color: #475569 !important;
+  color: #64748b !important;
   font-size: 13.5px !important;
   margin: 0 !important;
+  display: inline-block !important;
+  line-height: 1.4 !important;
 }
 
 /* 관리자 패널 및 컨테이너 */
