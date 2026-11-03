@@ -186,14 +186,18 @@
   function installTop(){const b=document.createElement('button');b.className='top-button';b.innerHTML='↑<span class="top-button-text">TOP</span>';b.onclick=()=>scrollTo({top:0,behavior:'smooth'});document.body.appendChild(b);addEventListener('scroll',()=>b.classList.toggle('show',scrollY>260),{passive:true})}
   function compactAdminHeading(){
     if(!document.body.classList.contains('admin-page'))return;
-    const link=document.createElement('link');link.rel='stylesheet';link.href=u('assets/css/admin-compact.css?v=5.14');document.head.appendChild(link);
+    const link=document.createElement('link');link.rel='stylesheet';link.href=u('assets/css/admin-compact.css?v=8.00');document.head.appendChild(link);
     const main=document.querySelector('main');if(!main)return;
     const heading=main.querySelector(':scope > .page-title,:scope > .compact-heading');if(!heading)return;
     const title=heading.querySelector('h1');if(!title)return;
+    const eyebrow=heading.querySelector('.eyebrow');
     const description=heading.querySelector('p');const existing=heading.querySelector('.toolbar');
     const actions=document.createElement('div');actions.className='admin-heading-actions';
     if(existing)while(existing.firstChild)actions.appendChild(existing.firstChild);
-    heading.replaceChildren(title);heading.classList.add('admin-compact-heading');
+    const headingItems = [];
+    if(eyebrow) headingItems.push(eyebrow);
+    headingItems.push(title);
+    heading.replaceChildren(...headingItems);heading.classList.add('admin-compact-heading');
     if(description){description.title=description.textContent;description.classList.add('admin-heading-description');heading.appendChild(description);}
     heading.appendChild(actions);
     // Move existing controls, preserving their IDs and attached event handlers.

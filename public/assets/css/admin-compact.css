@@ -29,3 +29,15 @@
 @media(max-width:850px){.admin-page .admin-compact-heading .admin-heading-description{order:3;flex-basis:100%;font-size:12px!important}.admin-heading-actions{max-width:65%}#record-editor .admin-form-grid>label{grid-column:span 6}#record-editor .admin-form-grid>.wide{grid-column:1/-1}#record-editor #record-extra-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.admin-page .page-wrap{width:calc(100% - 20px)}.admin-page .admin-compact-heading h1{font-size:21px!important}.admin-heading-actions{max-width:100%;margin-left:0}.admin-page .settings-panel{padding:12px}#record-editor.meeting-editor #record-body{min-height:360px}}
 .admin-page [hidden]{display:none!important}
+
+.admin-page .admin-compact-heading .eyebrow{
+  width: 100% !important;
+  flex: 0 0 100% !important;
+  display: block !important;
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  color: #2563eb !important;
+  margin: 0 0 2px 0 !important;
+  letter-spacing: 0.04em !important;
+  order: -1 !important;
+}

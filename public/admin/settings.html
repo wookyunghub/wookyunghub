@@ -413,7 +413,7 @@
   <div class="wrap">
     <div class="brand-block">
       <a class="brand" data-brand href="../index.html">우경경로당</a>
-      <div class="small">관리자</div>
+      
     </div>
     <nav class="top-actions" aria-label="주 메뉴"></nav>
   </div>
@@ -432,12 +432,38 @@
       <button type="button" class="settings-tab-btn active" data-tab="tab-basic">📋 기본현황 & 시설 정보</button>
       <button type="button" class="settings-tab-btn" data-tab="tab-files">📁 원본 서류 & 평면도 관리</button>
       <button type="button" class="settings-tab-btn" data-tab="tab-regulations">📜 운영규정 관리</button>
-      <button type="button" class="settings-tab-btn" data-tab="tab-site">🌐 사이트 & 대표 이미지</button>
+      <button type="button" class="settings-tab-btn" data-tab="tab-site">🌐 홈페이지 & 대표 이미지</button>
     </nav>
 
     <!-- [탭 1] 경로당 기본현황 & 시설 정보 -->
         <!-- [탭 1] 경로당 기본현황 & 시설 정보 -->
     <div id="tab-basic" class="settings-tab-content">
+      <!-- 1-0. 사이트 소속 정보 (기본현황 상단에 컴팩트 다열 표시) -->
+      <section class="settings-group-card">
+        <h2 class="settings-group-title">
+          <span>🏛️ 사이트 소속 정보</span>
+          <small>상단 브랜드 및 헤더에 표시되는 기관명 및 소속</small>
+        </h2>
+        <div class="compact-row-4">
+          <div class="compact-field">
+            <label for="s-org">조직명 (경로당명)</label>
+            <input id="s-org" maxlength="100" placeholder="예) 우경경로당">
+          </div>
+          <div class="compact-field">
+            <label for="s-parent">소속 기관</label>
+            <input id="s-parent" maxlength="200" placeholder="예) (사)대한노인회 진천군지회">
+          </div>
+          <div class="compact-field">
+            <label for="s-branch">소속 분회</label>
+            <input id="s-branch" maxlength="100" placeholder="예) 문백·영동분회">
+          </div>
+          <div class="compact-field">
+            <label for="s-period">운영대장 기간</label>
+            <input id="s-period" placeholder="예) 2025-2026">
+          </div>
+        </div>
+      </section>
+
       <!-- 1-1. 대표자 및 회원 현황 (2줄로 컴팩트 압축) -->
       <section class="settings-group-card">
         <h2 class="settings-group-title">
@@ -667,6 +693,155 @@
           </div>
         </div>
       </section>
+          <!-- 3. 시설·비품 종류별 원본 대장 파일 관리 (HWP / PDF) -->
+      <section class="settings-group-card" style="margin-top:14px;">
+        <h2 class="settings-group-title">
+          <span>🏢 시설·비품 종류별 원본 대장 파일 관리 (HWP / PDF)</span>
+          <small>시설·비품관리 화면에서 각 종류 선택 시 우측 상단 '원본파일 보기'로 바로 연결되는 파일</small>
+        </h2>
+        <p style="font-size:12px;color:#64748b;margin:0 0 12px;">시설비품의 각 카테고리별 원본 HWP(한글문서) 및 PDF 열람본 파일을 등록하시면, 관리자 시설비품 화면 및 운영대장 연동 시 즉시 열람 및 다운로드할 수 있습니다.</p>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <!-- 1. 에너지 설비 -->
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
+            <div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:6px;">⚡ 1. 에너지 설비 비품 대장</div>
+            <div class="compact-row-2">
+              <div class="compact-field">
+                <label>PDF 열람본 파일</label>
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <input id="inv-file-energy-pdf" class="img-path-input" placeholder="assets/docs/inventory/inv_energy.pdf">
+                  <label class="btn-file-select">선택<input type="file" id="inv-file-energy-pdf-file" accept=".pdf,application/pdf" hidden></label>
+                  <a id="inv-file-energy-pdf-link" href="#" target="_blank" class="btn-file-view">열람 ↗</a>
+                </div>
+              </div>
+              <div class="compact-field">
+                <label>HWP 원본 다운로드 파일</label>
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <input id="inv-file-energy-hwp" class="img-path-input" placeholder="assets/docs/inventory/inv_energy.hwp">
+                  <label class="btn-file-select">선택<input type="file" id="inv-file-energy-hwp-file" accept=".hwp,.hwpx" hidden></label>
+                  <a id="inv-file-energy-hwp-link" href="#" download class="btn-file-view">다운 ↗</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. 통신·사무기기 -->
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
+            <div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:6px;">💻 2. 통신·사무기기 비품 대장</div>
+            <div class="compact-row-2">
+              <div class="compact-field">
+                <label>PDF 열람본 파일</label>
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <input id="inv-file-comm-pdf" class="img-path-input" placeholder="assets/docs/inventory/inv_comm.pdf">
+                  <label class="btn-file-select">선택<input type="file" id="inv-file-comm-pdf-file" accept=".pdf,application/pdf" hidden></label>
+                  <a id="inv-file-comm-pdf-link" href="#" target="_blank" class="btn-file-view">열람 ↗</a>
+                </div>
+              </div>
+              <div class="compact-field">
+                <label>HWP 원본 다운로드 파일</label>
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <input id="inv-file-comm-hwp" class="img-path-input" placeholder="assets/docs/inventory/inv_comm.hwp">
+                  <label class="btn-file-select">선택<input type="file" id="inv-file-comm-hwp-file" accept=".hwp,.hwpx" hidden></label>
+                  <a id="inv-file-comm-hwp-link" href="#" download class="btn-file-view">다운 ↗</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. 주방·급수설비 -->
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
+            <div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:6px;">🍳 3. 주방·급수설비 비품 대장</div>
+            <div class="compact-row-2">
+              <div class="compact-field">
+                <label>PDF 열람본 파일</label>
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <input id="inv-file-kitchen-pdf" class="img-path-input" placeholder="assets/docs/inventory/inv_kitchen.pdf">
+                  <label class="btn-file-select">선택<input type="file" id="inv-file-kitchen-pdf-file" accept=".pdf,application/pdf" hidden></label>
+                  <a id="inv-file-kitchen-pdf-link" href="#" target="_blank" class="btn-file-view">열람 ↗</a>
+                </div>
+              </div>
+              <div class="compact-field">
+                <label>HWP 원본 다운로드 파일</label>
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <input id="inv-file-kitchen-hwp" class="img-path-input" placeholder="assets/docs/inventory/inv_kitchen.hwp">
+                  <label class="btn-file-select">선택<input type="file" id="inv-file-kitchen-hwp-file" accept=".hwp,.hwpx" hidden></label>
+                  <a id="inv-file-kitchen-hwp-link" href="#" download class="btn-file-view">다운 ↗</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. 건강·운동기구 -->
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
+            <div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:6px;">🏃 4. 건강·운동기구 비품 대장</div>
+            <div class="compact-row-2">
+              <div class="compact-field">
+                <label>PDF 열람본 파일</label>
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <input id="inv-file-health-pdf" class="img-path-input" placeholder="assets/docs/inventory/inv_health.pdf">
+                  <label class="btn-file-select">선택<input type="file" id="inv-file-health-pdf-file" accept=".pdf,application/pdf" hidden></label>
+                  <a id="inv-file-health-pdf-link" href="#" target="_blank" class="btn-file-view">열람 ↗</a>
+                </div>
+              </div>
+              <div class="compact-field">
+                <label>HWP 원본 다운로드 파일</label>
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <input id="inv-file-health-hwp" class="img-path-input" placeholder="assets/docs/inventory/inv_health.hwp">
+                  <label class="btn-file-select">선택<input type="file" id="inv-file-health-hwp-file" accept=".hwp,.hwpx" hidden></label>
+                  <a id="inv-file-health-hwp-link" href="#" download class="btn-file-view">다운 ↗</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. 소방·안전설비 -->
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
+            <div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:6px;">🧯 5. 소방·안전설비 비품 대장</div>
+            <div class="compact-row-2">
+              <div class="compact-field">
+                <label>PDF 열람본 파일</label>
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <input id="inv-file-safety-pdf" class="img-path-input" placeholder="assets/docs/inventory/inv_safety.pdf">
+                  <label class="btn-file-select">선택<input type="file" id="inv-file-safety-pdf-file" accept=".pdf,application/pdf" hidden></label>
+                  <a id="inv-file-safety-pdf-link" href="#" target="_blank" class="btn-file-view">열람 ↗</a>
+                </div>
+              </div>
+              <div class="compact-field">
+                <label>HWP 원본 다운로드 파일</label>
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <input id="inv-file-safety-hwp" class="img-path-input" placeholder="assets/docs/inventory/inv_safety.hwp">
+                  <label class="btn-file-select">선택<input type="file" id="inv-file-safety-hwp-file" accept=".hwp,.hwpx" hidden></label>
+                  <a id="inv-file-safety-hwp-link" href="#" download class="btn-file-view">다운 ↗</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. 기타 비품 -->
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
+            <div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:6px;">📦 6. 기타 비품 대장</div>
+            <div class="compact-row-2">
+              <div class="compact-field">
+                <label>PDF 열람본 파일</label>
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <input id="inv-file-storage-pdf" class="img-path-input" placeholder="assets/docs/inventory/inv_storage.pdf">
+                  <label class="btn-file-select">선택<input type="file" id="inv-file-storage-pdf-file" accept=".pdf,application/pdf" hidden></label>
+                  <a id="inv-file-storage-pdf-link" href="#" target="_blank" class="btn-file-view">열람 ↗</a>
+                </div>
+              </div>
+              <div class="compact-field">
+                <label>HWP 원본 다운로드 파일</label>
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <input id="inv-file-storage-hwp" class="img-path-input" placeholder="assets/docs/inventory/inv_storage.hwp">
+                  <label class="btn-file-select">선택<input type="file" id="inv-file-storage-hwp-file" accept=".hwp,.hwpx" hidden></label>
+                  <a id="inv-file-storage-hwp-link" href="#" download class="btn-file-view">다운 ↗</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
 
     <!-- [탭 3] 운영규정 관리 -->
@@ -730,32 +905,6 @@
 
     <!-- [탭 4] 사이트 및 대표 이미지 -->
     <div id="tab-site" class="settings-tab-content" hidden>
-      <!-- 기관 기본 정보 -->
-      <section class="settings-group-card">
-        <h2 class="settings-group-title">
-          <span>🏛️ 사이트 소속 정보</span>
-          <small>상단 브랜드 및 헤더에 표시되는 기관명</small>
-        </h2>
-        <div class="compact-form-grid">
-          <div class="compact-field">
-            <label for="s-org">조직명</label>
-            <input id="s-org" maxlength="100" placeholder="예시) 우경경로당">
-          </div>
-          <div class="compact-field">
-            <label for="s-period">최신 운영대장 기간</label>
-            <input id="s-period" placeholder="예시) 2025-2026">
-          </div>
-          <div class="compact-field">
-            <label for="s-parent">소속 기관</label>
-            <input id="s-parent" maxlength="200" placeholder="예시) (사)대한노인회 진천군지회">
-          </div>
-          <div class="compact-field">
-            <label for="s-branch">소속 분회</label>
-            <input id="s-branch" maxlength="100" placeholder="예시) 문백·영동분회">
-          </div>
-        </div>
-      </section>
-
       <!-- 홈페이지 & 오시는 길 -->
       <section class="settings-group-card">
         <h2 class="settings-group-title">
@@ -828,7 +977,7 @@
   </div>
 </footer>
 
-<script src="../assets/js/common.js?v=1.8"></script>
+<script src="../assets/js/common.js?v=2.0"></script>
 <script src="../assets/js/admin-auth.js?v=1.3"></script>
 <script src="../assets/js/admin-settings.js?v=6.00"></script>
 </body>

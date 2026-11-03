@@ -58,6 +58,8 @@
     } catch(e){}
   }
 
+  orgData.inventory_files = orgData.inventory_files || {};
+  const invCatList = ['energy', 'comm', 'kitchen', 'health', 'safety', 'storage'];
   orgData.basic = orgData.basic || {};
   const basic = orgData.basic;
 
@@ -121,6 +123,14 @@
 
     if($(id)) $(id).value = basic[key] !== undefined ? basic[key] : def;
   }
+
+  // 시설·비품 카테고리별 원본 파일 초기값 바인딩
+  const invFiles = orgData.inventory_files || {};
+  invCatList.forEach(cat => {
+    const cData = invFiles[cat] || {};
+    if($(`inv-file-${cat}-pdf`)) $(`inv-file-${cat}-pdf`).value = cData.pdf || '';
+    if($(`inv-file-${cat}-hwp`)) $(`inv-file-${cat}-hwp`).value = cData.hwp || '';
+  });
 
   // 4. 미리보기 및 바로보기 링크 동기화
   function updatePreviews(){
@@ -416,6 +426,15 @@
       updatedOrg.basic.name = orgName;
       updatedOrg.basic.parent_organization = $('s-parent') ? $('s-parent').value.trim() : updatedOrg.basic.parent_organization;
       updatedOrg.basic.branch_name = $('s-branch') ? $('s-branch').value.trim() : updatedOrg.basic.branch_name;
+
+      // 시설비품 원본 파일 목록 저장
+      updatedOrg.inventory_files = updatedOrg.inventory_files || {};
+      invCatList.forEach(cat => {
+        updatedOrg.inventory_files[cat] = {
+          pdf: $(`inv-file-${cat}-pdf`) ? $(`inv-file-${cat}-pdf`).value.trim() : '',
+          hwp: $(`inv-file-${cat}-hwp`) ? $(`inv-file-${cat}-hwp`).value.trim() : ''
+        };
+      });
 
       // 시설안내 태그 자동 동기화
       const bRooms = updatedOrg.basic.rooms || 3;

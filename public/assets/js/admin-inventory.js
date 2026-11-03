@@ -1,4 +1,24 @@
 (function() {
+  
+  let inventoryFiles = {};
+
+  const CAT_META = {
+    all: { name: '전체 비품 대장', icon: '📋' },
+    energy: { name: '에너지 설비 비품 목록', icon: '⚡' },
+    comm: { name: '통신·사무기기 비품 목록', icon: '💻' },
+    kitchen: { name: '주방·급수설비 비품 목록', icon: '🍳' },
+    health: { name: '건강·운동기구 비품 목록', icon: '🏃' },
+    safety: { name: '소방·안전설비 비품 목록', icon: '🧯' },
+    storage: { name: '기타 비품 목록', icon: '📦' }
+  };
+
+  function resolveAdminImg(u){
+    if(!u) return '';
+    if(u.startsWith('http://')||u.startsWith('https://')||u.startsWith('data:')||u.startsWith('/')) return u;
+    if(u.startsWith('../')) return u;
+    return '../' + u;
+  }
+
   const STORAGE_KEY = 'centerhub_facility_inventory_v3';
   const PHOTO_VERSION = '20261031_v3';
 
@@ -88,6 +108,13 @@
 
   async function loadData() {
     try {
+      const resOrg = await fetch('../data/organization.json?t=' + Date.now(), { cache: 'no-store' });
+      if (resOrg.ok) {
+        const orgData = await resOrg.json();
+        inventoryFiles = orgData.inventory_files || {};
+      }
+    } catch(e) {}
+    try {
       const res = await fetch('../data/facility-inventory.json?t=' + Date.now(), { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();
@@ -128,7 +155,38 @@
              (it.note && it.note.toLowerCase().includes(query));
     });
 
-    listHeading.textContent = `등록 비품 목록 (총 ${filtered.length}건 / 전체 ${items.length}건)`;
+        // 상단 항목명 및 건수 표시, 우측 원본파일 보기 연결
+    const titleEl = document.getElementById('inv-list-title');
+    const iconEl = document.getElementById('inv-list-icon');
+    const countEl = document.getElementById('inv-list-count-badge');
+    const originActionsEl = document.getElementById('inv-list-origin-actions');
+    const meta = CAT_META[activeCat] || { name: '등록 비품 목록', icon: '📋' };
+
+    if(iconEl) iconEl.textContent = meta.icon;
+    if(titleEl) titleEl.textContent = meta.name;
+    if(countEl) countEl.textContent = `총 ${filtered.length}건` + (activeCat !== 'all' ? ` (전체 ${items.length}건)` : '');
+
+    if(originActionsEl) {
+      if(activeCat === 'all') {
+        originActionsEl.innerHTML = `
+          <span style="font-size:12px;color:#64748b;">※ 종류별 탭 선택 시 해당 원본 파일이 연결됩니다</span>
+          <a href="settings.html" class="inv-origin-link-btn btn-setting">⚙️ 기본설정 원본 관리 ↗</a>
+        `;
+      } else {
+        const catFiles = inventoryFiles[activeCat] || {};
+        let actionsHtml = '';
+        if(catFiles.pdf) {
+          actionsHtml += `<a href="${resolveAdminImg(catFiles.pdf)}" target="_blank" class="inv-origin-link-btn btn-pdf">📄 ${meta.name} PDF 열람 ↗</a>`;
+        }
+        if(catFiles.hwp) {
+          actionsHtml += `<a href="${resolveAdminImg(catFiles.hwp)}" download class="inv-origin-link-btn btn-hwp">💾 HWP 원본 다운로드 ↗</a>`;
+        }
+        if(!catFiles.pdf && !catFiles.hwp) {
+          actionsHtml += `<a href="settings.html" class="inv-origin-link-btn btn-setting" title="기본설정에서 원본 HWP 및 PDF 파일을 등록할 수 있습니다.">⚙️ 기본설정에서 ${meta.name} 원본 등록 ↗</a>`;
+        }
+        originActionsEl.innerHTML = actionsHtml;
+      }
+    }
 
     if (!filtered.length) {
       container.innerHTML = '<div style="text-align:center;padding:30px 10px;color:#8a796a;font-size:13px">해당 조건의 비품이 없습니다.</div>';

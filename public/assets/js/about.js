@@ -69,7 +69,16 @@
     basicCell('건축년도', b.build_date || '2009. 07. 29', '(블록구조 1층)', null, true),
 
     // === 4~5행 (자세히 보기 영역): 대지·건물면적 | 내부 공간 | 난방방법 | 편의시설 | 소유자(명의) ===
-    basicCell('대지 · 건물면적', `대지 ${b.site_area || '335㎡'}(${b.site_area_pyeong || '101.52평'}) · 건물 ${b.building_area || '105.73㎡'}(${b.building_area_pyeong || '32.04평'})`, '', null, true),
+    (() => {
+      const formatArea = (val, pyeongVal, defNum, defPyeongNum) => {
+        let v = String(val || defNum || '').replace(/[\ufffd]/g, '').trim();
+        let p = String(pyeongVal || defPyeongNum || '').replace(/[\ufffd]/g, '').trim();
+        if(!v.includes('㎡') && !v.includes('m2') && !v.includes('m²')) v += '㎡';
+        if(!p.includes('평')) p += '평';
+        return `${v} (${p})`;
+      };
+      return basicCell('대지 및 건물면적', `대지 ${formatArea(b.site_area, b.site_area_pyeong, '335', '101.52')} · 건물 ${formatArea(b.building_area, b.building_area_pyeong, '105.73', '32.04')}`, '', null, true);
+    })(),
     basicCell('내부 공간', `방 ${b.rooms || 3} · 화장실 ${b.restrooms || 2} · 주방 ${b.kitchen || 1} · 보조실 ${b.sub_rooms || 1}`, '', null, true),
     basicCell('난방방법', b.heating || '심야전력', '', null, true),
     basicCell('편의시설', b.convenience_facilities || '우경정 쉼터, 실외운동기구 외', '', null, true),

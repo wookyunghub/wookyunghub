@@ -230,5 +230,31 @@
       }
     ],
     "history": []
+  },
+  "inventory_files": {
+    "energy": {
+      "pdf": "assets/docs/inventory/1_energy.pdf",
+      "hwp": ""
+    },
+    "comm": {
+      "pdf": "assets/docs/inventory/2_telecom.pdf",
+      "hwp": ""
+    },
+    "kitchen": {
+      "pdf": "assets/docs/inventory/3_kitchen.pdf",
+      "hwp": ""
+    },
+    "health": {
+      "pdf": "assets/docs/inventory/4_health.pdf",
+      "hwp": ""
+    },
+    "safety": {
+      "pdf": "assets/docs/inventory/5_outdoor_fire.pdf",
+      "hwp": ""
+    },
+    "storage": {
+      "pdf": "assets/docs/inventory/6_storage.pdf",
+      "hwp": ""
+    }
   }
 }
