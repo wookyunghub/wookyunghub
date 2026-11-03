@@ -185,12 +185,14 @@
       pLink.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const url = ($(`inv-file-${cat}-pdf`) && $(`inv-file-${cat}-pdf`).value.trim()) || '';
-        if(!url) {
+        const pInput = $(`inv-file-${cat}-pdf`);
+        const blobUrl = pInput && pInput.dataset.blob;
+        const url = (pInput && pInput.value.trim()) || '';
+        if(!url && !blobUrl) {
           window.alert('등록된 PDF 파일이 없습니다. [선택] 버튼으로 파일을 먼저 등록해 주세요.');
           return;
         }
-        window.open(resolveAdminImg(url), '_blank');
+        window.open(blobUrl || resolveAdminImg(url), '_blank');
       });
     }
 
@@ -200,12 +202,14 @@
       hLink.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const url = ($(`inv-file-${cat}-hwp`) && $(`inv-file-${cat}-hwp`).value.trim()) || '';
-        if(!url) {
+        const hInput = $(`inv-file-${cat}-hwp`);
+        const blobUrl = hInput && hInput.dataset.blob;
+        const url = (hInput && hInput.value.trim()) || '';
+        if(!url && !blobUrl) {
           window.alert('등록된 HWP 파일이 없습니다. [선택] 버튼으로 파일을 먼저 등록해 주세요.');
           return;
         }
-        const resolved = resolveAdminImg(url);
+        const resolved = blobUrl || resolveAdminImg(url);
         const fileName = (dData.name || '시설비품대장') + '.hwp';
         const a = document.createElement('a');
         a.href = resolved;
@@ -271,46 +275,67 @@
     if($(id)) $(id).oninput = updatePreviews;
   });
 
-  // 5. 파일 선택 및 업로드 핸들러
+    // 5. 파일 선택 및 업로드 핸들러 (어떤 환경에서도 파일명/경로/Blob 유지)
   async function handleFileSelect(fileInput, textInput, previewImg, linkEl){
     const file = fileInput.files && fileInput.files[0];
     if(!file) return;
-    const isPdf = file.name.toLowerCase().endsWith('.pdf');
+    const fname = file.name;
+    const ext = (fname.slice(fname.lastIndexOf('.')) || '').toLowerCase();
+    const isPdf = ext === '.pdf';
+    const isHwp = ext === '.hwp' || ext === '.hwpx';
+    const isDoc = isPdf || isHwp || ext === '.doc' || ext === '.docx' || ext === '.xls' || ext === '.xlsx';
+    const isImg = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.bmp', '.svg'].includes(ext);
+
+    // 1) 기본적으로 텍스트 인풋에 파일 경로/이름을 즉시 채워넣습니다! (절대 비워두지 않음)
+    const isInvFile = textInput && textInput.id && textInput.id.startsWith('inv-file-');
+    const defaultPath = isInvFile ? `assets/docs/inventory/${fname}` : (isDoc ? `assets/docs/${fname}` : `assets/img/${fname}`);
+    if(textInput) {
+      textInput.value = defaultPath;
+      textInput.dispatchEvent(new Event('input', {bubbles: true}));
+    }
+
+    // 2) 로컬 FileReader로 DataURL을 생성하여 브라우저에서 즉시 열람/다운로드 가능하게 연결
+    const reader = new FileReader();
+    reader.onload = e => {
+      const dataUrl = e.target.result;
+      if(textInput) textInput.dataset.blob = dataUrl;
+      if(previewImg && isImg) previewImg.src = dataUrl;
+      if(linkEl) {
+        linkEl.href = dataUrl;
+        linkEl.dataset.blob = dataUrl;
+      }
+    };
+    reader.readAsDataURL(file);
+
+    // 3) 서버 API에 업로드 시도 (백엔드가 연결된 환경)
     const fd = new FormData();
-    fd.append('kind', isPdf ? 'documents' : 'photos');
-    fd.append('attachment_role', isPdf ? 'document' : 'photo');
+    fd.append('kind', isImg ? 'photos' : 'documents');
+    fd.append('attachment_role', isDoc ? 'document' : 'photo');
     fd.append('public', 'true');
     fd.append('date', new Date().toISOString().slice(0, 10));
-    fd.append('title', file.name);
-    fd.append('file', file, file.name);
+    fd.append('title', fname);
+    fd.append('file', file, fname);
 
     try {
-      $('s-msg').textContent = '파일 업로드 중...';
-      const res = await fetch('../api/admin/upload', {method:'POST', credentials:'same-origin', body:fd});
-      const result = await res.json();
-      if(res.ok && result.item && result.item.path){
-        const mediaPath = 'media/' + result.item.path;
-        textInput.value = mediaPath;
-        if(previewImg && !isPdf) previewImg.src = resolveAdminImg(mediaPath);
-        if(linkEl) linkEl.href = resolveAdminImg(mediaPath);
-        $('s-msg').textContent = '파일이 업로드되었습니다. [기본 설정 저장] 버튼을 눌러 설정을 반영해 주세요.';
-      } else {
-        const reader = new FileReader();
-        reader.onload = e => {
-          if(previewImg && !isPdf) previewImg.src = e.target.result;
-          if(linkEl) linkEl.href = e.target.result;
-        };
-        reader.readAsDataURL(file);
-        $('s-msg').textContent = '파일이 선택되었습니다.';
+      let res = await fetch('../api/admin/upload', {method:'POST', credentials:'same-origin', body:fd});
+      if(!res.ok || !(res.headers.get('content-type')||'').toLowerCase().includes('application/json')){
+        res = await fetch('https://wookyunghub.pythonanywhere.com/api/admin/upload', {method:'POST', credentials:'include', body:fd});
       }
-    } catch(err){
-      const reader = new FileReader();
-      reader.onload = e => {
-        if(previewImg && !isPdf) previewImg.src = e.target.result;
-        if(linkEl) linkEl.href = e.target.result;
-      };
-      reader.readAsDataURL(file);
-      $('s-msg').textContent = '파일이 선택되었습니다.';
+      const result = await res.json();
+      if(result && result.item && (result.item.url || result.item.path)){
+        const mediaUrl = result.item.url || ('media/' + result.item.path);
+        if(textInput) textInput.value = mediaUrl;
+        if(previewImg && isImg) previewImg.src = resolveAdminImg(mediaUrl);
+        if(linkEl) linkEl.href = resolveAdminImg(mediaUrl);
+      }
+    } catch(err) {
+      console.log('[CenterHub settings] Upload API unavailable, local path applied:', defaultPath);
+    }
+
+    // 4) 피드백 메시지
+    const targetMsg = (textInput && textInput.id.startsWith('inv-file-')) ? $('msg-tab-files') : ($('msg-tab-files') || $('msg-tab-basic') || $('s-msg'));
+    if(targetMsg) {
+      targetMsg.textContent = `[${fname}] 파일이 지정되었습니다. 아래 저장 버튼을 눌러 확정해 주세요.`;
     }
   }
 
@@ -491,113 +516,213 @@
 
   renderRegulationAdmin();
 
-  // 6. 기본 설정 저장
-  $('s-save').onclick = async () => {
-    const orgName = $('s-org').value.trim();
-    if(!orgName){
-      $('s-msg').textContent = '조직명을 입력해 주세요.';
-      return;
+    // 헬퍼: 백엔드 API 저장 (same-origin 우선, fallback으로 pythonanywhere)
+  async function postAdminData(name, data){
+    let res = await fetch('../api/admin/data', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'same-origin',
+      body: JSON.stringify({name, data})
+    });
+    if(!res.ok){
+      res = await fetch('https://wookyunghub.pythonanywhere.com/api/admin/data', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({name, data})
+      });
     }
-    $('s-save').disabled = true;
-    $('s-msg').textContent = '저장 중...';
+    return res;
+  }
 
-    try {
-      // 1) siteData 업데이트
-      const updatedSite = {...siteData};
-      for(const [id, key] of Object.entries(siteFields)){
-        if($(id)) updatedSite[key] = $(id).value.trim();
+  // 6-1. [탭 1] 기본현황 및 소속 정보 개별 저장
+  const btnSaveBasic = $('btn-save-basic');
+  const msgBasic = $('msg-tab-basic');
+  if(btnSaveBasic){
+    btnSaveBasic.onclick = async () => {
+      const orgName = $('s-org') ? $('s-org').value.trim() : '';
+      if(!orgName){
+        if(msgBasic) msgBasic.textContent = '경로당명(조직명)을 입력해 주세요.';
+        window.alert('경로당명(조직명)을 입력해 주세요.');
+        return;
       }
-      updatedSite.link_mode = 'none';
+      btnSaveBasic.disabled = true;
+      if(msgBasic) msgBasic.textContent = '기본현황 저장 중...';
 
-      // 2) orgData basic 업데이트
-      const updatedOrg = {...orgData};
-      updatedOrg.basic = updatedOrg.basic || {};
-      for(const [id, key] of Object.entries(basicFields)){
-        if($(id)){
-          const val = $(id).value.trim();
-          if(['members_total','members_male','members_female','facility_capacity','rooms','restrooms','kitchen','sub_rooms'].includes(key)){
-            updatedOrg.basic[key] = val ? parseInt(val, 10) : '';
-          } else {
-            updatedOrg.basic[key] = val;
+      try {
+        // siteData 업데이트 (기본 소속 항목)
+        const updatedSite = {...siteData};
+        updatedSite.organization_name = orgName;
+        if($('s-parent')) updatedSite.parent_organization = $('s-parent').value.trim();
+        if($('s-branch')) updatedSite.branch_name = $('s-branch').value.trim();
+        if($('s-period')) updatedSite.latest_period = $('s-period').value.trim();
+
+        // orgData.basic 업데이트
+        const updatedOrg = {...orgData};
+        updatedOrg.basic = updatedOrg.basic || {};
+        for(const [id, key] of Object.entries(basicFields)){
+          if($(id)){
+            const val = $(id).value.trim();
+            if(['members_total','members_male','members_female','facility_capacity','rooms','restrooms','kitchen','sub_rooms'].includes(key)){
+              updatedOrg.basic[key] = val ? parseInt(val, 10) : '';
+            } else {
+              updatedOrg.basic[key] = val;
+            }
           }
         }
+        updatedOrg.basic.name = orgName;
+        updatedOrg.basic.parent_organization = updatedSite.parent_organization;
+        updatedOrg.basic.branch_name = updatedSite.branch_name;
+
+        // 시설안내 태그 동기화
+        const bRooms = updatedOrg.basic.rooms || 3;
+        const bRest = updatedOrg.basic.restrooms || 2;
+        const bKit = updatedOrg.basic.kitchen || 1;
+        const bSub = updatedOrg.basic.sub_rooms || 1;
+        updatedOrg.facilities = [
+          `방 ${bRooms}개`,
+          `화장실 ${bRest}개`,
+          `주방 ${bKit}개`,
+          `보조실 ${bSub}개`,
+          '우경정 쉼터',
+          '실외운동기구'
+        ];
+        if(!updatedOrg.access) updatedOrg.access = {};
+        if(updatedOrg.basic.address) updatedOrg.access.address = updatedOrg.basic.address;
+
+        await Promise.all([
+          postAdminData('site', updatedSite),
+          postAdminData('organization', updatedOrg)
+        ]);
+
+        siteData = updatedSite;
+        orgData = updatedOrg;
+        if(msgBasic) msgBasic.textContent = '✅ 기본현황 및 소속 정보가 성공적으로 저장되었습니다.';
+        window.alert('기본현황 및 소속 정보가 성공적으로 저장되었습니다.\n경로당 소개 페이지에 즉시 반영됩니다.');
+      } catch(err){
+        if(msgBasic) msgBasic.textContent = '저장 실패: ' + err.message;
+        window.alert('저장 중 오류가 발생했습니다: ' + err.message);
+      } finally {
+        btnSaveBasic.disabled = false;
       }
-      updatedOrg.basic.name = orgName;
-      updatedOrg.basic.parent_organization = $('s-parent') ? $('s-parent').value.trim() : updatedOrg.basic.parent_organization;
-      updatedOrg.basic.branch_name = $('s-branch') ? $('s-branch').value.trim() : updatedOrg.basic.branch_name;
+    };
+  }
 
-      // 시설비품 원본 파일 목록 저장
-      updatedOrg.inventory_files = updatedOrg.inventory_files || {};
-      invCatList.forEach(cat => {
-        updatedOrg.inventory_files[cat] = {
-          pdf: $(`inv-file-${cat}-pdf`) ? $(`inv-file-${cat}-pdf`).value.trim() : '',
-          hwp: $(`inv-file-${cat}-hwp`) ? $(`inv-file-${cat}-hwp`).value.trim() : ''
-        };
-      });
+  // 6-2. [탭 2] 원본 서류 & 시설비품 대장 파일 개별 저장
+  const btnSaveFiles = $('btn-save-files');
+  const msgFiles = $('msg-tab-files');
+  if(btnSaveFiles){
+    btnSaveFiles.onclick = async () => {
+      btnSaveFiles.disabled = true;
+      if(msgFiles) msgFiles.textContent = '원본 서류 및 비품 파일 저장 중...';
 
-      // 시설안내 태그 자동 동기화
-      const bRooms = updatedOrg.basic.rooms || 3;
-      const bRest = updatedOrg.basic.restrooms || 2;
-      const bKit = updatedOrg.basic.kitchen || 1;
-      const bSub = updatedOrg.basic.sub_rooms || 1;
-      updatedOrg.facilities = [
-        `방 ${bRooms}개`,
-        `화장실 ${bRest}개`,
-        `주방 ${bKit}개`,
-        `보조실 ${bSub}개`,
-        '우경정 쉼터',
-        '실외운동기구'
-      ];
+      try {
+        const updatedOrg = {...orgData};
+        updatedOrg.basic = updatedOrg.basic || {};
 
-      // access 주소 동기화
-      if(!updatedOrg.access) updatedOrg.access = {};
-      if(updatedOrg.basic.address){
-        updatedOrg.access.address = updatedOrg.basic.address;
+        // 카드 및 평면도 원본
+        if($('b-card-file')) updatedOrg.basic.card_file = $('b-card-file').value.trim();
+        if($('b-floorplan-file')) updatedOrg.basic.floorplan_file = $('b-floorplan-file').value.trim();
+
+        // 증명서 3종
+        if($('b-chairman-cert')) updatedOrg.basic.chairman_cert = $('b-chairman-cert').value.trim();
+        if($('b-unique-number-cert')) updatedOrg.basic.unique_number_cert = $('b-unique-number-cert').value.trim();
+        if($('b-facility-cert')) updatedOrg.basic.facility_cert = $('b-facility-cert').value.trim();
+
+        // 시설비품 6개 대장 파일 목록 (PDF, HWP)
+        updatedOrg.inventory_files = updatedOrg.inventory_files || {};
+        invCatList.forEach(cat => {
+          updatedOrg.inventory_files[cat] = {
+            pdf: $(`inv-file-${cat}-pdf`) ? $(`inv-file-${cat}-pdf`).value.trim() : '',
+            hwp: $(`inv-file-${cat}-hwp`) ? $(`inv-file-${cat}-hwp`).value.trim() : ''
+          };
+        });
+
+        await postAdminData('organization', updatedOrg);
+        orgData = updatedOrg;
+
+        updatePreviews();
+        if(msgFiles) msgFiles.textContent = '✅ 원본 서류 및 시설비품 대장 파일이 성공적으로 저장되었습니다.';
+        window.alert('원본 서류 및 시설비품 대장 파일이 성공적으로 저장되었습니다.\n시설비품 관리 화면 및 소개 페이지에 즉시 적용됩니다.');
+      } catch(err){
+        if(msgFiles) msgFiles.textContent = '저장 실패: ' + err.message;
+        window.alert('저장 중 오류가 발생했습니다: ' + err.message);
+      } finally {
+        btnSaveFiles.disabled = false;
       }
-      if(updatedSite.map_url){
-        updatedOrg.access.map_url = updatedSite.map_url;
+    };
+  }
+
+  // 6-3. [탭 3] 운영규정 개별 저장
+  const btnSaveReg = $('btn-save-regulations');
+  const msgReg = $('msg-tab-regulations');
+  if(btnSaveReg){
+    btnSaveReg.onclick = async () => {
+      btnSaveReg.disabled = true;
+      if(msgReg) msgReg.textContent = '운영규정 저장 중...';
+
+      try {
+        if(Array.isArray(regulationsData) && regulationsData.length > 0){
+          await postAdminData('regulations', regulationsData);
+        }
+        renderRegulationAdmin();
+        if(msgReg) msgReg.textContent = '✅ 운영규정이 성공적으로 저장되었습니다.';
+        window.alert('운영규정이 성공적으로 저장되었습니다.\n공개 운영규정 페이지에 즉시 반영됩니다.');
+      } catch(err){
+        if(msgReg) msgReg.textContent = '저장 실패: ' + err.message;
+        window.alert('저장 중 오류가 발생했습니다: ' + err.message);
+      } finally {
+        btnSaveReg.disabled = false;
       }
+    };
+  }
 
-      // 세 API 저장 요청 동시 수행 (site, organization, regulations)
-      const savePromises = [
-        fetch('../api/admin/data', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          credentials: 'same-origin',
-          body: JSON.stringify({name: 'site', data: updatedSite})
-        }),
-        fetch('../api/admin/data', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          credentials: 'same-origin',
-          body: JSON.stringify({name: 'organization', data: updatedOrg})
-        })
-      ];
+  // 6-4. [탭 4] 사이트 설정 및 대표이미지 개별 저장
+  const btnSaveSite = $('btn-save-site');
+  const msgSite = $('msg-tab-site');
+  if(btnSaveSite){
+    btnSaveSite.onclick = async () => {
+      btnSaveSite.disabled = true;
+      if(msgSite) msgSite.textContent = '사이트 설정 저장 중...';
 
-      if(Array.isArray(regulationsData) && regulationsData.length > 0){
-        savePromises.push(
-          fetch('../api/admin/data', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            credentials: 'same-origin',
-            body: JSON.stringify({name: 'regulations', data: regulationsData})
-          })
-        );
+      try {
+        const updatedSite = {...siteData};
+        for(const [id, key] of Object.entries(siteFields)){
+          if($(id)) updatedSite[key] = $(id).value.trim();
+        }
+        updatedSite.link_mode = 'none';
+
+        // access 지도링크 동기화
+        const updatedOrg = {...orgData};
+        if(!updatedOrg.access) updatedOrg.access = {};
+        if(updatedSite.map_url) updatedOrg.access.map_url = updatedSite.map_url;
+
+        await Promise.all([
+          postAdminData('site', updatedSite),
+          postAdminData('organization', updatedOrg)
+        ]);
+
+        siteData = updatedSite;
+        orgData = updatedOrg;
+        updatePreviews();
+        if(msgSite) msgSite.textContent = '✅ 사이트 설정 및 대표 이미지가 성공적으로 저장되었습니다.';
+        window.alert('사이트 설정 및 대표 이미지가 성공적으로 저장되었습니다.');
+      } catch(err){
+        if(msgSite) msgSite.textContent = '저장 실패: ' + err.message;
+        window.alert('저장 중 오류가 발생했습니다: ' + err.message);
+      } finally {
+        btnSaveSite.disabled = false;
       }
+    };
+  }
 
-      await Promise.all(savePromises);
-
-      siteData = updatedSite;
-      orgData = updatedOrg;
-
-      $('s-msg').textContent = '기본 설정, 기본현황 및 운영규정 정보가 성공적으로 저장되었습니다.';
-      window.alert('기본 설정, 기본현황/원본 파일 및 운영규정 정보를 모두 저장했습니다.\n경로당 소개 및 운영규정 페이지에 즉시 반영됩니다.');
-      updatePreviews();
-      renderRegulationAdmin();
-    } catch(error){
-      $('s-msg').textContent = error.message || '저장 중 오류가 발생했습니다.';
-    } finally {
-      $('s-save').disabled = false;
-    }
-  };
+  // 레거시 s-save 호환성
+  if($('s-save')){
+    $('s-save').onclick = async () => {
+      if(btnSaveBasic) await btnSaveBasic.click();
+      if(btnSaveFiles) await btnSaveFiles.click();
+      if(btnSaveReg) await btnSaveReg.click();
+      if(btnSaveSite) await btnSaveSite.click();
+    };
+  }
 })();
