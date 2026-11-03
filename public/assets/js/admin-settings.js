@@ -120,11 +120,36 @@
     else if(key === 'chairman_cert') def = 'assets/img/certificates/cert_chairman_registration.webp';
     else if(key === 'unique_number_cert') def = 'assets/img/certificates/cert_unique_number.webp';
     else if(key === 'facility_cert') def = 'assets/img/certificates/cert_facility_registration.webp';
+    else if(key === 'site_area') def = '335㎡';
+    else if(key === 'site_area_pyeong') def = '101.52평';
+    else if(key === 'building_area') def = '105.73㎡';
+    else if(key === 'building_area_pyeong') def = '32.04평';
 
-    if($(id)) $(id).value = basic[key] !== undefined ? basic[key] : def;
+    let val = basic[key] !== undefined ? basic[key] : def;
+    // 대지/건물면적 ㎡ 및 평 단위 자동 보정 보장
+    if(key === 'site_area'){
+      let s = String(val || def).replace(/[\ufffd]/g, '').trim();
+      if(!s.includes('㎡') && !s.includes('m2') && !s.includes('m²')) s += '㎡';
+      val = s;
+    } else if(key === 'site_area_pyeong'){
+      let s = String(val || def).replace(/[\ufffd]/g, '').trim();
+      if(!s.includes('평')) s += '평';
+      val = s;
+    } else if(key === 'building_area'){
+      let s = String(val || def).replace(/[\ufffd]/g, '').trim();
+      if(!s.includes('㎡') && !s.includes('m2') && !s.includes('m²')) s += '㎡';
+      val = s;
+    } else if(key === 'building_area_pyeong'){
+      let s = String(val || def).replace(/[\ufffd]/g, '').trim();
+      if(!s.includes('평')) s += '평';
+      val = s;
+    }
+
+    if($(id)) $(id).value = val;
   }
 
-  // 시설·비품 카테고리 6종 기본 파일 및 초기값 바인딩
+  // 시설·비품 카테고리 6종 초기화:
+  // 사용자 요구: "이미 저장되어 있다면 로컬정보 다시 읽지않기. 로컬정보 읽는것은 처음 기능구현시에만 필요함."
   const defaultInvFiles = {
     energy: { pdf: 'assets/docs/inventory/inv_energy.pdf', hwp: 'assets/docs/inventory/inv_energy.hwp', name: '1_에너지-시설비품대장' },
     comm: { pdf: 'assets/docs/inventory/inv_comm.pdf', hwp: 'assets/docs/inventory/inv_comm.hwp', name: '2_통신-시설비품대장' },
@@ -134,12 +159,23 @@
     storage: { pdf: 'assets/docs/inventory/inv_storage.pdf', hwp: 'assets/docs/inventory/inv_storage.hwp', name: '6_기타가구-시설비품대장' }
   };
 
+  const isAlreadySaved = orgData.inventory_files && Object.keys(orgData.inventory_files).length > 0;
   const invFiles = orgData.inventory_files || {};
+
   invCatList.forEach(cat => {
     const cData = invFiles[cat] || {};
     const dData = defaultInvFiles[cat] || {};
-    const pdfVal = cData.pdf || dData.pdf || '';
-    const hwpVal = cData.hwp || dData.hwp || '';
+    // 저장된 정보가 있으면 저장된 정보를 절대적으로 우선(빈값 포함)하고, 최초 미저장 상태에서만 default 사용
+    let pdfVal = '';
+    let hwpVal = '';
+    if(isAlreadySaved) {
+      pdfVal = cData.pdf !== undefined ? cData.pdf : '';
+      hwpVal = cData.hwp !== undefined ? cData.hwp : '';
+    } else {
+      pdfVal = cData.pdf || dData.pdf || '';
+      hwpVal = cData.hwp || dData.hwp || '';
+    }
+
     if($(`inv-file-${cat}-pdf`)) $(`inv-file-${cat}-pdf`).value = pdfVal;
     if($(`inv-file-${cat}-hwp`)) $(`inv-file-${cat}-hwp`).value = hwpVal;
 
