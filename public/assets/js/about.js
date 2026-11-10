@@ -304,14 +304,37 @@
   let inventoryData = null;
   let activeCat = 'all';
 
+  const invFiles = (d && d.inventory_files) || {};
+
   const CAT_PDF_MAP = {
-    all: { url: 'ebook.html?ledger=2025-2026&doc=book2&page=23', text: '📄 운영책자 비품대장 원본 열람' },
-    energy: { url: 'assets/docs/inventory/1_energy.pdf', text: '📄 에너지 대장 원본 PDF 열람' },
-    comm: { url: 'assets/docs/inventory/2_telecom.pdf', text: '📄 통신·사무 대장 원본 PDF 열람' },
-    kitchen: { url: 'assets/docs/inventory/3_kitchen.pdf', text: '📄 주방·급수 대장 원본 PDF 열람' },
-    health: { url: 'assets/docs/inventory/4_health.pdf', text: '📄 건강·운동 대장 원본 PDF 열람' },
-    safety: { url: 'assets/docs/inventory/5_outdoor_fire.pdf', text: '📄 소방 대장 원본 PDF 열람' },
-    storage: { url: 'assets/docs/inventory/6_storage.pdf', text: '📄 기타 대장 원본 PDF 열람' }
+    all: {
+      url: 'ebook.html?ledger=2025-2026&doc=book2&page=23',
+      text: '📄 운영책자 비품대장 원본 열람'
+    },
+    energy: {
+      url: (invFiles.energy && invFiles.energy.pdf) || 'assets/docs/inventory/inv_energy.pdf',
+      text: '📄 에너지 대장 원본 PDF 열람'
+    },
+    comm: {
+      url: (invFiles.comm && invFiles.comm.pdf) || 'assets/docs/inventory/inv_comm.pdf',
+      text: '📄 통신·사무 대장 원본 PDF 열람'
+    },
+    kitchen: {
+      url: (invFiles.kitchen && invFiles.kitchen.pdf) || 'assets/docs/inventory/inv_kitchen.pdf',
+      text: '📄 주방·급수 대장 원본 PDF 열람'
+    },
+    health: {
+      url: (invFiles.health && invFiles.health.pdf) || 'assets/docs/inventory/inv_health.pdf',
+      text: '📄 건강·운동 대장 원본 PDF 열람'
+    },
+    safety: {
+      url: (invFiles.safety && invFiles.safety.pdf) || 'assets/docs/inventory/inv_safety.pdf',
+      text: '📄 소방 대장 원본 PDF 열람'
+    },
+    storage: {
+      url: (invFiles.storage && invFiles.storage.pdf) || 'assets/docs/inventory/inv_storage.pdf',
+      text: '📄 기타 대장 원본 PDF 열람'
+    }
   };
 
   async function loadInventory() {
@@ -406,7 +429,7 @@
     let html = '';
     for (const [groupName, groupItems] of Object.entries(groups)) {
       const firstItem = groupItems[0] || {};
-      const groupPdf = firstItem.pdf_url || '';
+      const groupPdf = (firstItem.cat && CAT_PDF_MAP[firstItem.cat]?.url) || firstItem.pdf_url || '';
       const groupPdfName = firstItem.cat ? (CAT_PDF_MAP[firstItem.cat]?.text || '📄 원본 PDF') : '📄 원본 PDF';
 
       html += `
@@ -443,7 +466,7 @@
                 <td style="text-align:center;font-size:12px;color:#5a493c">${esc(item.acquire || '-')}</td>
                 <td class="inv-action-cell">
                   ${item.photo ? `<button type="button" class="inv-photo-btn" data-img="${item.photo}?v=20261031_v3" data-title="${esc(item.name)} (${esc(item.id)})">📷 사진</button>` : ''}
-                  ${item.pdf_url ? `<a href="${item.pdf_url}" target="_blank" rel="noopener" class="inv-pdf-link" title="원본 PDF 열람">📄 원본</a>` : ''}
+                  ${(item.pdf_url || (item.cat && CAT_PDF_MAP[item.cat]?.url)) ? `<a href="${(item.cat && CAT_PDF_MAP[item.cat]?.url) || item.pdf_url}" target="_blank" rel="noopener" class="inv-pdf-link" title="원본 PDF 열람">📄 원본</a>` : ''}
                 </td>
                 <td style="font-size:12px;color:#7a6859">${esc(item.note || '-')}</td>
               </tr>
