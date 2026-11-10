@@ -182,41 +182,49 @@
     // 열람 버튼 (PDF) - 클릭 시 새 탭에서 즉시 열람
     const pLink = $(`inv-file-${cat}-pdf-link`);
     if(pLink) {
-      pLink.addEventListener('click', (e) => {
+      pLink.addEventListener('click', async (e) => {
         e.preventDefault();
         e.stopPropagation();
         const pInput = $(`inv-file-${cat}-pdf`);
-        const blobUrl = pInput && pInput.dataset.blob;
         const url = (pInput && pInput.value.trim()) || '';
-        if(!url && !blobUrl) {
-          window.alert('등록된 PDF 파일이 없습니다. [선택] 버튼으로 파일을 먼저 등록해 주세요.');
-          return;
+        if(window.CenterHubFileStore){
+          await window.CenterHubFileStore.viewSafe(`inv_${cat}_pdf`, resolveAdminImg(url));
+        } else {
+          const blobUrl = pInput && pInput.dataset.blob;
+          if(!url && !blobUrl) {
+            window.alert('등록된 PDF 파일이 없습니다. [선택] 버튼으로 파일을 먼저 등록해 주세요.');
+            return;
+          }
+          window.open(blobUrl || resolveAdminImg(url), '_blank');
         }
-        window.open(blobUrl || resolveAdminImg(url), '_blank');
       });
     }
 
     // 다운로드 버튼 (HWP) - 실제 HWP 파일 다운로드
     const hLink = $(`inv-file-${cat}-hwp-link`);
     if(hLink) {
-      hLink.addEventListener('click', (e) => {
+      hLink.addEventListener('click', async (e) => {
         e.preventDefault();
         e.stopPropagation();
         const hInput = $(`inv-file-${cat}-hwp`);
-        const blobUrl = hInput && hInput.dataset.blob;
         const url = (hInput && hInput.value.trim()) || '';
-        if(!url && !blobUrl) {
-          window.alert('등록된 HWP 파일이 없습니다. [선택] 버튼으로 파일을 먼저 등록해 주세요.');
-          return;
-        }
-        const resolved = blobUrl || resolveAdminImg(url);
         const fileName = (dData.name || '시설비품대장') + '.hwp';
-        const a = document.createElement('a');
-        a.href = resolved;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        if(window.CenterHubFileStore){
+          await window.CenterHubFileStore.downloadSafe(`inv_${cat}_hwp`, resolveAdminImg(url), fileName);
+        } else {
+          const blobUrl = hInput && hInput.dataset.blob;
+          if(!url && !blobUrl) {
+            window.alert('등록된 HWP 파일이 없습니다. [선택] 버튼으로 파일을 먼저 등록해 주세요.');
+            return;
+          }
+          const resolved = blobUrl || resolveAdminImg(url);
+          const a = document.createElement('a');
+          a.href = resolved;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
       });
     }
 
@@ -294,7 +302,13 @@
       textInput.dispatchEvent(new Event('input', {bubbles: true}));
     }
 
-    // 2) 로컬 FileReader로 DataURL을 생성하여 브라우저에서 즉시 열람/다운로드 가능하게 연결
+    // 2) 로컬 FileReader 및 IndexedDB(CenterHubFileStore)에 원본 바이너리 영구 저장
+    if(window.CenterHubFileStore && isInvFile) {
+      const catKey = textInput.id.replace('inv-file-', '').replace(/-[^-]+$/, '');
+      const role = isPdf ? 'pdf' : (isHwp ? 'hwp' : 'doc');
+      window.CenterHubFileStore.setFile(`inv_${catKey}_${role}`, file, fname);
+    }
+
     const reader = new FileReader();
     reader.onload = e => {
       const dataUrl = e.target.result;

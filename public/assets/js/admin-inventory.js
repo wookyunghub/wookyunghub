@@ -188,16 +188,50 @@
         const hwpPath = catFiles.hwp || (DEFAULT_INV_FILES[activeCat] && DEFAULT_INV_FILES[activeCat].hwp) || '';
         const korName = (DEFAULT_INV_FILES[activeCat] && DEFAULT_INV_FILES[activeCat].name) || meta.name;
         let actionsHtml = '';
-        if(pdfPath) {
-          actionsHtml += `<a href="${resolveAdminImg(pdfPath)}" target="_blank" class="inv-origin-link-btn btn-pdf" title="${korName}.pdf 열람">📄 ${meta.name} PDF 열람 ↗</a>`;
-        }
-        if(hwpPath) {
-          actionsHtml += `<a href="${resolveAdminImg(hwpPath)}" download="${korName}.hwp" class="inv-origin-link-btn btn-hwp" title="${korName}.hwp 다운로드">💾 HWP 원본 다운로드 ↗</a>`;
-        }
-        if(!pdfPath && !hwpPath) {
-          actionsHtml += `<a href="settings.html" class="inv-origin-link-btn btn-setting" title="기본설정에서 원본 HWP 및 PDF 파일을 등록할 수 있습니다.">⚙️ 기본설정에서 ${meta.name} 원본 등록 ↗</a>`;
-        }
+        actionsHtml += `<button type="button" class="inv-origin-link-btn btn-pdf" data-cat="${activeCat}" data-url="${resolveAdminImg(pdfPath)}" data-name="${korName}" title="${korName}.pdf 열람">📄 ${meta.name} PDF 열람 ↗</button>`;
+        actionsHtml += `<button type="button" class="inv-origin-link-btn btn-hwp" data-cat="${activeCat}" data-url="${resolveAdminImg(hwpPath)}" data-name="${korName}" title="${korName}.hwp 다운로드">💾 HWP 원본 다운로드 ↗</button>`;
+        actionsHtml += `<a href="settings.html" class="inv-origin-link-btn btn-setting" title="기본 설정에서 원본 파일 교체 및 관리">⚙️ 원본 관리</a>`;
         originActionsEl.innerHTML = actionsHtml;
+
+        // 버튼 이벤트 연결
+        const btnPdf = originActionsEl.querySelector('.btn-pdf');
+        if(btnPdf){
+          btnPdf.onclick = async () => {
+            const cat = btnPdf.getAttribute('data-cat');
+            const url = btnPdf.getAttribute('data-url');
+            if(window.CenterHubFileStore){
+              await window.CenterHubFileStore.viewSafe(`inv_${cat}_pdf`, url);
+            } else {
+              if(!url){
+                window.alert('등록된 PDF 대장이 없습니다.\n기본 설정에서 파일을 먼저 등록해 주세요.');
+                return;
+              }
+              window.open(url, '_blank');
+            }
+          };
+        }
+        const btnHwp = originActionsEl.querySelector('.btn-hwp');
+        if(btnHwp){
+          btnHwp.onclick = async () => {
+            const cat = btnHwp.getAttribute('data-cat');
+            const url = btnHwp.getAttribute('data-url');
+            const fileName = (btnHwp.getAttribute('data-name') || '시설비품대장') + '.hwp';
+            if(window.CenterHubFileStore){
+              await window.CenterHubFileStore.downloadSafe(`inv_${cat}_hwp`, url, fileName);
+            } else {
+              if(!url){
+                window.alert('등록된 HWP 원본이 없습니다.\n기본 설정에서 파일을 먼저 등록해 주세요.');
+                return;
+              }
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = fileName;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+            }
+          };
+        }
       }
     }
 
